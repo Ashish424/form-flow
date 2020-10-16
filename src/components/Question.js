@@ -22,16 +22,16 @@ class Question extends React.Component{
 
 
     }
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log("question component did update");
-    }
-
-    componentDidMount() {
-        console.log("question mount");
-    }
-    componentWillUnmount() {
-        console.log("question unmount");
-    }
+    // componentDidUpdate(prevProps, prevState, snapshot) {
+    //     console.log("question component did update");
+    // }
+    //
+    // componentDidMount() {
+    //     console.log("question mount");
+    // }
+    // componentWillUnmount() {
+    //     console.log("question unmount");
+    // }
 
     getOutputState(){
 

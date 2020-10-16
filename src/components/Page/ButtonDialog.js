@@ -1,9 +1,8 @@
-// @flow
 import React from 'react';
 
 
-// contains the primary question and the secondary tag line
-class TitleContainer extends React.Component{
+
+class ButtonDialog extends React.Component{
 
     constructor(props) {
         super(props);
@@ -21,10 +20,13 @@ class TitleContainer extends React.Component{
 
     render() {
         return (
-            <h1>Title Container Holder</h1>
+            <>
+                {this.props.children}
+            </>
+
         );
     }
 }
 
-export default TitleContainer;
+export default ButtonDialog;
 

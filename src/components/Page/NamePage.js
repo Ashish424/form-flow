@@ -1,9 +1,9 @@
-// @flow
 import React from 'react';
 
+import TextInputCollector from "./TextInputCollector";
 
-// contains the primary question and the secondary tag line
-class TitleContainer extends React.Component{
+
+class NamePage extends React.Component{
 
     constructor(props) {
         super(props);
@@ -21,10 +21,11 @@ class TitleContainer extends React.Component{
 
     render() {
         return (
-            <h1>Title Container Holder</h1>
+            <h3>Progress</h3>
+
         );
     }
 }
 
-export default TitleContainer;
+export default NamePage;
 
