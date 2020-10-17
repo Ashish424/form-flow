@@ -1,11 +1,10 @@
 import React from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 
-import Question from "./Question";
 import ProgressBar from "./ProgressBar";
-import DivButton from "./DivButton";
+
 import MultiChoiceInput from "./Pages/MultiChoiceInput";
-import {NEUTERED_OPTIONS_KEYS, POSSIBLE_ACTIVITIES, POSSIBLE_ACTIVITIES_KEYS} from "../StaticData";
+import {NEUTERED_OPTIONS_KEYS,POSSIBLE_ACTIVITIES_KEYS} from "../StaticData";
 import {
     ACTIVITY_PRIMARY_TITLE, ACTIVITY_SECONDARY_TITLE,
     NAME_PRIMARY_TITLE,
@@ -25,12 +24,17 @@ class ContainerForm extends React.Component{
         super(props);
 
 
-        console.log(NEUTERED_OPTIONS_KEYS);
-
-
 
         this.dogNameFormID = "name-form";
         this.dogWeightFormID = "weight-form";
+
+        this.activityMultiChoiceKey = "activity-multi-choice";
+        this.neuteredMultiChoiceKey = "neutered-multi-choice";
+        this.nameInputKey = "name-key";
+        this.weightInputKey = "weight-key";
+
+
+
 
 
         //only set values like this in the constructor
@@ -62,13 +66,11 @@ class ContainerForm extends React.Component{
         this.currentPageRef = React.createRef();
 
 
-        //TODO this is temp
         this.nameInputChange = this.nameInputChange.bind(this);
         this.weightInputChange = this.weightInputChange.bind(this);
 
 
 
-        this.testFunction = this.testFunction.bind(this);
         this.OnActivitySelectionChange = this.OnActivitySelectionChange.bind(this);
 
 
@@ -129,7 +131,8 @@ class ContainerForm extends React.Component{
                             <h2>{NAME_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
                             <h4>{NAME_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
                             <form onSubmit={this.OnDogNameInformationCollection}
-                                  id={this.dogNameFormID}>
+                                  id={this.dogNameFormID}
+                                  key={this.nameInputKey}>
                                 <input
                                     type="text"
                                     placeholder="Your dog's name"
@@ -163,7 +166,7 @@ class ContainerForm extends React.Component{
 
             },
             {
-                //todo replace question with page
+
                 page : ()=>{
                     return (
                         <>
@@ -171,7 +174,8 @@ class ContainerForm extends React.Component{
                             <h2>{WEIGHT_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
                             <h4>{WEIGHT_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
                             <form onSubmit={this.OnDogWeightInformationCollection}
-                                  id={this.dogWeightFormID}>
+                                  id={this.dogWeightFormID}
+                                  key={this.weightInputKey}>
                                 <input
                                     type="number"
                                     placeholder="00.00"
@@ -220,6 +224,7 @@ class ContainerForm extends React.Component{
                             <h2>{ACTIVITY_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
                             <h4>{ACTIVITY_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
                             <MultiChoiceInput
+                                         key ={this.activityMultiChoiceKey}
                                          values = {POSSIBLE_ACTIVITIES_KEYS}
                                          defaultSelectionIndex = {POSSIBLE_ACTIVITIES_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogActivity;})}
                                          onSelectionChanged={this.OnActivitySelectionChange}
@@ -241,17 +246,12 @@ class ContainerForm extends React.Component{
                 onGainFocus : ()=> {
                     console.log("activity question gained focus");
 
-                    this.setState((state,props)=>{
-                        //resetting next blocked to the state for the next question.
-                        return {nextBlocked : state.quesOutputPool.dogWeight === "" } ;
-
-                    });
 
                 }
 
             },
             {
-                //todo replace question with page
+
                 page : ()=>{
                     return (
                         <>
@@ -259,6 +259,7 @@ class ContainerForm extends React.Component{
                             <h2>{NEUTERED_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
                             <h4>{NEUTERED_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
                             <MultiChoiceInput
+                                key ={this.neuteredMultiChoiceKey}
                                 values = {NEUTERED_OPTIONS_KEYS}
                                 defaultSelectionIndex = {NEUTERED_OPTIONS_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogNeutered;})}
                                 onSelectionChanged={this.OnNeuteredSelectionChange}
@@ -333,7 +334,7 @@ class ContainerForm extends React.Component{
 
 
     nameInputChange(event){
-        console.log("q1 changed "+event.target.value);
+        // console.log("q1 changed "+event.target.value);
 
 
         event.preventDefault();
@@ -363,8 +364,6 @@ class ContainerForm extends React.Component{
     }
 
     weightInputChange(event){
-        console.log("q1 changed "+event.target.value);
-
 
         event.preventDefault();
         event.persist();
@@ -442,20 +441,10 @@ class ContainerForm extends React.Component{
 
 
 
-
-        //test for event.target vs event.current target
-        // console.log(event.currentTarget.id);
-        // console.log("clicked next "+event.target.value);
-
-
     }
     onClickNextActivityMoveAhead(event){
 
         this.moveToNexPage();
-
-        //test for event.target vs event.current target
-        // console.log(event.currentTarget.id);
-        // console.log("clicked next "+event.target.value);
 
 
     }
@@ -463,17 +452,13 @@ class ContainerForm extends React.Component{
 
         this.moveToNexPage();
 
-        //test for event.target vs event.current target
-        // console.log(event.currentTarget.id);
-        // console.log("clicked next "+event.target.value);
-
 
     }
 
 
     onClickPrev(event){
         this.moveToPrevPage();
-        console.log("clicked prev");
+        // console.log("clicked prev");
     }
 
     //dog name information question handler
@@ -483,12 +468,11 @@ class ContainerForm extends React.Component{
 
 
 
-        console.log("default form handler called");
         event.preventDefault();
 
         event.persist();
         // console.log("target value is "+event.target[0].value.toString());
-        console.log("target value is "+event.target.mainInput.value);
+        // console.log("target value is "+event.target.mainInput.value);
 
 
         this.setState(
@@ -505,25 +489,15 @@ class ContainerForm extends React.Component{
 
 
 
-        //todo see a better place for this setup for next question here
-        //resetting next blocked to the state for the next question.
-        this.setState((state,props)=>{
-            //resetting next blocked to the state for the next question.
-            return {nextBlocked : state.quesOutputPool.dogWeight === "" } ;
-
-        });
-        //
-
         this.moveToNexPage();
 
 
     }
     OnDogWeightInformationCollection(event){
-        console.log("here in weight collection");
-        console.log("the value of weight is "+ event.target.mainInput.value);
+        // console.log("here in weight collection");
+        // console.log("the value of weight is "+ event.target.mainInput.value);
 
         event.preventDefault();
-        //TODO check if this necessary ?? => because of set state ?? ?
         event.persist();
 
         this.setState(
@@ -547,10 +521,6 @@ class ContainerForm extends React.Component{
 
     OnActivitySelectionChange(arr){
         //todo cannot modify arr here at any cost !!!!!!
-        console.log("this is great here");
-        //modify the
-
-
 
         for (let i =0 ;i< arr.length;i++ ){
             //first selection match algorithm
@@ -606,46 +576,6 @@ class ContainerForm extends React.Component{
 
     renderPage(){
 
-        // const ques = this.getQuestionData(this.state.currentQues);
-        // return ques.question();
-
-        // switch(this.state.currentQues) {
-        //     case 2:
-        //         console.log("third question here ");
-        //
-        //         return(
-        //         <div>
-        //             <h1> {NAME_PRIMARY_TITLE(this.state.quesOutputPool)}</h1>
-        //             <h3>{NAME_SECONDARY_TITLE(this.state.quesOutputPool)}</h3>
-        //             <MultiChoiceInput defaultSelection = "first"
-        //             values = {POSSIBLE_ACTIVITIES_KEYS}
-        //             onSelectionChanged={this.OnActivitySelectionChange}
-        //             ref={this.currentPageRef}/>
-        //         </div>
-        //         );
-        //         break;
-        //     case 3:
-        //         console.log("end question here ");
-        //         // code block
-        //         break;
-        //     default:
-        //     // code block
-        // }
-
-
-
-        //
-        // return (
-        //     <Question mainText={ques.title(this.state.quesOutputPool)}
-        //       secondaryText={ques.secondaryTitle(this.state.quesOutputPool)}
-        //         //TODO move input type out of question and into a separate component.
-        //       inputType={ques.interactor}
-        //       ref={(ref)=>
-        //           this.currentQuesCompRef =ref}
-        //
-        //
-        //             />
-        //     );
 
     }
 
@@ -663,21 +593,8 @@ class ContainerForm extends React.Component{
 
     }
 
-//     nextButtonAttribs : ()=> {
-//     return {type : "submit",form : this.dogNameFormID};
-// }
 
-    //TODO activity test here
-    testFunction(){
-        if(this.state.currentQues === 2){
-            return {};
-            // return {type : };
 
-        }else{
-            // return this.getQuestionData(this.state.currentQues).nextButtonAttribs();
-        }
-
-    }
 
     // this.state.currentQues
     render() {
@@ -691,24 +608,14 @@ class ContainerForm extends React.Component{
             <>
                 <ProgressBar progress={progressScore}/>
 
-                {/*<h1>Here ques title {this.state.questions[this.state.currentQues].title}</h1>*/}
-                {/*current question*/}
-
                 {/*{render current page}*/}
                 {currentPage.page()}
 
 
                 <button onClick={this.onClickPrev} {... currentPage.prevButtonAttribs()} > Prev</button>
 
-                {/*onClick={this.nextQuestion()}*/}
-
-                {/*test form here*/}
-                {
-                }
-
                 {/*NOTE next button attribs ahead so questions can override behaviour*/}
                 <button onClick={this.onClickNext} {... currentPage.nextButtonAttribs()} > Next</button>
-
 
                 <p>value of all ques output is {this.totalStateString()}</p>
 

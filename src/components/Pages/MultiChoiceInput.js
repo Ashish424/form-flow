@@ -1,5 +1,4 @@
 import React from 'react';
-import ButtonDialog from "./ButtonDialog";
 import DivButton from "../DivButton";
 import cloneDeep from 'lodash/cloneDeep';
 
@@ -24,9 +23,6 @@ class MultiChoiceInput extends React.Component{
 
         };
 
-
-        console.log("props values "+this.props.values.length);
-        console.log("selection state arr "+this.state.selectionState);
 
         this.onClickHandler = this.onClickHandler.bind(this);
 

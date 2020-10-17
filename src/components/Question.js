@@ -33,28 +33,7 @@ class Question extends React.Component{
     //     console.log("question unmount");
     // }
 
-    getOutputState(){
 
-    }
-    //TODO delete if not needed
-    // getInputComp(){
-    //     if(this.props.inputType === "form"){
-    //         return(
-    //             <form >
-    //                 <input
-    //                     type="text"
-    //                     placeholder="00.00"
-    //
-    //                 />
-    //                 <span> kgs</span>
-    //             </form>
-    //
-    //         );
-    //
-    //     }
-    //
-    //     return null;
-    // }
     updateCounter(){
         this.setState(
             (state,props)=> {
