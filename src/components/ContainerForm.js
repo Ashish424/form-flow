@@ -4,216 +4,18 @@ import cloneDeep from 'lodash/cloneDeep';
 import Question from "./Question";
 import ProgressBar from "./ProgressBar";
 import DivButton from "./DivButton";
-import MultiChoiceInput from "./Page/MultiChoiceInput";
+import MultiChoiceInput from "./Pages/MultiChoiceInput";
 import {POSSIBLE_ACTIVITIES, POSSIBLE_ACTIVITIES_KEYS} from "../StaticData";
-import {NAME_PRIMARY_TITLE, NAME_SECONDARY_TITLE, WEIGHT_PRIMARY_TITLE, WEIGHT_SECONDARY_TITLE} from "../StaticText";
+import {
+    ACTIVITY_PRIMARY_TITLE, ACTIVITY_SECONDARY_TITLE,
+    NAME_PRIMARY_TITLE,
+    NAME_SECONDARY_TITLE,
+    WEIGHT_PRIMARY_TITLE,
+    WEIGHT_SECONDARY_TITLE
+} from "../StaticText";
 
 class ContainerForm extends React.Component{
 
-    //array of function components.
-    questions = [
-
-
-
-
-         {
-            question : ()=>{
-                return (
-                    <>
-                        {/*Todo might need controlled components for this later*/}
-                        <h2>{NAME_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
-                        <h4>{NAME_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
-                        <form onSubmit={this.OnDogNameInformationCollection}
-                              id={this.dogNameFormID}>
-                            <input
-                                type="text"
-                                placeholder="Your dog's name"
-                                onChange={this.q1Change}
-                                name="mainInput"
-                            />
-
-                        </form>
-
-
-
-
-                    </>);
-
-
-            },
-            nextButtonAttribs : ()=> {
-                return {type : "submit",form : this.dogNameFormID};
-            }
-
-        },
-        {
-            question : ()=>{
-                return (
-                    <>
-                        {/*Todo might need controlled components for this later*/}
-                        <h2>{WEIGHT_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
-                        <h4>{WEIGHT_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
-                        <form onSubmit={this.OnDogWeightInformationCollection}
-                              id={this.dogWeightFormID}>
-                            <input
-                                type="number"
-                                placeholder="00.00"
-                                name="mainInput"
-                                // onChange={this.onSearchChange}
-                            />
-                            <span> kgs</span>
-                        </form>
-
-                    </>);
-
-
-            },
-            nextButtonAttribs : ()=> {
-                return {type : "submit",form : this.dogNameFormID};
-            }
-
-        },
-
-
-
-        {
-            title : (quesOutputPool) => {
-                return `How much does ${quesOutputPool.dogName} currently weigh?`;
-            },
-            secondaryTitle : (quesOutputPool) => {
-                return `${quesOutputPool.dogName} weighs about...`;
-            },
-            nextButtonAttribs : ()=> {
-                return {type : "submit",form : this.dogWeightFormID};
-            },
-
-            interactor : () => {
-                return (
-                    <form onSubmit={this.OnDogWeightInformationCollection}
-                          id={this.dogWeightFormID}>
-                        <input
-                            type="number"
-                            placeholder="00.00"
-                            name="mainInput"
-                            // onChange={this.onSearchChange}
-                        />
-                        <span> kgs</span>
-                    </form>
-
-                );
-            }
-
-
-        },
-
-
-        // {
-        //      title : (quesOutputPool) => {
-        //             return "First,what's your dog's name?";
-        //     },
-        //      secondaryTitle : (quesOutputPool) =>{
-        //          return "My dog is called";
-        //      },
-        //      //TODO club these two together
-        //      nextButtonAttribs : ()=> {
-        //          return {type : "submit",form : this.dogNameFormID};
-        //      },
-        //
-        //      interactor : () => {
-        //          return (
-        //
-        //              <form onSubmit={this.OnDogNameInformationCollection}
-        //                    //TODO see if this ref needed
-        //                    ref={(ref)=> this.currentFormRef =ref}
-        //                    id={this.dogNameFormID}
-        //              >
-        //                  <input
-        //                      type="text"
-        //                      placeholder="Your dog's name"
-        //                      onChange={this.q1Change}
-        //                      name="mainInput"
-        //                  />
-        //
-        //              </form>
-        //
-        //          );
-        //
-        //      },
-        //
-        //
-        //
-        //
-        //
-        //  },
-
-
-
-
-
-        {
-            title : (quesOutputPool) => {
-                return `How Active is ${quesOutputPool.dogName}?`;
-            },
-            secondaryTitle : (quesOutputPool ) => {
-                return `Whether they're a bundle of energy or a serial snoozer, every dog is unique and needs a different amount of food.`;
-            },
-            nextButtonAttribs : ()=> {
-                return {};
-            },
-            interactor : () => {
-                return (
-
-
-                    <>
-
-                        {
-
-                            ["low","medium","high"].map(
-                                (dogActivity,index)=>{
-
-                                    //TODO Temporary style here
-                                    return (<div   id={"activity-level-"+index.toString()} style = {{
-                                        width: 100,
-                                        height: 100
-                                    }} role="button" title={dogActivity} key={dogActivity} onClick = {this.OnDogActivityLevelCollection}> {dogActivity}</div>);
-                                }
-                                )
-                        }
-
-                </>
-                );
-
-
-            }
-
-
-        },
-
-
-        {
-            title : (quesOutputPool) => {
-                return "End Question"
-            },
-            secondaryTitle : (quesOutputPool) => {
-                return "End of the form"
-            },
-            nextButtonAttribs : ()=> {
-                return {};
-            },
-            interactor : () => {
-                return (
-                   <h1>End of the form</h1>
-
-
-                );
-
-
-            }
-
-        },
-
-
-    ];
 
 
 
@@ -224,7 +26,6 @@ class ContainerForm extends React.Component{
 
 
 
-        this.currentFormId = "current-form-id";
         this.dogNameFormID = "name-form";
         this.dogWeightFormID = "weight-form";
 
@@ -234,9 +35,9 @@ class ContainerForm extends React.Component{
             currentQues : 0,
             //initialized with default values
             quesOutputPool : {
-                dogName : "default",
-                dogWeight : 0.0,
-                dogActivity : "default",
+                dogName : "",
+                dogWeight : "",
+                dogActivity : POSSIBLE_ACTIVITIES_KEYS[1],
                 neutered : false,
                 age:"4-12",
                 bodyScore : 1,
@@ -247,10 +48,7 @@ class ContainerForm extends React.Component{
                 mobile : "9123456789"
 
             },
-
-            //todo move this down to a more specific component
-            activityOptionsState : "100"
-
+            nextBlocked : true,
 
 
         };
@@ -262,7 +60,9 @@ class ContainerForm extends React.Component{
 
 
         //TODO this is temp
-        this.q1Change = this.q1Change.bind(this);
+        this.nameInputChange = this.nameInputChange.bind(this);
+        this.weightInputChange = this.weightInputChange.bind(this);
+
 
 
         this.testFunction = this.testFunction.bind(this);
@@ -275,14 +75,17 @@ class ContainerForm extends React.Component{
 
 
 
-        this.moveToNextQuestion = this.moveToNextQuestion.bind(this);
-        this.moveToPrevQuestion = this.moveToPrevQuestion.bind(this);
+        this.moveToNexPage = this.moveToNexPage.bind(this);
+        this.moveToPrevPage = this.moveToPrevPage.bind(this);
 
 
 
 
         this.onClickNext = this.onClickNext.bind(this);
         this.onClickPrev = this.onClickPrev.bind(this);
+        this.onClickNextActivityMoveAhead = this.onClickNextActivityMoveAhead.bind(this);
+
+
 
         this.OnDogNameInformationCollection = this.OnDogNameInformationCollection.bind(this);
         this.OnDogWeightInformationCollection = this.OnDogWeightInformationCollection.bind(this);
@@ -291,7 +94,7 @@ class ContainerForm extends React.Component{
 
 
 
-        this.getQuestionData = this.getQuestionData.bind(this);
+        this.getPageData = this.getPageData.bind(this);
 
 
         this.renderPage = this.renderPage.bind(this);
@@ -302,6 +105,232 @@ class ContainerForm extends React.Component{
         this.getCurrentDogName = this.getCurrentDogName.bind(this);
 
 
+        //array of function components.
+        this.pages = [
+
+
+
+
+            {
+                //layout is the first thing here
+                page : ()=>{
+                    return (
+                        <>
+                            {/*Todo might need controlled components for this later*/}
+                            <h2>{NAME_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
+                            <h4>{NAME_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
+                            <form onSubmit={this.OnDogNameInformationCollection}
+                                  id={this.dogNameFormID}>
+                                <input
+                                    type="text"
+                                    placeholder="Your dog's name"
+                                    onChange={this.nameInputChange}
+                                    name="mainInput"
+                                    //TODO use this to sustain values.
+                                    value= {this.state.quesOutputPool.dogName}
+                                />
+
+                            </form>
+
+
+
+
+                        </>);
+
+
+                },
+
+                prevButtonAttribs : () => {
+                    return {};
+                },
+                nextButtonAttribs : ()=> {
+                    return {
+                        type: "submit", form: this.dogNameFormID,
+                        disabled: this.state.nextBlocked
+                    };
+                },
+
+
+
+            },
+            {
+                //todo replace question with page
+                page : ()=>{
+                    return (
+                        <>
+                            {/*Todo might need controlled components for this later*/}
+                            <h2>{WEIGHT_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
+                            <h4>{WEIGHT_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
+                            <form onSubmit={this.OnDogWeightInformationCollection}
+                                  id={this.dogWeightFormID}>
+                                <input
+                                    type="number"
+                                    placeholder="00.00"
+                                    name="mainInput"
+                                    value={this.state.quesOutputPool.dogWeight}
+                                    onChange={this.weightInputChange}
+
+                                />
+                                <span> kgs</span>
+                            </form>
+
+                        </>);
+
+
+                },
+                prevButtonAttribs : ()=>  {
+                    return {};
+                },
+                nextButtonAttribs : () =>{
+                    return {
+                        type: "submit",
+                        form: this.dogWeightFormID,
+                        disabled: this.state.nextBlocked
+
+
+                    };
+                }
+
+            },
+            {
+                //todo replace question with page
+                page : ()=>{
+                    return (
+                        <>
+                            {/*Todo might need controlled components for this later*/}
+                            <h2>{ACTIVITY_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
+                            <h4>{ACTIVITY_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
+                            <MultiChoiceInput
+                                         values = {POSSIBLE_ACTIVITIES_KEYS}
+                                         defaultSelectionIndex = {POSSIBLE_ACTIVITIES_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogActivity;})}
+                                         onSelectionChanged={this.OnActivitySelectionChange}
+                                         ref={this.currentPageRef}/>
+
+
+
+                        </>);
+
+
+                },
+                prevButtonAttribs : ()=> {
+                    return {};
+                },
+                nextButtonAttribs : ()=> {
+                    return {onClick:this.onClickNextActivityMoveAhead};
+
+                }
+
+            },
+            {
+
+                page : ()=>{
+                    return (
+                        <>
+                            {/*Todo might need controlled components for this later*/}
+                            <h2>End Form</h2>
+                            <h4>over</h4>
+
+
+                        </>);
+
+
+                },
+                prevButtonAttribs : ()=> {
+                    return {};
+                },
+                nextButtonAttribs : ()=> {
+                    return {type : "submit",form : this.dogWeightFormID,disabled : this.state.nextBlocked};
+
+                }
+
+            },
+
+
+
+
+
+            {
+                title : (quesOutputPool) => {
+                    return `How much does ${quesOutputPool.dogName} currently weigh?`;
+                },
+                secondaryTitle : (quesOutputPool) => {
+                    return `${quesOutputPool.dogName} weighs about...`;
+                },
+                nextButtonAttribs : ()=> {
+                    return {type : "submit",form : this.dogWeightFormID};
+                },
+
+                interactor : () => {
+                    return (
+                        <form onSubmit={this.OnDogWeightInformationCollection}
+                              id={this.dogWeightFormID}>
+                            <input
+                                type="number"
+                                placeholder="00.00"
+                                name="mainInput"
+                                // onChange={this.onSearchChange}
+                            />
+                            <span> kgs</span>
+                        </form>
+
+                    );
+                }
+
+
+
+            },
+
+
+
+
+
+            {
+                title : (quesOutputPool) => {
+                    return `How Active is ${quesOutputPool.dogName}?`;
+                },
+                secondaryTitle : (quesOutputPool ) => {
+                    return `Whether they're a bundle of energy or a serial snoozer, every dog is unique and needs a different amount of food.`;
+                },
+                nextButtonAttribs : ()=> {
+                    return {};
+                },
+                interactor : () => {
+                    return (
+
+
+                        <>
+
+                            {
+
+                                ["low","medium","high"].map(
+                                    (dogActivity,index)=>{
+
+                                        //TODO Temporary style here
+                                        return (<div   id={"activity-level-"+index.toString()} style = {{
+                                            width: 100,
+                                            height: 100
+                                        }} role="button" title={dogActivity} key={dogActivity} onClick = {this.OnDogActivityLevelCollection}> {dogActivity}</div>);
+                                    }
+                                )
+                            }
+
+                        </>
+                    );
+
+
+                }
+
+
+            },
+
+
+
+
+
+        ];
+
+
+
 
 
 
@@ -310,28 +339,68 @@ class ContainerForm extends React.Component{
     }
 
 
-    q1Change(event){
+    nameInputChange(event){
         console.log("q1 changed "+event.target.value);
+
+
+        event.preventDefault();
+        event.persist();
+
+        //validation
+        // this.setState({nextBlocked : event.target.value === ""});
+
 
 
         //need to persist event for the callback of setstate
         // event.persist();
 
         //NOTE set state function is asynchronous.
-        // this.setState(
-        //     (state,props)=> {
-        //
-        //         return this.setQuesArrValue(state.currentQues,event.target.value,state,props);
-        //         // if(state.questions.length)
-        //         // return {quesOutput:copyArr};
-        //
-        //     }
-        // );
+
+        this.setState(
+            (state,props)=> {
+                // let ques = this.getQuestionData(state.currentQues);
+                //todo need a better solution for all this cloning.
+                let clonedQuesPool = cloneDeep(state.quesOutputPool);
+                clonedQuesPool.dogName = event.target.value;
+
+                return {quesOutputPool:clonedQuesPool,nextBlocked : event.target.value === ""};
+
+            });
 
     }
 
+    weightInputChange(event){
+        console.log("q1 changed "+event.target.value);
 
-    moveToNextQuestion(){
+
+        event.preventDefault();
+        event.persist();
+
+        //validation
+        // this.setState({nextBlocked : event.target.value === ""});
+
+
+
+        //need to persist event for the callback of setstate
+        // event.persist();
+
+        //NOTE set state function is asynchronous.
+
+        this.setState(
+            (state,props)=> {
+                // let ques = this.getQuestionData(state.currentQues);
+                //todo need a better solution for all this cloning.
+                let clonedQuesPool = cloneDeep(state.quesOutputPool);
+                //todo error checking here
+                clonedQuesPool.dogWeight = event.target.value;
+
+                return {quesOutputPool:clonedQuesPool,nextBlocked : event.target.value === ""};
+
+            });
+
+    }
+
+    moveToNexPage(){
         // event.preventDefault();
         //TODO make changes to the prev and next button as necessary for this question
         //use dynamic props https://stackoverflow.com/questions/40868189/how-to-create-a-dynamic-prop-name-in-react
@@ -344,13 +413,13 @@ class ContainerForm extends React.Component{
             (state,props)=> {
                 // if(state.questions.length)
 
-                return {currentQues: (state.currentQues < this.questions.length - 1) ? state.currentQues+1 : state.currentQues};
+                return {currentQues: (state.currentQues < this.pages.length - 1) ? state.currentQues+1 : state.currentQues};
             }
         );
 
 
     }
-    moveToPrevQuestion() {
+    moveToPrevPage() {
 
 
         // event.preventDefault();
@@ -384,19 +453,36 @@ class ContainerForm extends React.Component{
 
 
     }
+    onClickNextActivityMoveAhead(event){
+
+        this.moveToNexPage();
+
+        //test for event.target vs event.current target
+        // console.log(event.currentTarget.id);
+        // console.log("clicked next "+event.target.value);
+
+
+    }
+
     onClickPrev(event){
-        this.moveToPrevQuestion();
+        this.moveToPrevPage();
         console.log("clicked prev");
     }
 
     //dog name information question handler
     OnDogNameInformationCollection(event){
+
+
+
+
+
         console.log("default form handler called");
         event.preventDefault();
 
         event.persist();
         // console.log("target value is "+event.target[0].value.toString());
         console.log("target value is "+event.target.mainInput.value);
+
 
         this.setState(
             (state,props)=> {
@@ -405,14 +491,19 @@ class ContainerForm extends React.Component{
                 let clonedQuesPool = cloneDeep(state.quesOutputPool);
                 clonedQuesPool.dogName = event.target.mainInput.value;
 
-                return {quesOutputPool:clonedQuesPool};
+                //TODO before moving ahead need to hookup the next question
+
+
+
+                //resetting next blocked to the state for the next question.
+                const blocker = clonedQuesPool.dogWeight === "";
+                return {quesOutputPool:clonedQuesPool,nextBlocked :blocker };
 
             });
 
 
-        //TODO before moving ahead need to hookup the next question
         //
-        this.moveToNextQuestion();
+        this.moveToNexPage();
 
 
     }
@@ -437,7 +528,7 @@ class ContainerForm extends React.Component{
 
 
 
-        this.moveToNextQuestion();
+        this.moveToNexPage();
 
 
     }
@@ -483,14 +574,14 @@ class ContainerForm extends React.Component{
 
         // console.log("the value of activity is "+ event.target.value);
         //TODO debugging here
-        this.moveToNextQuestion();
+        this.moveToNexPage();
 
 
 
     }
 
-    getQuestionData(index){
-        return this.questions[index];
+    getPageData(index){
+        return this.pages[index];
 
     }
 
@@ -519,7 +610,10 @@ class ContainerForm extends React.Component{
         //         <div>
         //             <h1> {NAME_PRIMARY_TITLE(this.state.quesOutputPool)}</h1>
         //             <h3>{NAME_SECONDARY_TITLE(this.state.quesOutputPool)}</h3>
-        //             <MultiChoiceInput defaultSelection = "first" values = {POSSIBLE_ACTIVITIES_KEYS} onSelectionChanged={this.OnActivitySelectionChange} ref={this.currentPageRef}/>
+        //             <MultiChoiceInput defaultSelection = "first"
+        //             values = {POSSIBLE_ACTIVITIES_KEYS}
+        //             onSelectionChanged={this.OnActivitySelectionChange}
+        //             ref={this.currentPageRef}/>
         //         </div>
         //         );
         //         break;
@@ -599,24 +693,27 @@ class ContainerForm extends React.Component{
             }
         }
     }
+
     // this.state.currentQues
     render() {
-        const ques = this.getQuestionData(this.state.currentQues);
+        const currentPage = this.getPageData(this.state.currentQues);
+        const progressScore = ((this.state.currentQues + 1) / this.pages.length) * 100;
+
 
 
 
         return (
             <>
-                <ProgressBar progress={((this.state.currentQues + 1) / this.questions.length) * 100}/>
+                <ProgressBar progress={progressScore}/>
 
                 {/*<h1>Here ques title {this.state.questions[this.state.currentQues].title}</h1>*/}
                 {/*current question*/}
 
                 {/*{render current page}*/}
-                {ques.question()}
+                {currentPage.page()}
 
 
-                <button onClick={this.onClickPrev}> Prev</button>
+                <button onClick={this.onClickPrev} {... currentPage.prevButtonAttribs()} > Prev</button>
 
                 {/*onClick={this.nextQuestion()}*/}
 
@@ -624,8 +721,8 @@ class ContainerForm extends React.Component{
                 {
                 }
 
-                <button {... ques.nextButtonAttribs()}
-                        onClick={this.onClickNext}> Next</button>
+                {/*NOTE next button attribs ahead so questions can override behaviour*/}
+                <button onClick={this.onClickNext} {... currentPage.nextButtonAttribs()} > Next</button>
 
 
                 <p>value of all ques output is {this.totalStateString()}</p>

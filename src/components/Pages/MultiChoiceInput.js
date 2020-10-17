@@ -9,16 +9,12 @@ class MultiChoiceInput extends React.Component{
         super(props);
 
 
+
         let arr = new Array(this.props.values.length).fill(0);
 
 
-        // if (this.props.initialSelection === "none"){
-        //     //do nothing here reduntant
-        // }
-        if(this.props.defaultSelection === "first"){
-            arr[0] = 1;
+        arr[this.props.defaultSelectionIndex] = 1;
 
-        }
 
 
         //only set values like this in the constructor
@@ -147,6 +143,10 @@ class MultiChoiceInput extends React.Component{
             </>
         );
     }
+}
+MultiChoiceInput.defaultProps = {
+    defaultSelectionIndex : 0
+
 }
 
 export default MultiChoiceInput;
