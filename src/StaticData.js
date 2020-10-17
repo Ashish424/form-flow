@@ -7,10 +7,13 @@ export const POSSIBLE_ACTIVITIES = {
 };
 export const POSSIBLE_ACTIVITIES_KEYS = Object.keys(POSSIBLE_ACTIVITIES);
 
+
 export const NEUTERED_OPTIONS = {
-    "Yes": 0.89,
-    "No": 1
+    "No": 1,
+    "Yes": 0.89
 }
+export const NEUTERED_OPTIONS_KEYS = Object.keys(NEUTERED_OPTIONS);
+
 export const AGE_OPTIONS = {
     "2-4" : 2,
     "4-12" : 1.5,

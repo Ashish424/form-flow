@@ -5,11 +5,11 @@ import Question from "./Question";
 import ProgressBar from "./ProgressBar";
 import DivButton from "./DivButton";
 import MultiChoiceInput from "./Pages/MultiChoiceInput";
-import {POSSIBLE_ACTIVITIES, POSSIBLE_ACTIVITIES_KEYS} from "../StaticData";
+import {NEUTERED_OPTIONS_KEYS, POSSIBLE_ACTIVITIES, POSSIBLE_ACTIVITIES_KEYS} from "../StaticData";
 import {
     ACTIVITY_PRIMARY_TITLE, ACTIVITY_SECONDARY_TITLE,
     NAME_PRIMARY_TITLE,
-    NAME_SECONDARY_TITLE,
+    NAME_SECONDARY_TITLE, NEUTERED_PRIMARY_TITLE, NEUTERED_SECONDARY_TITLE,
     WEIGHT_PRIMARY_TITLE,
     WEIGHT_SECONDARY_TITLE
 } from "../StaticText";
@@ -25,6 +25,9 @@ class ContainerForm extends React.Component{
         super(props);
 
 
+        console.log(NEUTERED_OPTIONS_KEYS);
+
+
 
         this.dogNameFormID = "name-form";
         this.dogWeightFormID = "weight-form";
@@ -38,7 +41,7 @@ class ContainerForm extends React.Component{
                 dogName : "",
                 dogWeight : "",
                 dogActivity : POSSIBLE_ACTIVITIES_KEYS[1],
-                neutered : false,
+                dogNeutered : NEUTERED_OPTIONS_KEYS[0],
                 age:"4-12",
                 bodyScore : 1,
                 breed : "toy",
@@ -84,12 +87,18 @@ class ContainerForm extends React.Component{
         this.onClickNext = this.onClickNext.bind(this);
         this.onClickPrev = this.onClickPrev.bind(this);
         this.onClickNextActivityMoveAhead = this.onClickNextActivityMoveAhead.bind(this);
+        this.onClickNextNeuteredMoveAhead = this.onClickNextNeuteredMoveAhead.bind(this);
+
+
 
 
 
         this.OnDogNameInformationCollection = this.OnDogNameInformationCollection.bind(this);
         this.OnDogWeightInformationCollection = this.OnDogWeightInformationCollection.bind(this);
-        this.OnDogActivityLevelCollection = this.OnDogActivityLevelCollection.bind(this);
+        this.OnActivitySelectionChange = this.OnActivitySelectionChange.bind(this);
+        this.OnNeuteredSelectionChange = this.OnNeuteredSelectionChange.bind(this);
+
+
 
 
 
@@ -189,6 +198,16 @@ class ContainerForm extends React.Component{
 
 
                     };
+                },
+                onGainFocus : ()=> {
+                    console.log("weight question gained focus");
+
+                    this.setState((state,props)=>{
+                        //resetting next blocked to the state for the next question.
+                        return {nextBlocked : state.quesOutputPool.dogWeight === "" } ;
+
+                    });
+
                 }
 
             },
@@ -218,6 +237,50 @@ class ContainerForm extends React.Component{
                 nextButtonAttribs : ()=> {
                     return {onClick:this.onClickNextActivityMoveAhead};
 
+                },
+                onGainFocus : ()=> {
+                    console.log("activity question gained focus");
+
+                    this.setState((state,props)=>{
+                        //resetting next blocked to the state for the next question.
+                        return {nextBlocked : state.quesOutputPool.dogWeight === "" } ;
+
+                    });
+
+                }
+
+            },
+            {
+                //todo replace question with page
+                page : ()=>{
+                    return (
+                        <>
+                            {/*Todo might need controlled components for this later*/}
+                            <h2>{NEUTERED_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
+                            <h4>{NEUTERED_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
+                            <MultiChoiceInput
+                                values = {NEUTERED_OPTIONS_KEYS}
+                                defaultSelectionIndex = {NEUTERED_OPTIONS_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogNeutered;})}
+                                onSelectionChanged={this.OnNeuteredSelectionChange}
+                                ref={this.currentPageRef}/>
+
+
+
+                        </>);
+
+
+                },
+                prevButtonAttribs : ()=> {
+                    return {};
+                },
+                nextButtonAttribs : ()=> {
+                    return {onClick:this.onClickNextNeuteredMoveAhead};
+
+                },
+                onGainFocus : ()=> {
+                    console.log("neutered question gained focus");
+
+
                 }
 
             },
@@ -241,6 +304,10 @@ class ContainerForm extends React.Component{
                 nextButtonAttribs : ()=> {
                     return {type : "submit",form : this.dogWeightFormID,disabled : this.state.nextBlocked};
 
+                },
+                onGainFocus : ()=> {
+                    console.log("end question gained focus");
+
                 }
 
             },
@@ -248,80 +315,6 @@ class ContainerForm extends React.Component{
 
 
 
-
-            {
-                title : (quesOutputPool) => {
-                    return `How much does ${quesOutputPool.dogName} currently weigh?`;
-                },
-                secondaryTitle : (quesOutputPool) => {
-                    return `${quesOutputPool.dogName} weighs about...`;
-                },
-                nextButtonAttribs : ()=> {
-                    return {type : "submit",form : this.dogWeightFormID};
-                },
-
-                interactor : () => {
-                    return (
-                        <form onSubmit={this.OnDogWeightInformationCollection}
-                              id={this.dogWeightFormID}>
-                            <input
-                                type="number"
-                                placeholder="00.00"
-                                name="mainInput"
-                                // onChange={this.onSearchChange}
-                            />
-                            <span> kgs</span>
-                        </form>
-
-                    );
-                }
-
-
-
-            },
-
-
-
-
-
-            {
-                title : (quesOutputPool) => {
-                    return `How Active is ${quesOutputPool.dogName}?`;
-                },
-                secondaryTitle : (quesOutputPool ) => {
-                    return `Whether they're a bundle of energy or a serial snoozer, every dog is unique and needs a different amount of food.`;
-                },
-                nextButtonAttribs : ()=> {
-                    return {};
-                },
-                interactor : () => {
-                    return (
-
-
-                        <>
-
-                            {
-
-                                ["low","medium","high"].map(
-                                    (dogActivity,index)=>{
-
-                                        //TODO Temporary style here
-                                        return (<div   id={"activity-level-"+index.toString()} style = {{
-                                            width: 100,
-                                            height: 100
-                                        }} role="button" title={dogActivity} key={dogActivity} onClick = {this.OnDogActivityLevelCollection}> {dogActivity}</div>);
-                                    }
-                                )
-                            }
-
-                        </>
-                    );
-
-
-                }
-
-
-            },
 
 
 
@@ -415,7 +408,10 @@ class ContainerForm extends React.Component{
 
                 return {currentQues: (state.currentQues < this.pages.length - 1) ? state.currentQues+1 : state.currentQues};
             }
-        );
+        ,()=>{
+                const page = this.getPageData(this.state.currentQues);
+                page.onGainFocus();
+            });
 
 
     }
@@ -463,6 +459,17 @@ class ContainerForm extends React.Component{
 
 
     }
+    onClickNextNeuteredMoveAhead(event){
+
+        this.moveToNexPage();
+
+        //test for event.target vs event.current target
+        // console.log(event.currentTarget.id);
+        // console.log("clicked next "+event.target.value);
+
+
+    }
+
 
     onClickPrev(event){
         this.moveToPrevPage();
@@ -491,18 +498,22 @@ class ContainerForm extends React.Component{
                 let clonedQuesPool = cloneDeep(state.quesOutputPool);
                 clonedQuesPool.dogName = event.target.mainInput.value;
 
-                //TODO before moving ahead need to hookup the next question
 
-
-
-                //resetting next blocked to the state for the next question.
-                const blocker = clonedQuesPool.dogWeight === "";
-                return {quesOutputPool:clonedQuesPool,nextBlocked :blocker };
+                return {quesOutputPool:clonedQuesPool};
 
             });
 
 
+
+        //todo see a better place for this setup for next question here
+        //resetting next blocked to the state for the next question.
+        this.setState((state,props)=>{
+            //resetting next blocked to the state for the next question.
+            return {nextBlocked : state.quesOutputPool.dogWeight === "" } ;
+
+        });
         //
+
         this.moveToNexPage();
 
 
@@ -532,54 +543,53 @@ class ContainerForm extends React.Component{
 
 
     }
-    
-    OnDogActivityLevelCollection(event){
-        event.preventDefault();
-        //TODO check if this necessary ?? => because of set state ?? ?
-        event.persist();
-        // console.log("the index is "+index.toString());
 
-        console.log("here in weight collection "+event.target.id);
-        console.log("event.target id is "+event.target.id);
-        // console.log("event.target value is "+event.target.value);
-        console.log("event.target value is "+event.target.title);
 
-        // event.target.style = {
-        //     "width": 300,
-        //     "height": 300,
-        //     // "background-color": "blanchedalmond"
-        // };
-
-        console.log("style = "+ event.target.style.toString());
+    OnActivitySelectionChange(arr){
+        //todo cannot modify arr here at any cost !!!!!!
+        console.log("this is great here");
+        //modify the
 
 
 
-        // console.log("target weight value is "+event.target.mainInput.value);
-        // event.preventDefault();
-        //TODO check if this necessary ?? => because of set state ?? ?
-        // event.persist();
+        for (let i =0 ;i< arr.length;i++ ){
+            //first selection match algorithm
+            if(arr[i] === 1){
 
-        this.setState(
-            (state,props)=> {
-                // let ques = this.getQuestionData(state.currentQues);
+                this.setState(
+                    (state,props)=> {
+                        let newPool = cloneDeep(state.quesOutputPool);
+                        newPool.dogActivity = POSSIBLE_ACTIVITIES_KEYS[i];
+                        return {quesOutputPool : newPool};
+                    }
+                );
+                return;
+            }
+        }
+    }
 
-                let clonedQuesPool = cloneDeep(state.quesOutputPool);
-                clonedQuesPool.dogActivity = event.target.title;
 
-                return {quesOutputPool:clonedQuesPool};
+    OnNeuteredSelectionChange(arr){
+        //todo cannot modify arr here at any cost !!!!!!
 
-            });
+        for (let i =0 ;i< arr.length;i++ ){
+            //first selection match algorithm
+            if(arr[i] === 1){
 
-        // console.log("the value of activity is "+ event.target);
-
-        // console.log("the value of activity is "+ event.target.value);
-        //TODO debugging here
-        this.moveToNexPage();
+                this.setState(
+                    (state,props)=> {
+                        let newPool = cloneDeep(state.quesOutputPool);
+                        newPool.dogNeutered = NEUTERED_OPTIONS_KEYS[i];
+                        return {quesOutputPool : newPool};
+                    }
+                );
+                return;
+            }
+        }
 
 
 
     }
-
     getPageData(index){
         return this.pages[index];
 
@@ -596,11 +606,8 @@ class ContainerForm extends React.Component{
 
     renderPage(){
 
-
         // const ques = this.getQuestionData(this.state.currentQues);
         // return ques.question();
-
-
 
         // switch(this.state.currentQues) {
         //     case 2:
@@ -647,9 +654,10 @@ class ContainerForm extends React.Component{
         const dn = this.state.quesOutputPool.dogName;
         const dW = this.state.quesOutputPool.dogWeight;
         const dA = this.state.quesOutputPool.dogActivity;
+        const dne = this.state.quesOutputPool.dogNeutered;
 
 
-        return dn +" " + dW + " "+dA;
+        return dn +" " + dW + " "+dA + " "+ dne;
 
 
 
@@ -669,29 +677,6 @@ class ContainerForm extends React.Component{
             // return this.getQuestionData(this.state.currentQues).nextButtonAttribs();
         }
 
-    }
-
-    OnActivitySelectionChange(arr){
-        //todo cannot modify arr here at any cost !!!!!!
-        console.log("this is great here");
-        //modify the
-
-
-
-        for (let i =0 ;i< arr.length;i++ ){
-            //first selection match algorithm
-            if(arr[i] === 1){
-
-                this.setState(
-                    (state,props)=> {
-                        let newPool = cloneDeep(state.quesOutputPool);
-                        newPool.dogActivity = POSSIBLE_ACTIVITIES_KEYS[i];
-                        return {quesOutputPool : newPool};
-                    }
-                );
-                return;
-            }
-        }
     }
 
     // this.state.currentQues

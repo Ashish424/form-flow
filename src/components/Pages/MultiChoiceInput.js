@@ -16,13 +16,17 @@ class MultiChoiceInput extends React.Component{
         arr[this.props.defaultSelectionIndex] = 1;
 
 
-
         //only set values like this in the constructor
         this.state = {
 
             selectionState : arr
 
+
         };
+
+
+        console.log("props values "+this.props.values.length);
+        console.log("selection state arr "+this.state.selectionState);
 
         this.onClickHandler = this.onClickHandler.bind(this);
 
@@ -34,12 +38,6 @@ class MultiChoiceInput extends React.Component{
 
 
 
-
-
-    }
-
-
-    onClickNext(){
 
 
     }

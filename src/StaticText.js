@@ -25,3 +25,13 @@ export const ACTIVITY_SECONDARY_TITLE = (quesOutputPool) =>{
 };
 
 
+export const NEUTERED_PRIMARY_TITLE = (quesOutputPool) =>{
+    return `Is ${quesOutputPool.dogName} neutered?`;
+};
+
+export const NEUTERED_SECONDARY_TITLE = (quesOutputPool) =>{
+    return ``;
+
+};
+
+
