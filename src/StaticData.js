@@ -22,6 +22,8 @@ export const AGE_OPTIONS = {
 
 
 }
+
+export const AGE_OPTIONS_KEYS = Object.keys(AGE_OPTIONS);
 export const BODY_SCORES = {
     "1" : 1.2,
     "3" : 1,

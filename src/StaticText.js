@@ -34,4 +34,20 @@ export const NEUTERED_SECONDARY_TITLE = (quesOutputPool) =>{
 
 };
 
+export const AGE_PRIMARY_TITLE = (quesOutputPool) =>{
+    return `How old is ${quesOutputPool.dogName}?`;
+};
 
+export const AGE_SECONDARY_TITLE = (quesOutputPool) =>{
+    return ``;
+
+};
+
+export const BODY_SCORE_PRIMARY_TITLE = (quesOutputPool) =>{
+    return `How old is ${quesOutputPool.dogName}?`;
+};
+
+export const BODY_SCORE_SECONDARY_TITLE = (quesOutputPool) =>{
+    return ``;
+
+};

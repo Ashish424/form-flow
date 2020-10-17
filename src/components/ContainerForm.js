@@ -4,9 +4,9 @@ import cloneDeep from 'lodash/cloneDeep';
 import ProgressBar from "./ProgressBar";
 
 import MultiChoiceInput from "./Pages/MultiChoiceInput";
-import {NEUTERED_OPTIONS_KEYS,POSSIBLE_ACTIVITIES_KEYS} from "../StaticData";
+import {AGE_OPTIONS_KEYS, NEUTERED_OPTIONS_KEYS, POSSIBLE_ACTIVITIES_KEYS} from "../StaticData";
 import {
-    ACTIVITY_PRIMARY_TITLE, ACTIVITY_SECONDARY_TITLE,
+    ACTIVITY_PRIMARY_TITLE, ACTIVITY_SECONDARY_TITLE, AGE_PRIMARY_TITLE, AGE_SECONDARY_TITLE,
     NAME_PRIMARY_TITLE,
     NAME_SECONDARY_TITLE, NEUTERED_PRIMARY_TITLE, NEUTERED_SECONDARY_TITLE,
     WEIGHT_PRIMARY_TITLE,
@@ -14,6 +14,7 @@ import {
 } from "../StaticText";
 
 class ContainerForm extends React.Component{
+
 
 
 
@@ -32,6 +33,7 @@ class ContainerForm extends React.Component{
         this.neuteredMultiChoiceKey = "neutered-multi-choice";
         this.nameInputKey = "name-key";
         this.weightInputKey = "weight-key";
+        this.ageMultiChoiceKey = "age-key";
 
 
 
@@ -46,7 +48,7 @@ class ContainerForm extends React.Component{
                 dogWeight : "",
                 dogActivity : POSSIBLE_ACTIVITIES_KEYS[1],
                 dogNeutered : NEUTERED_OPTIONS_KEYS[0],
-                age:"4-12",
+                dogAge:"4-12",
                 bodyScore : 1,
                 breed : "toy",
                 //todo email validation
@@ -90,6 +92,8 @@ class ContainerForm extends React.Component{
         this.onClickPrev = this.onClickPrev.bind(this);
         this.onClickNextActivityMoveAhead = this.onClickNextActivityMoveAhead.bind(this);
         this.onClickNextNeuteredMoveAhead = this.onClickNextNeuteredMoveAhead.bind(this);
+        this.onClickNextAgeMoveAhead = this.onClickNextAgeMoveAhead.bind(this);
+
 
 
 
@@ -99,6 +103,9 @@ class ContainerForm extends React.Component{
         this.OnDogWeightInformationCollection = this.OnDogWeightInformationCollection.bind(this);
         this.OnActivitySelectionChange = this.OnActivitySelectionChange.bind(this);
         this.OnNeuteredSelectionChange = this.OnNeuteredSelectionChange.bind(this);
+        this.OnAgeSelectionChange = this.OnAgeSelectionChange.bind(this);
+
+
 
 
 
@@ -138,7 +145,6 @@ class ContainerForm extends React.Component{
                                     placeholder="Your dog's name"
                                     onChange={this.nameInputChange}
                                     name="mainInput"
-                                    //TODO use this to sustain values.
                                     value= {this.state.quesOutputPool.dogName}
                                 />
 
@@ -291,6 +297,43 @@ class ContainerForm extends React.Component{
                     return (
                         <>
                             {/*Todo might need controlled components for this later*/}
+                            <h2>{AGE_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
+                            <h4>{AGE_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
+                            <MultiChoiceInput
+                                key ={this.ageMultiChoiceKey}
+                                values = {AGE_OPTIONS_KEYS}
+                                defaultSelectionIndex = {AGE_OPTIONS_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogAge;})}
+                                onSelectionChanged={this.OnAgeSelectionChange}
+                                ref={this.currentPageRef}/>
+
+
+
+                        </>);
+
+
+                },
+                prevButtonAttribs : ()=> {
+                    return {};
+                },
+                nextButtonAttribs : ()=> {
+                    return {onClick:this.onClickNextAgeMoveAhead};
+
+                },
+                onGainFocus : ()=> {
+                    console.log("age question gained focus");
+
+
+                }
+
+            },
+
+
+            {
+
+                page : ()=>{
+                    return (
+                        <>
+                            {/*Todo might need controlled components for this later*/}
                             <h2>End Form</h2>
                             <h4>over</h4>
 
@@ -303,7 +346,7 @@ class ContainerForm extends React.Component{
                     return {};
                 },
                 nextButtonAttribs : ()=> {
-                    return {type : "submit",form : this.dogWeightFormID,disabled : this.state.nextBlocked};
+                    return {};
 
                 },
                 onGainFocus : ()=> {
@@ -354,6 +397,7 @@ class ContainerForm extends React.Component{
             (state,props)=> {
                 // let ques = this.getQuestionData(state.currentQues);
                 //todo need a better solution for all this cloning.
+                //todo use immutability-helper here
                 let clonedQuesPool = cloneDeep(state.quesOutputPool);
                 clonedQuesPool.dogName = event.target.value;
 
@@ -452,6 +496,11 @@ class ContainerForm extends React.Component{
 
         this.moveToNexPage();
 
+
+    }
+    onClickNextAgeMoveAhead(event){
+
+        this.moveToNexPage();
 
     }
 
@@ -560,6 +609,28 @@ class ContainerForm extends React.Component{
 
 
     }
+    OnAgeSelectionChange(arr){
+        //todo cannot modify arr here at any cost !!!!!!
+
+        for (let i =0 ;i< arr.length;i++ ){
+            //first selection match algorithm
+            if(arr[i] === 1){
+
+                this.setState(
+                    (state,props)=> {
+                        let newPool = cloneDeep(state.quesOutputPool);
+                        newPool.dogAge = AGE_OPTIONS_KEYS[i];
+                        return {quesOutputPool : newPool};
+                    }
+                );
+                return;
+            }
+        }
+
+
+
+    }
+
     getPageData(index){
         return this.pages[index];
 
@@ -585,9 +656,11 @@ class ContainerForm extends React.Component{
         const dW = this.state.quesOutputPool.dogWeight;
         const dA = this.state.quesOutputPool.dogActivity;
         const dne = this.state.quesOutputPool.dogNeutered;
+        const dag = this.state.quesOutputPool.dogAge;
 
 
-        return dn +" " + dW + " "+dA + " "+ dne;
+
+        return dn +" " + dW + " "+dA + " "+ dne +" "+dag;
 
 
 
