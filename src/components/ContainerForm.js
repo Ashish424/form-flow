@@ -4,11 +4,24 @@ import cloneDeep from 'lodash/cloneDeep';
 import ProgressBar from "./ProgressBar";
 
 import MultiChoiceInput from "./Pages/MultiChoiceInput";
-import {AGE_OPTIONS_KEYS, NEUTERED_OPTIONS_KEYS, POSSIBLE_ACTIVITIES_KEYS} from "../StaticData";
 import {
-    ACTIVITY_PRIMARY_TITLE, ACTIVITY_SECONDARY_TITLE, AGE_PRIMARY_TITLE, AGE_SECONDARY_TITLE,
+    AGE_OPTIONS_KEYS,
+    BODY_SCORES_KEYS,
+    BREED_OPTIONS_KEYS,
+    NEUTERED_OPTIONS_KEYS,
+    POSSIBLE_ACTIVITIES_KEYS
+} from "../StaticData";
+import {
+    ACTIVITY_PRIMARY_TITLE,
+    ACTIVITY_SECONDARY_TITLE,
+    AGE_PRIMARY_TITLE,
+    AGE_SECONDARY_TITLE,
+    BODY_SCORE_PRIMARY_TITLE,
+    BODY_SCORE_SECONDARY_TITLE, BREED_PRIMARY_TITLE, BREED_SECONDARY_TITLE,
     NAME_PRIMARY_TITLE,
-    NAME_SECONDARY_TITLE, NEUTERED_PRIMARY_TITLE, NEUTERED_SECONDARY_TITLE,
+    NAME_SECONDARY_TITLE,
+    NEUTERED_PRIMARY_TITLE,
+    NEUTERED_SECONDARY_TITLE,
     WEIGHT_PRIMARY_TITLE,
     WEIGHT_SECONDARY_TITLE
 } from "../StaticText";
@@ -34,6 +47,10 @@ class ContainerForm extends React.Component{
         this.nameInputKey = "name-key";
         this.weightInputKey = "weight-key";
         this.ageMultiChoiceKey = "age-key";
+        this.bodyScoreMultiChoiceKey = "body-score-key";
+        this.breedScoreMultiChoiceKey = "breed-key";
+
+
 
 
 
@@ -46,11 +63,11 @@ class ContainerForm extends React.Component{
             quesOutputPool : {
                 dogName : "",
                 dogWeight : "",
-                dogActivity : POSSIBLE_ACTIVITIES_KEYS[1],
-                dogNeutered : NEUTERED_OPTIONS_KEYS[0],
-                dogAge:"4-12",
-                bodyScore : 1,
-                breed : "toy",
+                dogActivity  : POSSIBLE_ACTIVITIES_KEYS[1],
+                dogNeutered  : NEUTERED_OPTIONS_KEYS[0],
+                dogAge       : AGE_OPTIONS_KEYS[0],
+                dogBodyScore : BODY_SCORES_KEYS[0],
+                dogBreed     : BREED_OPTIONS_KEYS[0],
                 //todo email validation
                 email : "test@test.com",
                 //indian phone number only
@@ -90,9 +107,15 @@ class ContainerForm extends React.Component{
 
         this.onClickNext = this.onClickNext.bind(this);
         this.onClickPrev = this.onClickPrev.bind(this);
+        //todo collapse all these if no differences
         this.onClickNextActivityMoveAhead = this.onClickNextActivityMoveAhead.bind(this);
         this.onClickNextNeuteredMoveAhead = this.onClickNextNeuteredMoveAhead.bind(this);
         this.onClickNextAgeMoveAhead = this.onClickNextAgeMoveAhead.bind(this);
+        this.onClickNextBodyScoreAhead = this.onClickNextBodyScoreAhead.bind(this);
+        this.onClickNextBreedAhead = this.onClickNextBreedAhead.bind(this);
+
+
+
 
 
 
@@ -104,6 +127,11 @@ class ContainerForm extends React.Component{
         this.OnActivitySelectionChange = this.OnActivitySelectionChange.bind(this);
         this.OnNeuteredSelectionChange = this.OnNeuteredSelectionChange.bind(this);
         this.OnAgeSelectionChange = this.OnAgeSelectionChange.bind(this);
+        this.OnBodyScoreSelectionChange = this.OnBodyScoreSelectionChange.bind(this);
+        this.OnBreedScoreSelectionChange = this.OnBreedScoreSelectionChange.bind(this);
+
+
+
 
 
 
@@ -326,6 +354,81 @@ class ContainerForm extends React.Component{
                 }
 
             },
+            {
+
+                page : ()=>{
+                    return (
+                        <>
+                            {/*Todo might need controlled components for this later*/}
+                            <h2>{BODY_SCORE_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
+                            <h4>{BODY_SCORE_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
+                            <MultiChoiceInput
+
+                                key ={this.bodyScoreMultiChoiceKey}
+                                //todo adding complex structure here with strings
+                                values = {BODY_SCORES_KEYS}
+                                defaultSelectionIndex = {BODY_SCORES_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogBodyScore;})}
+                                onSelectionChanged={this.OnBodyScoreSelectionChange}
+                                ref={this.currentPageRef}/>
+
+
+
+                        </>);
+
+
+                },
+                prevButtonAttribs : ()=> {
+                    return {};
+                },
+                nextButtonAttribs : ()=> {
+                    return {onClick:this.onClickNextBodyScoreAhead};
+
+                },
+                onGainFocus : ()=> {
+                    console.log("body score question gained focus");
+
+
+                }
+
+            },
+            {
+
+                page : ()=>{
+                    return (
+                        <>
+                            {/*Todo might need controlled components for this later*/}
+                            <h2>{BREED_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
+                            <h4>{BREED_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
+                            <MultiChoiceInput
+
+                                key ={this.breedScoreMultiChoiceKey}
+                                //todo adding complex structure here with strings
+                                values = {BREED_OPTIONS_KEYS}
+                                defaultSelectionIndex = {BREED_OPTIONS_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogBreed;})}
+                                onSelectionChanged={this.OnBreedScoreSelectionChange}
+                                ref={this.currentPageRef}/>
+
+
+
+                        </>);
+
+
+                },
+                prevButtonAttribs : ()=> {
+                    return {};
+                },
+                nextButtonAttribs : ()=> {
+                    return {onClick:this.onClickNextBreedAhead};
+
+                },
+                onGainFocus : ()=> {
+                    console.log("breed question gained focus");
+
+
+                }
+
+            },
+
 
 
             {
@@ -503,6 +606,14 @@ class ContainerForm extends React.Component{
         this.moveToNexPage();
 
     }
+    onClickNextBodyScoreAhead(event){
+
+        this.moveToNexPage();
+
+    }
+    onClickNextBreedAhead(event){
+        this.moveToNexPage();
+    }
 
 
     onClickPrev(event){
@@ -568,6 +679,9 @@ class ContainerForm extends React.Component{
     }
 
 
+
+
+    //todo merge loops in these funcstions into one
     OnActivitySelectionChange(arr){
         //todo cannot modify arr here at any cost !!!!!!
 
@@ -631,6 +745,47 @@ class ContainerForm extends React.Component{
 
     }
 
+    OnBodyScoreSelectionChange(arr){
+        for (let i =0 ;i< arr.length;i++ ){
+            //first selection match algorithm
+            if(arr[i] === 1){
+
+                this.setState(
+                    (state,props)=> {
+                        let newPool = cloneDeep(state.quesOutputPool);
+                        newPool.dogBodyScore = BODY_SCORES_KEYS[i];
+                        return {quesOutputPool : newPool};
+                    }
+                );
+                return;
+            }
+        }
+
+
+    }
+
+    OnBreedScoreSelectionChange(arr){
+
+        for (let i =0 ;i< arr.length;i++ ){
+            //first selection match algorithm
+            if(arr[i] === 1){
+
+                this.setState(
+                    (state,props)=> {
+                        let newPool = cloneDeep(state.quesOutputPool);
+                        newPool.dogBreed = BREED_OPTIONS_KEYS[i];
+                        return {quesOutputPool : newPool};
+                    }
+                );
+                return;
+            }
+        }
+
+    }
+
+
+
+
     getPageData(index){
         return this.pages[index];
 
@@ -657,10 +812,14 @@ class ContainerForm extends React.Component{
         const dA = this.state.quesOutputPool.dogActivity;
         const dne = this.state.quesOutputPool.dogNeutered;
         const dag = this.state.quesOutputPool.dogAge;
+        const dBc = this.state.quesOutputPool.dogBodyScore;
+        const dBr = this.state.quesOutputPool.dogBreed;
 
 
 
-        return dn +" " + dW + " "+dA + " "+ dne +" "+dag;
+
+
+        return dn +" " + dW + " "+dA + " "+ dne +" "+dag +" "+dBc+" "+dBr;
 
 
 

@@ -4,7 +4,7 @@ import React from 'react';
 class DivButton extends React.Component{
 
     highLightedStyle = {
-        backgroundColor:"blue",
+        backgroundColor:"#F5F5F7",
         width:100,
         height:100
 

@@ -1,5 +1,6 @@
 
 //todo load this data from a csv file
+//todo this values should be on the backend not on front end!!!!!
 export const POSSIBLE_ACTIVITIES = {
         "Low" : 1.1,
         "Medium" : 1.25,
@@ -24,11 +25,16 @@ export const AGE_OPTIONS = {
 }
 
 export const AGE_OPTIONS_KEYS = Object.keys(AGE_OPTIONS);
+
 export const BODY_SCORES = {
     "1" : 1.2,
     "3" : 1,
     "5" : 0.8
 }
+
+
+export const BODY_SCORES_KEYS = Object.keys(BODY_SCORES)
+
 
 export const BREED_OPTIONS = {
     "Toy" : 1.5,
@@ -37,6 +43,7 @@ export const BREED_OPTIONS = {
     "Large":1,
     "Giant":0.9
 }
+export const BREED_OPTIONS_KEYS = Object.keys(BREED_OPTIONS);
 
 export const CALORIFIC_COVERS = {
 
