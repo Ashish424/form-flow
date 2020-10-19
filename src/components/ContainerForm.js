@@ -5,11 +5,13 @@ import ProgressBar from "./ProgressBar";
 
 import MultiChoiceInput from "./Pages/MultiChoiceInput";
 import {
-    AGE_OPTIONS_KEYS,
-    BODY_SCORES_KEYS,
-    BREED_OPTIONS_KEYS,
-    NEUTERED_OPTIONS_KEYS,
-    POSSIBLE_ACTIVITIES_KEYS
+    AGE_CALORIFIC_OPTIONS,
+    AGE_OPTIONS,
+    AGE_OPTIONS_KEYS, BODY_SCORES,
+    BODY_SCORES_KEYS, BREED_OPTIONS,
+    BREED_OPTIONS_KEYS, NEUTERED_OPTIONS,
+    NEUTERED_OPTIONS_KEYS, POSSIBLE_ACTIVITIES,
+    POSSIBLE_ACTIVITIES_KEYS, POSSIBLE_GENDERS_KEYS
 } from "../StaticData";
 import {
     ACTIVITY_PRIMARY_TITLE,
@@ -17,7 +19,11 @@ import {
     AGE_PRIMARY_TITLE,
     AGE_SECONDARY_TITLE,
     BODY_SCORE_PRIMARY_TITLE,
-    BODY_SCORE_SECONDARY_TITLE, BREED_PRIMARY_TITLE, BREED_SECONDARY_TITLE,
+    BODY_SCORE_SECONDARY_TITLE,
+    BREED_PRIMARY_TITLE,
+    BREED_SECONDARY_TITLE,
+    GENDER_PRIMARY_TITLE,
+    GENDER_SECONDARY_TITLE,
     NAME_PRIMARY_TITLE,
     NAME_SECONDARY_TITLE,
     NEUTERED_PRIMARY_TITLE,
@@ -41,6 +47,7 @@ class ContainerForm extends React.Component{
 
         this.dogNameFormID = "name-form";
         this.dogWeightFormID = "weight-form";
+        this.genderMultiChoiceKey = "gender-multi-choice";
 
         this.activityMultiChoiceKey = "activity-multi-choice";
         this.neuteredMultiChoiceKey = "neutered-multi-choice";
@@ -62,6 +69,7 @@ class ContainerForm extends React.Component{
             //initialized with default values
             quesOutputPool : {
                 dogName : "",
+                dogGender : POSSIBLE_GENDERS_KEYS[0],
                 dogWeight : "",
                 dogActivity  : POSSIBLE_ACTIVITIES_KEYS[1],
                 dogNeutered  : NEUTERED_OPTIONS_KEYS[0],
@@ -108,14 +116,13 @@ class ContainerForm extends React.Component{
         this.onClickNext = this.onClickNext.bind(this);
         this.onClickPrev = this.onClickPrev.bind(this);
         //todo collapse all these if no differences
-        this.onClickNextActivityMoveAhead = this.onClickNextActivityMoveAhead.bind(this);
-        this.onClickNextNeuteredMoveAhead = this.onClickNextNeuteredMoveAhead.bind(this);
-        this.onClickNextAgeMoveAhead = this.onClickNextAgeMoveAhead.bind(this);
-        this.onClickNextBodyScoreAhead = this.onClickNextBodyScoreAhead.bind(this);
-        this.onClickNextBreedAhead = this.onClickNextBreedAhead.bind(this);
+        // this.onClickNextActivityMoveAhead = this.onClickNextActivityMoveAhead.bind(this);
+        // this.onClickNextNeuteredMoveAhead = this.onClickNextNeuteredMoveAhead.bind(this);
+        // this.onClickNextAgeMoveAhead = this.onClickNextAgeMoveAhead.bind(this);
+        // this.onClickNextBodyScoreAhead = this.onClickNextBodyScoreAhead.bind(this);
+        // this.onClickNextBreedAhead = this.onClickNextBreedAhead.bind(this);
 
-
-
+        this.onClickNextMultiChoiceDefault = this.onClickNextMultiChoiceDefault.bind(this);
 
 
 
@@ -124,6 +131,7 @@ class ContainerForm extends React.Component{
 
         this.OnDogNameInformationCollection = this.OnDogNameInformationCollection.bind(this);
         this.OnDogWeightInformationCollection = this.OnDogWeightInformationCollection.bind(this);
+        this.OnGenderSelectionChange = this.OnGenderSelectionChange.bind(this);
         this.OnActivitySelectionChange = this.OnActivitySelectionChange.bind(this);
         this.OnNeuteredSelectionChange = this.OnNeuteredSelectionChange.bind(this);
         this.OnAgeSelectionChange = this.OnAgeSelectionChange.bind(this);
@@ -200,6 +208,42 @@ class ContainerForm extends React.Component{
 
             },
             {
+                //todo replace question with page
+                page : ()=>{
+                    return (
+                        <>
+                            {/*Todo might need controlled components for this later*/}
+                            <h2>{GENDER_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
+                            <h4>{GENDER_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
+                            <MultiChoiceInput
+                                key ={this.genderMultiChoiceKey}
+                                values = {POSSIBLE_GENDERS_KEYS}
+                                defaultSelectionIndex = {POSSIBLE_GENDERS_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogGender;})}
+                                onSelectionChanged={this.OnGenderSelectionChange}
+                                ref={this.currentPageRef}/>
+
+
+
+                        </>);
+
+
+                },
+                prevButtonAttribs : ()=> {
+                    return {};
+                },
+                nextButtonAttribs : ()=> {
+                    return {onClick:this.onClickNextMultiChoiceDefault};
+
+                },
+                onGainFocus : ()=> {
+                    console.log("gender question gained focus");
+
+
+                }
+
+            },
+
+            {
 
                 page : ()=>{
                     return (
@@ -274,7 +318,7 @@ class ContainerForm extends React.Component{
                     return {};
                 },
                 nextButtonAttribs : ()=> {
-                    return {onClick:this.onClickNextActivityMoveAhead};
+                    return {onClick:this.onClickNextMultiChoiceDefault};
 
                 },
                 onGainFocus : ()=> {
@@ -309,7 +353,7 @@ class ContainerForm extends React.Component{
                     return {};
                 },
                 nextButtonAttribs : ()=> {
-                    return {onClick:this.onClickNextNeuteredMoveAhead};
+                    return {onClick:this.onClickNextMultiChoiceDefault};
 
                 },
                 onGainFocus : ()=> {
@@ -344,7 +388,7 @@ class ContainerForm extends React.Component{
                     return {};
                 },
                 nextButtonAttribs : ()=> {
-                    return {onClick:this.onClickNextAgeMoveAhead};
+                    return {onClick:this.onClickNextMultiChoiceDefault};
 
                 },
                 onGainFocus : ()=> {
@@ -381,7 +425,7 @@ class ContainerForm extends React.Component{
                     return {};
                 },
                 nextButtonAttribs : ()=> {
-                    return {onClick:this.onClickNextBodyScoreAhead};
+                    return {onClick:this.onClickNextMultiChoiceDefault};
 
                 },
                 onGainFocus : ()=> {
@@ -418,7 +462,7 @@ class ContainerForm extends React.Component{
                     return {};
                 },
                 nextButtonAttribs : ()=> {
-                    return {onClick:this.onClickNextBreedAhead};
+                    return {onClick:this.onClickNextMultiChoiceDefault};
 
                 },
                 onGainFocus : ()=> {
@@ -437,8 +481,14 @@ class ContainerForm extends React.Component{
                     return (
                         <>
                             {/*Todo might need controlled components for this later*/}
-                            <h2>End Form</h2>
-                            <h4>over</h4>
+                            <h2>End Form Results</h2>
+                            <h4>Rer = {this.getTempRer()}</h4>
+                            <h4>Mer = {this.getTempMer()}</h4>
+                            <h4>CalorificCover = {this.getTempCalorificCover()}</h4>
+
+
+
+
 
 
                         </>);
@@ -474,6 +524,15 @@ class ContainerForm extends React.Component{
 
 
 
+
+
+
+        this.temp_energy_requirements_rer = 0 ;
+        this.temp_energy_requirements_mer = 0;
+        this.temp_energy_requirements_calorific_cover = 0;
+        this.getTempRer = this.getTempRer.bind(this);
+        this.getTempMer = this.getTempMer.bind(this);
+        this.getTempCalorificCover = this.getTempCalorificCover.bind(this);
 
 
     }
@@ -589,31 +648,36 @@ class ContainerForm extends React.Component{
 
 
     }
-    onClickNextActivityMoveAhead(event){
 
-        this.moveToNexPage();
-
-
-    }
-    onClickNextNeuteredMoveAhead(event){
-
-        this.moveToNexPage();
-
-
-    }
-    onClickNextAgeMoveAhead(event){
-
+    onClickNextMultiChoiceDefault(event){
         this.moveToNexPage();
 
     }
-    onClickNextBodyScoreAhead(event){
-
-        this.moveToNexPage();
-
-    }
-    onClickNextBreedAhead(event){
-        this.moveToNexPage();
-    }
+    // onClickNextActivityMoveAhead(event){
+    //
+    //     this.moveToNexPage();
+    //
+    //
+    // }
+    // onClickNextNeuteredMoveAhead(event){
+    //
+    //     this.moveToNexPage();
+    //
+    //
+    // }
+    // onClickNextAgeMoveAhead(event){
+    //
+    //     this.moveToNexPage();
+    //
+    // }
+    // onClickNextBodyScoreAhead(event){
+    //
+    //     this.moveToNexPage();
+    //
+    // }
+    // onClickNextBreedAhead(event){
+    //     this.moveToNexPage();
+    // }
 
 
     onClickPrev(event){
@@ -678,6 +742,25 @@ class ContainerForm extends React.Component{
 
     }
 
+
+    OnGenderSelectionChange(arr){
+        //todo cannot modify arr here at any cost !!!!!!
+
+        for (let i =0 ;i< arr.length;i++ ){
+            //first selection match algorithm
+            if(arr[i] === 1){
+
+                this.setState(
+                    (state,props)=> {
+                        let newPool = cloneDeep(state.quesOutputPool);
+                        newPool.dogGender = POSSIBLE_GENDERS_KEYS[i];
+                        return {quesOutputPool : newPool};
+                    }
+                );
+                return;
+            }
+        }
+    }
 
 
 
@@ -808,6 +891,8 @@ class ContainerForm extends React.Component{
     totalStateString(){
 
         const dn = this.state.quesOutputPool.dogName;
+        const dG = this.state.quesOutputPool.dogGender;
+
         const dW = this.state.quesOutputPool.dogWeight;
         const dA = this.state.quesOutputPool.dogActivity;
         const dne = this.state.quesOutputPool.dogNeutered;
@@ -819,7 +904,7 @@ class ContainerForm extends React.Component{
 
 
 
-        return dn +" " + dW + " "+dA + " "+ dne +" "+dag +" "+dBc+" "+dBr;
+        return dn +" "+dG+" " + dW + " "+dA + " "+ dne +" "+dag +" "+dBc+" "+dBr;
 
 
 
@@ -854,7 +939,33 @@ class ContainerForm extends React.Component{
             </>
         );
     }
+    //todo remove this temp methods and move then to backend.
 
+    getTempRer() {
+        //returns a updated value of rer
+        this.temp_energy_requirements_rer = 70*parseFloat(this.state.quesOutputPool.dogWeight)**0.75;
+        return this.temp_energy_requirements_rer;
+
+    }
+
+    getTempMer() {
+        this.temp_energy_requirements_mer = (this.temp_energy_requirements_rer*
+                POSSIBLE_ACTIVITIES[this.state.quesOutputPool.dogActivity]*
+                NEUTERED_OPTIONS[this.state.quesOutputPool.dogNeutered]*
+                AGE_OPTIONS[this.state.quesOutputPool.dogAge]*
+                BODY_SCORES[this.state.quesOutputPool.dogBodyScore]*
+                BREED_OPTIONS[this.state.quesOutputPool.dogBreed]);
+        return this.temp_energy_requirements_mer;
+
+
+    }
+
+    getTempCalorificCover() {
+        this.temp_energy_requirements_calorific_cover = this.temp_energy_requirements_mer*AGE_CALORIFIC_OPTIONS[this.state.quesOutputPool.dogAge];
+        return this.temp_energy_requirements_calorific_cover;
+
+
+    }
 }
 
 export default ContainerForm;

@@ -125,6 +125,8 @@ class MultiChoiceInput extends React.Component{
                 {
                 this.props.values.map( (dogAcitivty, index) => {
 
+                    /*todo using values array here breaks abstraction.It would be better if only the length is passed instead of values array so the content
+                    so that the content of children can be set in a better way. */
                     //TODO use better index and ids.
                     return (<DivButton selected={this.state.selectionState[index]} id={index.toString()} key={index} handler={this.onClickHandler}>
                         <p id="test">{this.props.values[index]}</p>

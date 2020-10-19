@@ -6,6 +6,17 @@ export const POSSIBLE_ACTIVITIES = {
         "Medium" : 1.25,
         "High" : 1.4
 };
+
+//todo get these values from Roopesh
+export const POSSIBLE_GENDERS = {
+    "Girl" : 1.0,
+    "Boy" : 1.0
+};
+
+
+export const POSSIBLE_GENDERS_KEYS = Object.keys(POSSIBLE_GENDERS);
+
+
 export const POSSIBLE_ACTIVITIES_KEYS = Object.keys(POSSIBLE_ACTIVITIES);
 
 
@@ -21,6 +32,15 @@ export const AGE_OPTIONS = {
     "12-72" : 1.2,
     "72+" : 0.9
 
+
+}
+//todo duplicated data but will go away any way to backend
+export const AGE_CALORIFIC_OPTIONS = {
+
+    "2-4":0.95,
+    "4-12":0.95,
+    "12-72":0.9,
+    "72+":0.9
 
 }
 

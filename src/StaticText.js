@@ -9,6 +9,17 @@ export const NAME_SECONDARY_TITLE = (quesOutputPool) =>{
     return "My dog is called";
 };
 
+export const GENDER_PRIMARY_TITLE = (quesOutputPool) => {
+    return `Is ${quesOutputPool.dogName} a boy or girl?`;
+
+
+};
+
+//todo see if they all need the access to quesoutputpool
+export const GENDER_SECONDARY_TITLE = (quesOutputPool) =>{
+    return `${quesOutputPool.dogName} is a good...`;
+};
+
 
 
 
@@ -82,7 +93,7 @@ BODY_SCORES_STRINGS[BODY_SCORES_KEYS[0]] = {
 
 BODY_SCORES_STRINGS[BODY_SCORES_KEYS[1]] = {
     primary : "Just right",
-    //todo ribs his /her add gender
+    //todo ribs his /her add gender based quest output pool.
     secondary : "Visible waistline with some fat cover but ribs are easy to feel."
 
 }
