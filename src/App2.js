@@ -1,6 +1,5 @@
 import React from 'react';
-
-
+import './App2.css';
 import ContainerForm from "./components/ContainerForm";
 class App2 extends React.Component{
 

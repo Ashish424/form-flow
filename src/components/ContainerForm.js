@@ -3,6 +3,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import ProgressBar from "./ProgressBar";
 
+
 import MultiChoiceInput from "./Pages/MultiChoiceInput";
 import {
     AGE_CALORIFIC_OPTIONS,
@@ -31,6 +32,7 @@ import {
     WEIGHT_PRIMARY_TITLE,
     WEIGHT_SECONDARY_TITLE
 } from "../StaticText";
+
 
 class ContainerForm extends React.Component{
 
@@ -208,7 +210,7 @@ class ContainerForm extends React.Component{
 
             },
             {
-                //todo replace question with page
+
                 page : ()=>{
                     return (
                         <>
@@ -237,6 +239,114 @@ class ContainerForm extends React.Component{
                 },
                 onGainFocus : ()=> {
                     console.log("gender question gained focus");
+
+
+                }
+
+            },
+            {
+
+                page : ()=>{
+                    return (
+                        <>
+                            {/*Todo might need controlled components for this later*/}
+                            <h2>{AGE_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
+                            <h4>{AGE_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
+                            <MultiChoiceInput
+                                key ={this.ageMultiChoiceKey}
+                                values = {AGE_OPTIONS_KEYS}
+                                defaultSelectionIndex = {AGE_OPTIONS_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogAge;})}
+                                onSelectionChanged={this.OnAgeSelectionChange}
+                                ref={this.currentPageRef}/>
+
+
+
+                        </>);
+
+
+                },
+                prevButtonAttribs : ()=> {
+                    return {};
+                },
+                nextButtonAttribs : ()=> {
+                    return {onClick:this.onClickNextMultiChoiceDefault};
+
+                },
+                onGainFocus : ()=> {
+                    console.log("age question gained focus");
+
+
+                }
+
+            },
+
+            {
+
+                page : ()=>{
+                    return (
+                        <>
+                            {/*Todo might need controlled components for this later*/}
+                            <h2>{ACTIVITY_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
+                            <h4>{ACTIVITY_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
+                            <MultiChoiceInput
+                                key ={this.activityMultiChoiceKey}
+                                values = {POSSIBLE_ACTIVITIES_KEYS}
+                                defaultSelectionIndex = {POSSIBLE_ACTIVITIES_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogActivity;})}
+                                onSelectionChanged={this.OnActivitySelectionChange}
+                                ref={this.currentPageRef}/>
+
+
+
+                        </>);
+
+
+                },
+                prevButtonAttribs : ()=> {
+                    return {};
+                },
+                nextButtonAttribs : ()=> {
+                    return {onClick:this.onClickNextMultiChoiceDefault};
+
+                },
+                onGainFocus : ()=> {
+                    console.log("activity question gained focus");
+
+
+                }
+
+            },
+            {
+
+                page : ()=>{
+                    return (
+                        <>
+                            {/*Todo might need controlled components for this later*/}
+                            <h2>{BODY_SCORE_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
+                            <h4>{BODY_SCORE_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
+                            <MultiChoiceInput
+
+                                key ={this.bodyScoreMultiChoiceKey}
+                                //todo adding complex structure here with strings
+                                values = {BODY_SCORES_KEYS}
+                                defaultSelectionIndex = {BODY_SCORES_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogBodyScore;})}
+                                onSelectionChanged={this.OnBodyScoreSelectionChange}
+                                ref={this.currentPageRef}/>
+
+
+
+                        </>);
+
+
+                },
+                prevButtonAttribs : ()=> {
+                    return {};
+                },
+                nextButtonAttribs : ()=> {
+                    return {onClick:this.onClickNextMultiChoiceDefault};
+
+                },
+                onGainFocus : ()=> {
+                    console.log("body score question gained focus");
 
 
                 }
@@ -293,41 +403,7 @@ class ContainerForm extends React.Component{
                 }
 
             },
-            {
-                //todo replace question with page
-                page : ()=>{
-                    return (
-                        <>
-                            {/*Todo might need controlled components for this later*/}
-                            <h2>{ACTIVITY_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
-                            <h4>{ACTIVITY_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
-                            <MultiChoiceInput
-                                         key ={this.activityMultiChoiceKey}
-                                         values = {POSSIBLE_ACTIVITIES_KEYS}
-                                         defaultSelectionIndex = {POSSIBLE_ACTIVITIES_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogActivity;})}
-                                         onSelectionChanged={this.OnActivitySelectionChange}
-                                         ref={this.currentPageRef}/>
 
-
-
-                        </>);
-
-
-                },
-                prevButtonAttribs : ()=> {
-                    return {};
-                },
-                nextButtonAttribs : ()=> {
-                    return {onClick:this.onClickNextMultiChoiceDefault};
-
-                },
-                onGainFocus : ()=> {
-                    console.log("activity question gained focus");
-
-
-                }
-
-            },
             {
 
                 page : ()=>{
@@ -363,78 +439,8 @@ class ContainerForm extends React.Component{
                 }
 
             },
-            {
-
-                page : ()=>{
-                    return (
-                        <>
-                            {/*Todo might need controlled components for this later*/}
-                            <h2>{AGE_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
-                            <h4>{AGE_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
-                            <MultiChoiceInput
-                                key ={this.ageMultiChoiceKey}
-                                values = {AGE_OPTIONS_KEYS}
-                                defaultSelectionIndex = {AGE_OPTIONS_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogAge;})}
-                                onSelectionChanged={this.OnAgeSelectionChange}
-                                ref={this.currentPageRef}/>
 
 
-
-                        </>);
-
-
-                },
-                prevButtonAttribs : ()=> {
-                    return {};
-                },
-                nextButtonAttribs : ()=> {
-                    return {onClick:this.onClickNextMultiChoiceDefault};
-
-                },
-                onGainFocus : ()=> {
-                    console.log("age question gained focus");
-
-
-                }
-
-            },
-            {
-
-                page : ()=>{
-                    return (
-                        <>
-                            {/*Todo might need controlled components for this later*/}
-                            <h2>{BODY_SCORE_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
-                            <h4>{BODY_SCORE_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
-                            <MultiChoiceInput
-
-                                key ={this.bodyScoreMultiChoiceKey}
-                                //todo adding complex structure here with strings
-                                values = {BODY_SCORES_KEYS}
-                                defaultSelectionIndex = {BODY_SCORES_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogBodyScore;})}
-                                onSelectionChanged={this.OnBodyScoreSelectionChange}
-                                ref={this.currentPageRef}/>
-
-
-
-                        </>);
-
-
-                },
-                prevButtonAttribs : ()=> {
-                    return {};
-                },
-                nextButtonAttribs : ()=> {
-                    return {onClick:this.onClickNextMultiChoiceDefault};
-
-                },
-                onGainFocus : ()=> {
-                    console.log("body score question gained focus");
-
-
-                }
-
-            },
             {
 
                 page : ()=>{
@@ -508,11 +514,6 @@ class ContainerForm extends React.Component{
                 }
 
             },
-
-
-
-
-
 
 
 
@@ -785,6 +786,7 @@ class ContainerForm extends React.Component{
     }
 
 
+
     OnNeuteredSelectionChange(arr){
         //todo cannot modify arr here at any cost !!!!!!
 
@@ -869,6 +871,7 @@ class ContainerForm extends React.Component{
 
 
 
+
     getPageData(index){
         return this.pages[index];
 
@@ -924,6 +927,9 @@ class ContainerForm extends React.Component{
         return (
             <>
                 <ProgressBar progress={progressScore}/>
+
+
+
 
                 {/*{render current page}*/}
                 {currentPage.page()}

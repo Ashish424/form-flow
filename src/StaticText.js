@@ -4,7 +4,6 @@ export const NAME_PRIMARY_TITLE = (quesOutputPool) => {
     return "First,what's your dog's name?";
 };
 
-//todo see if they all need the access to quesoutputpool
 export const NAME_SECONDARY_TITLE = (quesOutputPool) =>{
     return "My dog is called";
 };
@@ -15,7 +14,6 @@ export const GENDER_PRIMARY_TITLE = (quesOutputPool) => {
 
 };
 
-//todo see if they all need the access to quesoutputpool
 export const GENDER_SECONDARY_TITLE = (quesOutputPool) =>{
     return `${quesOutputPool.dogName} is a good...`;
 };
