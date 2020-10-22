@@ -34,6 +34,13 @@ import {
 } from "../StaticText";
 
 
+
+
+//Material UI imports
+import MuiProgressbar from "@material-ui/core/LinearProgress";
+import {styled} from "@material-ui/core/styles";
+
+
 class ContainerForm extends React.Component{
 
 
@@ -58,9 +65,6 @@ class ContainerForm extends React.Component{
         this.ageMultiChoiceKey = "age-key";
         this.bodyScoreMultiChoiceKey = "body-score-key";
         this.breedScoreMultiChoiceKey = "breed-key";
-
-
-
 
 
 
@@ -915,6 +919,33 @@ class ContainerForm extends React.Component{
 
 
 
+    //todo move this to a separate component
+
+    MuiProgressBarStyled = styled(MuiProgressbar)({
+        width : "100%",
+
+        //todo make this height also responsive.
+        height: 12,
+
+        border: 0,
+        borderRadius: 0,
+
+
+        // marginLeft: "10%",
+        // marginRight: "10%",
+
+
+        // background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+        // boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+        // color: 'white',
+
+        // height: 48,
+
+        padding: '0 30px',
+    });
+
+
+
 
     // this.state.currentQues
     render() {
@@ -926,12 +957,12 @@ class ContainerForm extends React.Component{
 
         return (
             <>
-                <ProgressBar progress={progressScore}/>
+
+                {/*<ProgressBar progress={progressScore}/>*/}
+
+                <this.MuiProgressBarStyled  variant="determinate" value={progressScore}/>
 
 
-
-
-                {/*{render current page}*/}
                 {currentPage.page()}
 
 
