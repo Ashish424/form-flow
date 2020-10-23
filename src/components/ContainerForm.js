@@ -1,6 +1,6 @@
 import React from 'react';
 import cloneDeep from 'lodash/cloneDeep';
-
+//todo remove this import
 import ProgressBar from "./ProgressBar";
 
 
@@ -35,16 +35,22 @@ import {
 
 
 
+import MuiStyledProgressBar from "./MuiStyledProgressBar"
+import MuiStyledPrimaryQuestion from "./Pages/PrimaryQuestionLabel";
+import MuiStyledSecondaryQuestionLabel from "./Pages/SecondaryQuestionLabel";
+import MuiStyledButtonBar from "./Pages/BottomBar";
+import MuiAppBar from "@material-ui/core/AppBar";
 
-//Material UI imports
-import MuiProgressbar from "@material-ui/core/LinearProgress";
-import {styled} from "@material-ui/core/styles";
+
+
+//todo usign this as a flex container only
+import MuiToolBar from "@material-ui/core/Toolbar"
+import MuiButton from "@material-ui/core/Button";
+
+
 
 
 class ContainerForm extends React.Component{
-
-
-
 
 
 
@@ -177,8 +183,12 @@ class ContainerForm extends React.Component{
                     return (
                         <>
                             {/*Todo might need controlled components for this later*/}
-                            <h2>{NAME_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
-                            <h4>{NAME_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
+
+                            <MuiStyledPrimaryQuestion align="center" variant="h4">{NAME_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
+                            {/*<h2>{NAME_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>*/}
+                            <MuiStyledSecondaryQuestionLabel align="center" variant="h6">{NAME_SECONDARY_TITLE(this.state.quesOutputPool)}</MuiStyledSecondaryQuestionLabel>
+
+                            {/*<h4>{NAME_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>*/}
                             <form onSubmit={this.OnDogNameInformationCollection}
                                   id={this.dogNameFormID}
                                   key={this.nameInputKey}>
@@ -200,8 +210,9 @@ class ContainerForm extends React.Component{
 
                 },
 
+                //disabled since the first question
                 prevButtonAttribs : () => {
-                    return {};
+                    return {disabled: true};
                 },
                 nextButtonAttribs : ()=> {
                     return {
@@ -919,30 +930,6 @@ class ContainerForm extends React.Component{
 
 
 
-    //todo move this to a separate component
-
-    MuiProgressBarStyled = styled(MuiProgressbar)({
-        width : "100%",
-
-        //todo make this height also responsive.
-        height: 12,
-
-        border: 0,
-        borderRadius: 0,
-
-
-        // marginLeft: "10%",
-        // marginRight: "10%",
-
-
-        // background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-        // boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-        // color: 'white',
-
-        // height: 48,
-
-        padding: '0 30px',
-    });
 
 
 
@@ -960,16 +947,70 @@ class ContainerForm extends React.Component{
 
                 {/*<ProgressBar progress={progressScore}/>*/}
 
-                <this.MuiProgressBarStyled  variant="determinate" value={progressScore}/>
-
+                <MuiStyledProgressBar variant="determinate" value={progressScore}/>
 
                 {currentPage.page()}
 
 
-                <button onClick={this.onClickPrev} {... currentPage.prevButtonAttribs()} > Prev</button>
 
-                {/*NOTE next button attribs ahead so questions can override behaviour*/}
-                <button onClick={this.onClickNext} {... currentPage.nextButtonAttribs()} > Next</button>
+                <MuiStyledButtonBar color="secondary">
+
+                    <MuiToolBar>
+
+
+                        {/*todo move this inline style out*/}
+                        <div style = {
+                            {
+                                "flexGrow": 1
+                            }
+                        }>
+                        </div>
+
+                        {/*<button onClick={this.onClickPrev} {... currentPage.prevButtonAttribs()} > Prev</button>*/}
+                        <MuiButton
+                            // color="secondary"
+                            variant="contained"
+                            color="primary"
+
+                            onClick={this.onClickPrev}
+                            {... currentPage.prevButtonAttribs()} >
+                            Prev
+                        </MuiButton>
+
+
+
+
+
+                        {/*todo move this inline style out*/}
+                        <div style = {
+                            {
+                            "flexGrow": 1
+                            }
+                        }>
+                        </div>
+
+
+                        {/*NOTE next button attribs ahead so questions can override behaviour*/}
+                        {/*<button onClick={this.onClickNext} {... currentPage.nextButtonAttribs()} > Next</button>*/}
+                        <MuiButton
+                            variant="contained"
+                            color="primary"
+                            onClick={this.onClickNext}
+                            {... currentPage.nextButtonAttribs()} >
+                            Next
+                        </MuiButton>
+
+
+                        {/*todo move this inline style out*/}
+                        <div style = {
+                            {
+                                "flexGrow": 1
+                            }
+                        }>
+                        </div>
+
+                    </MuiToolBar>
+                </MuiStyledButtonBar>
 
                 <p>value of all ques output is {this.totalStateString()}</p>
 
