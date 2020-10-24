@@ -1,6 +1,11 @@
 import React from 'react';
 
 
+
+//TODO see replacement with Chips !!!!
+//TODO https://material-ui.com/components/chips/
+
+
 class DivButton extends React.Component{
 
     highLightedStyle = {

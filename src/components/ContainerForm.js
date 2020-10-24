@@ -39,16 +39,49 @@ import MuiStyledProgressBar from "./MuiStyledProgressBar"
 import MuiStyledPrimaryQuestion from "./Pages/PrimaryQuestionLabel";
 import MuiStyledSecondaryQuestionLabel from "./Pages/SecondaryQuestionLabel";
 import MuiStyledButtonBar from "./Pages/BottomBar";
+
 import MuiAppBar from "@material-ui/core/AppBar";
 
 
 
-//todo usign this as a flex container only
+
+import TextField from "@material-ui/core/TextField";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+
+
+//todo using this as a flex container only
 import MuiToolBar from "@material-ui/core/Toolbar"
 import MuiButton from "@material-ui/core/Button";
+import {withStyles} from "@material-ui/core/styles";
+import MuiStyledNameForm from "./Pages/NameForm";
+
+
+//todo test here remove later
 
 
 
+
+const styles = {
+    root: {
+        flexGrow: 1,
+    },
+
+
+};
+
+function getTempStyledDiv(){
+
+
+    return withStyles(styles)((props) =>{
+        const { classes, ...other } = props;
+        return (<div className={classes.root}>
+
+        </div>);
+    } );
+
+
+}
 
 class ContainerForm extends React.Component{
 
@@ -171,6 +204,10 @@ class ContainerForm extends React.Component{
         this.getCurrentDogName = this.getCurrentDogName.bind(this);
 
 
+
+
+
+
         //array of function components.
         this.pages = [
 
@@ -189,18 +226,77 @@ class ContainerForm extends React.Component{
                             <MuiStyledSecondaryQuestionLabel align="center" variant="h6">{NAME_SECONDARY_TITLE(this.state.quesOutputPool)}</MuiStyledSecondaryQuestionLabel>
 
                             {/*<h4>{NAME_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>*/}
-                            <form onSubmit={this.OnDogNameInformationCollection}
-                                  id={this.dogNameFormID}
-                                  key={this.nameInputKey}>
-                                <input
-                                    type="text"
-                                    placeholder="Your dog's name"
-                                    onChange={this.nameInputChange}
-                                    name="mainInput"
-                                    value= {this.state.quesOutputPool.dogName}
-                                />
+                            {/*//todo replace this inline styles*/}
 
-                            </form>
+                            <div style = {{
+                                flexGrow : 1
+
+                            }}>
+
+                                <MuiStyledNameForm
+                                formOnSubmit={this.OnDogNameInformationCollection}
+                                formId = {this.dogNameFormID}
+                                keyVal={this.nameInputKey}
+                                onChange = {this.nameInputChange}
+                                textValue = {this.state.quesOutputPool.dogName}>
+
+
+                                </MuiStyledNameForm>
+
+
+
+                                {/*<form onSubmit={this.OnDogNameInformationCollection}*/}
+                                {/*      id={this.dogNameFormID}*/}
+                                {/*      key={this.nameInputKey}>*/}
+
+                                {/*    <Grid container>*/}
+                                {/*        <Grid item xs={3}/>*/}
+                                {/*        <Grid item xs={6}>*/}
+                                {/*        <TextField*/}
+                                {/*        type="text"*/}
+                                {/*        variant="outlined"*/}
+                                {/*        onChange={this.nameInputChange}*/}
+                                {/*        label="Your dog's name"*/}
+                                {/*        name="mainInput"*/}
+                                {/*        value= {this.state.quesOutputPool.dogName}*/}
+                                {/*        // hintText={"test"}*/}
+
+
+                                {/*            //todo align the placeholder label*/}
+                                {/*        // https://stackoverflow.com/questions/57852393/how-to-center-placeholder-and-text-in-react-material-ui-textfield*/}
+
+                                {/*        inputProps={{ style: {textAlign: 'center'} }}*/}
+                                {/*        //todo replace this inline styles*/}
+                                {/*        style={*/}
+                                {/*            {*/}
+                                {/*                // margin: '0 auto',*/}
+                                {/*                width : "100%",*/}
+                                {/*                // textAlign : 'center'*/}
+                                {/*            }*/}
+                                {/*        }*/}
+                                {/*        // // inputStyle={{ textAlign: 'center' }}*/}
+                                {/*        // hintStyle={{ width: '100%', textAlign: 'center' }}*/}
+
+                                {/*        >*/}
+                                {/*        </TextField>*/}
+                                {/*        </Grid>*/}
+                                {/*        <Grid item xs={3}/>*/}
+
+                                {/*    </Grid>*/}
+                                {/*    /!*<input*!/*/}
+                                {/*    /!*    type="text"*!/*/}
+                                {/*    /!*    placeholder="Your dog's name"*!/*/}
+                                {/*    /!*    onChange={this.nameInputChange}*!/*/}
+                                {/*    /!*    name="mainInput"*!/*/}
+                                {/*    /!*    value= {this.state.quesOutputPool.dogName}*!/*/}
+
+
+                                {/*</form>*/}
+
+
+
+
+                            </div>
 
 
 
@@ -551,7 +647,12 @@ class ContainerForm extends React.Component{
         this.getTempCalorificCover = this.getTempCalorificCover.bind(this);
 
 
+
+
+
     }
+
+
 
 
     nameInputChange(event){
@@ -954,6 +1055,8 @@ class ContainerForm extends React.Component{
 
 
                 <MuiStyledButtonBar color="secondary">
+                    {/*todo contain this inside the styled bar component.*/}
+
 
                     <MuiToolBar>
 

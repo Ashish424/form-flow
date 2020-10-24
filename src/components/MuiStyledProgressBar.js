@@ -13,6 +13,7 @@ const styles = (theme)=>( {
 
         // height : 12,
         height : theme.spacing(1.5),
+        margin: '0 auto',
 
 
 
