@@ -1,24 +1,21 @@
 import React from 'react';
 
-
-
-//TODO see replacement with Chips !!!!
-//TODO https://material-ui.com/components/chips/
+import MuiButton from "@material-ui/core/Button";
 
 
 class DivButton extends React.Component{
 
     highLightedStyle = {
-        backgroundColor:"#F5F5F7",
-        width:100,
-        height:100
+        backgroundColor:"#FF00FF",
+        // width:100,
+        // height:100
 
 
     };
     normalStyle = {
         // backgroundColor: "red",
-        width:100,
-        height:100
+        // width:100,
+        // height:100
 
     }
 
@@ -41,22 +38,50 @@ class DivButton extends React.Component{
 
     render() {
         return (
-            <div
-                // id={"activity-level-"+index.toString()}
-            // title="test-title"
-            id={this.props.id}
 
-            role="button"
-            style={
-                this.props.selected ? this.highLightedStyle : this.normalStyle
-            }
 
-            onClick= {this._onClick}
-                   /*title={dogActivity} key={dogActivity} onClick = {this.OnDogActivityLevelCollection}>*/
-                /*{dogActivity}*/
+            <MuiButton
+
+                id={this.props.id}
+                role="button"
+
+                color={this.props.selected ? "primary":"secondary"}
+                onClick= {this._onClick}
+
+                //todo remove inline styles
+                style={
+
+                    {
+                        minWidth : "100px",
+
+                        //todo make this border radius responsive
+                        borderRadius: "5em"
+                    }
+                }
+                       variant="contained"
+                //todo this
+
             >
+
                 {this.props.children}
-            </div>
+            </MuiButton>
+
+            //todo for reference only remove this later
+            // <div
+
+            // id={this.props.id}
+            //
+            // role="button"
+            // style={
+            //     this.props.selected ? this.highLightedStyle : this.normalStyle
+            // }
+            //
+            // onClick= {this._onClick}
+            //        /*title={dogActivity} key={dogActivity} onClick = {this.OnDogActivityLevelCollection}>*/
+            //     /*{dogActivity}*/
+            // >
+            //     {this.props.children}
+            // </div>
         );
     }
 

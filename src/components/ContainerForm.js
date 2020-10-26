@@ -1,7 +1,6 @@
 import React from 'react';
 import cloneDeep from 'lodash/cloneDeep';
-//todo remove this import
-import ProgressBar from "./ProgressBar";
+
 
 
 import MultiChoiceInput from "./Pages/MultiChoiceInput";
@@ -28,7 +27,7 @@ import {
     NAME_PRIMARY_TITLE,
     NAME_SECONDARY_TITLE,
     NEUTERED_PRIMARY_TITLE,
-    NEUTERED_SECONDARY_TITLE,
+    // NEUTERED_SECONDARY_TITLE,
     WEIGHT_PRIMARY_TITLE,
     WEIGHT_SECONDARY_TITLE
 } from "../StaticText";
@@ -50,18 +49,17 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 
 
-//todo using this as a flex container only
 import MuiToolBar from "@material-ui/core/Toolbar"
 import MuiButton from "@material-ui/core/Button";
 import {withStyles} from "@material-ui/core/styles";
 import MuiStyledNameForm from "./Pages/NameForm";
+import MuiStyledButtonContainer, {
+    DoubleStyledButtonContainer, PentaStyledButtonContainer, QuadStyledButtonContainer,
+    TripleStyledButtonContainer
+} from "./Pages/ButtonContainer";
 
 
-//todo test here remove later
-
-
-
-
+//todo test here remove later move to the theme level
 const styles = {
     root: {
         flexGrow: 1,
@@ -110,6 +108,7 @@ class ContainerForm extends React.Component{
 
         //only set values like this in the constructor
         this.state = {
+            //todo reset to zero in prod
             currentQues : 0,
             //initialized with default values
             quesOutputPool : {
@@ -206,6 +205,9 @@ class ContainerForm extends React.Component{
 
 
 
+        //grid setup
+        this.getGenderGrid = this.getGenderGrid.bind(this);
+
 
 
         //array of function components.
@@ -219,84 +221,18 @@ class ContainerForm extends React.Component{
                 page : ()=>{
                     return (
                         <>
-                            {/*Todo might need controlled components for this later*/}
 
-                            <MuiStyledPrimaryQuestion align="center" variant="h4">{NAME_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
-                            {/*<h2>{NAME_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>*/}
-                            <MuiStyledSecondaryQuestionLabel align="center" variant="h6">{NAME_SECONDARY_TITLE(this.state.quesOutputPool)}</MuiStyledSecondaryQuestionLabel>
+                            <MuiStyledPrimaryQuestion>{NAME_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
 
-                            {/*<h4>{NAME_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>*/}
-                            {/*//todo replace this inline styles*/}
-
-                            <div style = {{
-                                flexGrow : 1
-
-                            }}>
-
-                                <MuiStyledNameForm
+                            <MuiStyledNameForm
+                                secondaryText = {NAME_SECONDARY_TITLE(this.state.quesOutputPool)}
                                 formOnSubmit={this.OnDogNameInformationCollection}
                                 formId = {this.dogNameFormID}
                                 keyVal={this.nameInputKey}
                                 onChange = {this.nameInputChange}
                                 textValue = {this.state.quesOutputPool.dogName}>
 
-
-                                </MuiStyledNameForm>
-
-
-
-                                {/*<form onSubmit={this.OnDogNameInformationCollection}*/}
-                                {/*      id={this.dogNameFormID}*/}
-                                {/*      key={this.nameInputKey}>*/}
-
-                                {/*    <Grid container>*/}
-                                {/*        <Grid item xs={3}/>*/}
-                                {/*        <Grid item xs={6}>*/}
-                                {/*        <TextField*/}
-                                {/*        type="text"*/}
-                                {/*        variant="outlined"*/}
-                                {/*        onChange={this.nameInputChange}*/}
-                                {/*        label="Your dog's name"*/}
-                                {/*        name="mainInput"*/}
-                                {/*        value= {this.state.quesOutputPool.dogName}*/}
-                                {/*        // hintText={"test"}*/}
-
-
-                                {/*            //todo align the placeholder label*/}
-                                {/*        // https://stackoverflow.com/questions/57852393/how-to-center-placeholder-and-text-in-react-material-ui-textfield*/}
-
-                                {/*        inputProps={{ style: {textAlign: 'center'} }}*/}
-                                {/*        //todo replace this inline styles*/}
-                                {/*        style={*/}
-                                {/*            {*/}
-                                {/*                // margin: '0 auto',*/}
-                                {/*                width : "100%",*/}
-                                {/*                // textAlign : 'center'*/}
-                                {/*            }*/}
-                                {/*        }*/}
-                                {/*        // // inputStyle={{ textAlign: 'center' }}*/}
-                                {/*        // hintStyle={{ width: '100%', textAlign: 'center' }}*/}
-
-                                {/*        >*/}
-                                {/*        </TextField>*/}
-                                {/*        </Grid>*/}
-                                {/*        <Grid item xs={3}/>*/}
-
-                                {/*    </Grid>*/}
-                                {/*    /!*<input*!/*/}
-                                {/*    /!*    type="text"*!/*/}
-                                {/*    /!*    placeholder="Your dog's name"*!/*/}
-                                {/*    /!*    onChange={this.nameInputChange}*!/*/}
-                                {/*    /!*    name="mainInput"*!/*/}
-                                {/*    /!*    value= {this.state.quesOutputPool.dogName}*!/*/}
-
-
-                                {/*</form>*/}
-
-
-
-
-                            </div>
+                            </MuiStyledNameForm>
 
 
 
@@ -313,7 +249,9 @@ class ContainerForm extends React.Component{
                 nextButtonAttribs : ()=> {
                     return {
                         type: "submit", form: this.dogNameFormID,
-                        disabled: this.state.nextBlocked
+                        //todo fix bug in this can be blocked because of some other data needs to depend solely on input state
+                        //todo check this thing ok ???
+                        disabled: this.state.quesOutputPool.dogName === ""
                     };
                 },
 
@@ -325,15 +263,20 @@ class ContainerForm extends React.Component{
                 page : ()=>{
                     return (
                         <>
-                            {/*Todo might need controlled components for this later*/}
-                            <h2>{GENDER_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
-                            <h4>{GENDER_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
+                            <MuiStyledPrimaryQuestion align="center" variant="h4">{GENDER_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
+
+                            <MuiStyledSecondaryQuestionLabel align="center" variant="h6">
+                                {GENDER_SECONDARY_TITLE(this.state.quesOutputPool)}
+                            </MuiStyledSecondaryQuestionLabel>
+
                             <MultiChoiceInput
                                 key ={this.genderMultiChoiceKey}
                                 values = {POSSIBLE_GENDERS_KEYS}
                                 defaultSelectionIndex = {POSSIBLE_GENDERS_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogGender;})}
                                 onSelectionChanged={this.OnGenderSelectionChange}
-                                ref={this.currentPageRef}/>
+                                ref={this.currentPageRef}
+                                gridSetup ={DoubleStyledButtonContainer}
+                            />
 
 
 
@@ -360,15 +303,19 @@ class ContainerForm extends React.Component{
                 page : ()=>{
                     return (
                         <>
-                            {/*Todo might need controlled components for this later*/}
-                            <h2>{AGE_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
-                            <h4>{AGE_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
+                            <MuiStyledPrimaryQuestion align="center" variant="h4">{AGE_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
+                            <MuiStyledSecondaryQuestionLabel align="center" variant="h6">
+                                {AGE_SECONDARY_TITLE(this.state.quesOutputPool)}
+                            </MuiStyledSecondaryQuestionLabel>
+
                             <MultiChoiceInput
                                 key ={this.ageMultiChoiceKey}
                                 values = {AGE_OPTIONS_KEYS}
                                 defaultSelectionIndex = {AGE_OPTIONS_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogAge;})}
                                 onSelectionChanged={this.OnAgeSelectionChange}
-                                ref={this.currentPageRef}/>
+                                ref={this.currentPageRef}
+                                gridSetup ={QuadStyledButtonContainer}
+                            />
 
 
 
@@ -396,15 +343,20 @@ class ContainerForm extends React.Component{
                 page : ()=>{
                     return (
                         <>
-                            {/*Todo might need controlled components for this later*/}
-                            <h2>{ACTIVITY_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
-                            <h4>{ACTIVITY_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
+
+                            <MuiStyledPrimaryQuestion align="center" variant="h4">{ACTIVITY_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
+                            <MuiStyledSecondaryQuestionLabel align="center" variant="h6">
+                                {ACTIVITY_SECONDARY_TITLE(this.state.quesOutputPool)}
+                            </MuiStyledSecondaryQuestionLabel>
+
                             <MultiChoiceInput
                                 key ={this.activityMultiChoiceKey}
                                 values = {POSSIBLE_ACTIVITIES_KEYS}
                                 defaultSelectionIndex = {POSSIBLE_ACTIVITIES_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogActivity;})}
                                 onSelectionChanged={this.OnActivitySelectionChange}
-                                ref={this.currentPageRef}/>
+                                ref={this.currentPageRef}
+                                gridSetup ={TripleStyledButtonContainer}
+                            />
 
 
 
@@ -431,9 +383,12 @@ class ContainerForm extends React.Component{
                 page : ()=>{
                     return (
                         <>
-                            {/*Todo might need controlled components for this later*/}
-                            <h2>{BODY_SCORE_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
-                            <h4>{BODY_SCORE_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
+                            <MuiStyledPrimaryQuestion align="center" variant="h4">{BODY_SCORE_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
+                            <MuiStyledSecondaryQuestionLabel align="center" variant="h6">
+                                {BODY_SCORE_SECONDARY_TITLE(this.state.quesOutputPool)}
+                            </MuiStyledSecondaryQuestionLabel>
+
+
                             <MultiChoiceInput
 
                                 key ={this.bodyScoreMultiChoiceKey}
@@ -441,7 +396,9 @@ class ContainerForm extends React.Component{
                                 values = {BODY_SCORES_KEYS}
                                 defaultSelectionIndex = {BODY_SCORES_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogBodyScore;})}
                                 onSelectionChanged={this.OnBodyScoreSelectionChange}
-                                ref={this.currentPageRef}/>
+                                ref={this.currentPageRef}
+                                gridSetup ={TripleStyledButtonContainer}
+                            />
 
 
 
@@ -469,9 +426,22 @@ class ContainerForm extends React.Component{
                 page : ()=>{
                     return (
                         <>
-                            {/*Todo might need controlled components for this later*/}
-                            <h2>{WEIGHT_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
-                            <h4>{WEIGHT_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
+                            <MuiStyledPrimaryQuestion align="center" variant="h4">{WEIGHT_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
+                            <MuiStyledSecondaryQuestionLabel align="center" variant="h6">
+                                {WEIGHT_SECONDARY_TITLE(this.state.quesOutputPool)}
+                            </MuiStyledSecondaryQuestionLabel>
+
+                            {/*<MuiStyledNameForm*/}
+                            {/*    // secondaryText = {NAME_SECONDARY_TITLE(this.state.quesOutputPool)}*/}
+                            {/*    formOnSubmit={this.OnDogWeightInformationCollection}*/}
+                            {/*    formId = {this.dogWeightFormID}*/}
+                            {/*    keyVal={this.weightInputKey}*/}
+                            {/*    onChange = {this.weightInputChange}*/}
+                            {/*    textValue = {this.state.quesOutputPool.dogWeight}>*/}
+
+                            {/*</MuiStyledNameForm>*/}
+
+
                             <form onSubmit={this.OnDogWeightInformationCollection}
                                   id={this.dogWeightFormID}
                                   key={this.weightInputKey}>
@@ -520,15 +490,19 @@ class ContainerForm extends React.Component{
                 page : ()=>{
                     return (
                         <>
-                            {/*Todo might need controlled components for this later*/}
-                            <h2>{NEUTERED_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
-                            <h4>{NEUTERED_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
+                            <MuiStyledPrimaryQuestion align="center" variant="h4">{NEUTERED_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
+                            {/*<MuiStyledSecondaryQuestionLabel align="center" variant="h6">*/}
+                            {/*    {NEUTERED_SECONDARY_TITLE(this.state.quesOutputPool)}*/}
+                            {/*</MuiStyledSecondaryQuestionLabel>*/}
+
                             <MultiChoiceInput
                                 key ={this.neuteredMultiChoiceKey}
                                 values = {NEUTERED_OPTIONS_KEYS}
                                 defaultSelectionIndex = {NEUTERED_OPTIONS_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogNeutered;})}
                                 onSelectionChanged={this.OnNeuteredSelectionChange}
-                                ref={this.currentPageRef}/>
+                                ref={this.currentPageRef}
+                                gridSetup ={DoubleStyledButtonContainer}
+                            />
 
 
 
@@ -557,9 +531,12 @@ class ContainerForm extends React.Component{
                 page : ()=>{
                     return (
                         <>
-                            {/*Todo might need controlled components for this later*/}
-                            <h2>{BREED_PRIMARY_TITLE(this.state.quesOutputPool)}</h2>
-                            <h4>{BREED_SECONDARY_TITLE(this.state.quesOutputPool)}</h4>
+                            <MuiStyledPrimaryQuestion align="center" variant="h4">{BREED_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
+                            <MuiStyledSecondaryQuestionLabel align="center" variant="h6">
+                                {BREED_SECONDARY_TITLE(this.state.quesOutputPool)}
+                            </MuiStyledSecondaryQuestionLabel>
+
+
                             <MultiChoiceInput
 
                                 key ={this.breedScoreMultiChoiceKey}
@@ -567,7 +544,9 @@ class ContainerForm extends React.Component{
                                 values = {BREED_OPTIONS_KEYS}
                                 defaultSelectionIndex = {BREED_OPTIONS_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogBreed;})}
                                 onSelectionChanged={this.OnBreedScoreSelectionChange}
-                                ref={this.currentPageRef}/>
+                                ref={this.currentPageRef}
+                                gridSetup ={PentaStyledButtonContainer}
+                            />
 
 
 
@@ -597,7 +576,7 @@ class ContainerForm extends React.Component{
                 page : ()=>{
                     return (
                         <>
-                            {/*Todo might need controlled components for this later*/}
+
                             <h2>End Form Results</h2>
                             <h4>Rer = {this.getTempRer()}</h4>
                             <h4>Mer = {this.getTempMer()}</h4>
@@ -654,6 +633,19 @@ class ContainerForm extends React.Component{
 
 
 
+
+    getGenderGrid() {
+        return (
+                (props)=>{
+
+                    return (<MuiStyledButtonContainer>
+                        {props.children}
+                    </MuiStyledButtonContainer>);
+
+                }
+            );
+
+    }
 
     nameInputChange(event){
         // console.log("q1 changed "+event.target.value);
@@ -881,7 +873,7 @@ class ContainerForm extends React.Component{
 
 
 
-    //todo merge loops in these funcstions into one
+    //todo merge loops in these functions into one
     OnActivitySelectionChange(arr){
         //todo cannot modify arr here at any cost !!!!!!
 
@@ -1035,6 +1027,8 @@ class ContainerForm extends React.Component{
 
 
 
+
+
     // this.state.currentQues
     render() {
         const currentPage = this.getPageData(this.state.currentQues);
@@ -1147,6 +1141,7 @@ class ContainerForm extends React.Component{
 
 
     }
+
 }
 
 export default ContainerForm;

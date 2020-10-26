@@ -9,7 +9,7 @@ export const NAME_SECONDARY_TITLE = (quesOutputPool) =>{
 };
 
 export const GENDER_PRIMARY_TITLE = (quesOutputPool) => {
-    return `Is ${quesOutputPool.dogName} a boy or girl?`;
+    return `Is ${quesOutputPool.dogName} a boy or a girl?`;
 
 
 };
@@ -53,7 +53,7 @@ export const AGE_PRIMARY_TITLE = (quesOutputPool) =>{
 };
 
 export const AGE_SECONDARY_TITLE = (quesOutputPool) =>{
-    return ``;
+    return `${quesOutputPool.dogName} is...`;
 
 };
 

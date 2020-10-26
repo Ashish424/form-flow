@@ -1,7 +1,8 @@
 import React from 'react';
 import './App2.css';
 
-import ScopedCssBaseline from '@material-ui/core/ScopedCssBaseline';
+import CssBaseline from '@material-ui/core/CssBaseline';
+
 
 import ContainerForm from "./components/ContainerForm";
 
@@ -24,11 +25,18 @@ class App2 extends React.Component{
 
         //TODO create custom theme here
         this.theme = createMuiTheme({
-            // palette : {
-            //     primary : green
-            // }
+            palette : {
+
+
+                background: {
+                    default: "#f4f5fd"
+
+
+                },
+            }
             //default value is 8
             // spacing : 8
+
         })
         console.log("theme spacing"+this.theme.spacing(1));
 
@@ -39,13 +47,10 @@ class App2 extends React.Component{
         return (
             <>
 
-                    {/*<MuiTypography variant="h6">*/}
-                    {/*        Some text here*/}
 
-                    {/*        </MuiTypography>*/}
-            {/*scoped css applies cool stuff like border box out of the box.*/}
-            <ScopedCssBaseline>
                 <ThemeProvider theme={this.theme}>
+                    {/*css baseline needs to be inside the theme provider*/}
+                    <CssBaseline>
                     <MuiAppBar position="relative">
 
                         <MuiTypography variant="h4"
@@ -56,8 +61,9 @@ class App2 extends React.Component{
                         </MuiTypography>
                     </MuiAppBar>
                     <ContainerForm></ContainerForm>
+                    </CssBaseline>
                 </ThemeProvider>
-            </ScopedCssBaseline>
+
 
             </>
         );

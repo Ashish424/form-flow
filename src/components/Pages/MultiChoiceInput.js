@@ -2,6 +2,8 @@ import React from 'react';
 import DivButton from "../DivButton";
 import cloneDeep from 'lodash/cloneDeep';
 
+import MuiStyledButtonContainer, {ClassWrapped, TripleStyledButtonContainer} from "./ButtonContainer";
+
 class MultiChoiceInput extends React.Component{
 
     constructor(props) {
@@ -110,7 +112,7 @@ class MultiChoiceInput extends React.Component{
                 return {selectionState:this.handleSingleSelection(clonedArr,currentIndex,false)};
 
             },()=>{
-                //todo passing copy of array so parent doesn't modify it ??
+                //todo need to pass copy of array so parent doesn't modify it ??
                 this.props.onSelectionChanged(this.state.selectionState);
                 // console.log("updated state called");
             });
@@ -120,29 +122,51 @@ class MultiChoiceInput extends React.Component{
 
 
     render() {
+        const GridSetup = this.props.gridSetup;
+
         return (
-            <>
+
+            <div>
+                <GridSetup>
+
+                {/*<TripleStyledButtonContainer>*/}
+
+                {/*<MuiStyledButtonContainer>*/}
                 {
-                this.props.values.map( (dogAcitivty, index) => {
+                this.props.values.map( (item, index) => {
 
                     /*todo using values array here breaks abstraction.It would be better if only the length is passed instead of values array so the content
                     so that the content of children can be set in a better way. */
                     //TODO use better index and ids.
-                    return (<DivButton selected={this.state.selectionState[index]} id={index.toString()} key={index} handler={this.onClickHandler}>
-                        <p id="test">{this.props.values[index]}</p>
-                    </DivButton>);
+                    return (
+                        <DivButton selected={this.state.selectionState[index]}
+                                   id={index.toString()}
+                                   key={index}
+                                   handler={this.onClickHandler}>
+                            {this.props.values[index]}
+                            {/*<p id="test">{this.props.values[index]}</p>*/}
+
+
+                        </DivButton>);
 
                         }
                     )
 
                 }
-            </>
+                {/*</MuiStyledButtonContainer>*/}
+
+                {/*</TripleStyledButtonContainer>*/}
+
+
+            </GridSetup>
+            </div>
+
         );
     }
 }
 MultiChoiceInput.defaultProps = {
-    defaultSelectionIndex : 0
-
+    defaultSelectionIndex : 0,
+    gridSetup : MuiStyledButtonContainer
 }
 
 export default MultiChoiceInput;
