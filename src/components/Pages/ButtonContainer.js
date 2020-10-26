@@ -151,14 +151,24 @@ export default function MuiStyledButtonContainer(props) {
 
 MuiStyledButtonContainer.defaultProps = {
     xs_gutter : false,
-    sm_gutter : 1,
     xs_main : 12,
+
+    sm_gutter : 1,
     sm_main : 10,
+
     spacing_main : 0,
     xs_child_main :  6,
-    sm_child_main : 6,
     xs_gutter_main :false,
+
+
+    sm_child_main : 6,
     sm_gutter_main :false,
+
+    // xs -> 0 to 600
+    // sm -> 600 to 960
+    // md ->960 -> 1280
+    // lg -> 1280 -> 1920
+    // xl -> 1920 and above
 
 
 }
