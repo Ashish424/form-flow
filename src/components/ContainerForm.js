@@ -7,11 +7,18 @@ import MultiChoiceInput from "./Pages/MultiChoiceInput";
 import {
     AGE_CALORIFIC_OPTIONS,
     AGE_OPTIONS,
-    AGE_OPTIONS_KEYS, BODY_SCORES,
-    BODY_SCORES_KEYS, BREED_OPTIONS,
-    BREED_OPTIONS_KEYS, NEUTERED_OPTIONS,
-    NEUTERED_OPTIONS_KEYS, POSSIBLE_ACTIVITIES,
-    POSSIBLE_ACTIVITIES_KEYS, POSSIBLE_GENDERS_KEYS
+    AGE_OPTIONS_KEYS,
+    BODY_SCORES,
+    BODY_SCORES_KEYS,
+    BREED_OPTIONS,
+    BREED_OPTIONS_KEYS,
+    NEUTERED_OPTIONS,
+    NEUTERED_OPTIONS_KEYS,
+    POSSIBLE_ACTIVITIES,
+    POSSIBLE_ACTIVITIES_CALORIE_RANGE_MULTIPLIER_MAX,
+    POSSIBLE_ACTIVITIES_CALORIE_RANGE_MULTIPLIER_MIN,
+    POSSIBLE_ACTIVITIES_KEYS,
+    POSSIBLE_GENDERS_KEYS
 } from "../StaticData";
 import {
     ACTIVITY_PRIMARY_TITLE,
@@ -52,9 +59,9 @@ import Grid from "@material-ui/core/Grid";
 import MuiToolBar from "@material-ui/core/Toolbar"
 import MuiButton from "@material-ui/core/Button";
 import {withStyles} from "@material-ui/core/styles";
-import MuiStyledNameForm from "./Pages/NameForm";
+import MuiStyledNameForm, {MuiStyledWeightForm} from "./Pages/NameForm";
 import MuiStyledButtonContainer, {
-    DoubleStyledButtonContainer, PentaStyledButtonContainer, QuadStyledButtonContainer,
+    DoubleStyledButtonContainer, PentaStyledButtonContainer, QuadStyledButtonContainer, TempDoubleStyleContainer,
     TripleStyledButtonContainer
 } from "./Pages/ButtonContainer";
 
@@ -275,7 +282,9 @@ class ContainerForm extends React.Component{
                                 defaultSelectionIndex = {POSSIBLE_GENDERS_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogGender;})}
                                 onSelectionChanged={this.OnGenderSelectionChange}
                                 ref={this.currentPageRef}
-                                gridSetup ={DoubleStyledButtonContainer}
+                                // gridSetup ={DoubleStyledButtonContainer}
+                                gridSetup ={TempDoubleStyleContainer}
+
                             />
 
 
@@ -442,19 +451,34 @@ class ContainerForm extends React.Component{
                             {/*</MuiStyledNameForm>*/}
 
 
-                            <form onSubmit={this.OnDogWeightInformationCollection}
-                                  id={this.dogWeightFormID}
-                                  key={this.weightInputKey}>
-                                <input
-                                    type="number"
-                                    placeholder="00.00"
-                                    name="mainInput"
-                                    value={this.state.quesOutputPool.dogWeight}
-                                    onChange={this.weightInputChange}
+                            {/*<form onSubmit={this.OnDogWeightInformationCollection}*/}
+                            {/*      id={this.dogWeightFormID}*/}
+                            {/*      key={this.weightInputKey}>*/}
+                            {/*    <input*/}
+                            {/*        type="number"*/}
+                            {/*        placeholder="00.00"*/}
+                            {/*        name="mainInput"*/}
+                            {/*        value={this.state.quesOutputPool.dogWeight}*/}
+                            {/*        onChange={this.weightInputChange}*/}
 
-                                />
-                                <span> kgs</span>
-                            </form>
+                            {/*    />*/}
+                            {/*    <span> kgs</span>*/}
+                            {/*</form>*/}
+
+                            <MuiStyledWeightForm
+                                formOnSubmit={this.OnDogWeightInformationCollection}
+                                formId = {this.dogWeightFormID}
+                                keyVal={this.weightInputKey}
+                                onChange = {this.weightInputChange}
+                                textValue = {this.state.quesOutputPool.dogWeight}
+                            >
+
+                            </MuiStyledWeightForm>
+
+
+
+
+
 
                         </>);
 
@@ -501,7 +525,7 @@ class ContainerForm extends React.Component{
                                 defaultSelectionIndex = {NEUTERED_OPTIONS_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogNeutered;})}
                                 onSelectionChanged={this.OnNeuteredSelectionChange}
                                 ref={this.currentPageRef}
-                                gridSetup ={DoubleStyledButtonContainer}
+                                gridSetup ={TempDoubleStyleContainer}
                             />
 
 
@@ -578,11 +602,11 @@ class ContainerForm extends React.Component{
                         <>
 
                             <h2>End Form Results</h2>
-                            <h4>Rer = {this.getTempRer()}</h4>
-                            <h4>Mer = {this.getTempMer()}</h4>
-                            <h4>CalorificCover = {this.getTempCalorificCover()}</h4>
-
-
+                            {/*<h4>Rer = {this.getTempRer()}</h4>*/}
+                            {/*<h4>Mer = {this.getTempMer()}</h4>*/}
+                            {/*<h4>CalorificCover = {this.getTempCalorificCover()}</h4>*/}
+                            <h4>Min Calories = {this.getTempCalorieMin()}</h4>
+                            <h4>Max Calories = {this.getTempCalorieMax()}</h4>
 
 
 
@@ -621,9 +645,20 @@ class ContainerForm extends React.Component{
         this.temp_energy_requirements_rer = 0 ;
         this.temp_energy_requirements_mer = 0;
         this.temp_energy_requirements_calorific_cover = 0;
+        this.temp_calorie_range = 0;
+        this.temp_min_calorie_range = 0;
+        this.temp_max_calorie_range = 0;
+
+
         this.getTempRer = this.getTempRer.bind(this);
         this.getTempMer = this.getTempMer.bind(this);
         this.getTempCalorificCover = this.getTempCalorificCover.bind(this);
+        this.getTempCalorieMin = this.getTempCalorieMin.bind(this);
+        this.getTempCalorieMax = this.getTempCalorieMax.bind(this);
+
+
+
+
 
 
 
@@ -1139,6 +1174,27 @@ class ContainerForm extends React.Component{
         this.temp_energy_requirements_calorific_cover = this.temp_energy_requirements_mer*AGE_CALORIFIC_OPTIONS[this.state.quesOutputPool.dogAge];
         return this.temp_energy_requirements_calorific_cover;
 
+
+    }
+
+    getTempCalorieMin(){
+
+        let t = this.getTempCalorificCover();
+
+        this.temp_min_calorie_range = t*POSSIBLE_ACTIVITIES_CALORIE_RANGE_MULTIPLIER_MIN[this.state.quesOutputPool.dogActivity];
+        return this.temp_min_calorie_range;
+
+
+
+    }
+
+    getTempCalorieMax(){
+        let t = this.getTempCalorificCover();
+
+
+        this.temp_max_calorie_range = t*POSSIBLE_ACTIVITIES_CALORIE_RANGE_MULTIPLIER_MAX[this.state.quesOutputPool.dogActivity];
+        console.log("temp val is "+this.state.quesOutputPool.dogActivity);
+        return this.temp_max_calorie_range;
 
     }
 

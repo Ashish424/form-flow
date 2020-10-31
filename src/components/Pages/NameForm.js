@@ -100,20 +100,89 @@ export default function MuiStyledNameForm(props){
 
                                 // inputProps={{ style: {textAlign: 'center'} }}
                                 // //todo replace this inline styles
-                                style={
-                                    {
-                                        display : "flex",
-                                        // justifyContent : "center",
-                                        // alignItems : "center"
-
-                                    }
-                                }
+                                // style={
+                                //     {
+                                //         display : "flex",
+                                //         // justifyContent : "center",
+                                //         // alignItems : "center"
+                                //
+                                //     }
+                                // }
 
                             >
                             </TextField>
 
 
                             </Paper>
+                        <div className={classes.grow}/>
+
+
+                        {/*</Grid>*/}
+
+
+                    </Grid>
+                    <Grid item xs={false} sm={3}/>
+
+                </Grid>
+
+
+
+
+            </form>
+        </div>
+
+    );
+}
+
+
+export function MuiStyledWeightForm(props){
+    const classes = useStyles();
+    return (
+
+        <div className={classes.root}>
+            <form id ={props.formId} key ={props.keyVal} onSubmit={props.formOnSubmit}>
+
+                <Grid container
+                      direction="row"
+                      justify="center"
+
+                >
+                    <Grid item xs={false} sm={3}/>
+                    <Grid item xs={12} sm={6} container>
+
+                        <div className={classes.grow}/>
+
+                        <Paper>
+
+                            {/*<MuiTypography*/}
+                            {/*    classes={{root:classes.header}}*/}
+                            {/*    // align="center"*/}
+                            {/*    variant="h6">*/}
+                            {/*    {props.secondaryText}*/}
+                            {/*</MuiTypography>*/}
+
+                            <TextField
+                                fullWidth={true}
+                                /*Logic Fields*/
+                                type="number"
+                                step="0.01"
+                                variant="outlined"
+                                onChange={props.onChange}
+                                placeholder="weight in kg"
+                                name="mainInput"
+                                value= {props.textValue}
+
+
+                                className={classes.textBox}
+
+
+
+                            >
+                            </TextField>
+
+
+
+                        </Paper>
                         <div className={classes.grow}/>
 
 

@@ -7,6 +7,19 @@ export const POSSIBLE_ACTIVITIES = {
         "High" : 1.4
 };
 
+export const POSSIBLE_ACTIVITIES_CALORIE_RANGE_MULTIPLIER_MIN = {
+    "Low" : 0.95,
+    "Medium" : 0.9,
+    "High" : 0.85
+};
+
+
+export const POSSIBLE_ACTIVITIES_CALORIE_RANGE_MULTIPLIER_MAX = {
+    "Low" : 1.15,
+    "Medium" : 1.1,
+    "High" : 1.05
+};
+
 //todo get these values from Roopesh
 export const POSSIBLE_GENDERS = {
     "Girl" : 1.0,

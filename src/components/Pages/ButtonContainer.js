@@ -1,11 +1,11 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import MuiTypography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {useTheme} from "@material-ui/core/styles";
 
+import { yellow,red,green,blue } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme)=>({
         root: {
@@ -19,9 +19,68 @@ const useStyles = makeStyles((theme)=>({
             padding: '9px 9px 9px 9px',
 
         },
+
+        grow : {
+
+            flexGrow : 1
+        },
+
         //todo move this to a root level @ theme
-        grow:{
+        grow1:{
             flexGrow: 1
+
+        },
+        grow3:{
+            flexGrow: 3
+
+        },
+
+        grow5:{
+            flexGrow: 7
+
+        },
+
+
+        testPaperFlex : {
+            display : "flex",
+            width : "100%",
+
+
+
+        },
+
+        topSpacerDiv : {
+          width : "100%",
+          // minHeight : "20px",
+
+
+          //  xs sm md lg
+          [theme.breakpoints.down('lg')]: {
+              minHeight : "20px",
+
+
+              // backgroundColor: blue[500],
+          },
+          [theme.breakpoints.down('md')]: {
+                // backgroundColor: red[500],
+              minHeight : "40px",
+
+
+          },
+          [theme.breakpoints.down('sm')]: {
+                // backgroundColor: green[500],
+              minHeight : "60px",
+
+          },
+          [theme.breakpoints.down('xs')]: {
+                // backgroundColor: yellow[500],
+              minHeight : "80px",
+
+          },
+        },
+        midDivs : {
+          height : "100%",
+          minWidth : "10px"
 
         }
 
@@ -53,7 +112,7 @@ export default function MuiStyledButtonContainer(props) {
     <Grid container direction="row" justify="flex-start" alignItems="center"
 
           spacing={
-              matches ? 8 : 0
+              matches ? 1 : 0
 
             }
           >
@@ -172,6 +231,9 @@ MuiStyledButtonContainer.defaultProps = {
 
 
 }
+
+
+
 
 export function DoubleStyledButtonContainer(props){
 
@@ -292,6 +354,90 @@ export function PentaStyledButtonContainer(props){
             {...props}>
 
         </MuiStyledButtonContainer>
+    );
+
+
+
+
+}
+
+
+//todo using flex for the positioning here in this iteration
+export function TempDoubleStyleContainer(props){
+    const classes = useStyles();
+
+
+
+    // console.log("children here "+ props.children.length);
+
+    const children = props.children;
+
+    const childrenCount = React.Children.count(children);
+
+
+
+    return(
+
+        //todo make this gird container work for better accessibility on mobile phone.
+        //todo if use media query hook is not worth the effort add a div with flex using custom classes.
+
+        <>
+
+
+                <div className={classes.topSpacerDiv}></div>
+                <Paper elevation={3} variant="outlined" square classes={
+                    { root:classes.testPaperFlex
+
+                    }
+                }>
+
+                    <div className={classes.grow5}></div>
+
+
+                            {
+                                React.Children.map(children,(child,index)=>{
+
+                                    //todo improve this logic structure
+                                    if(index !== childrenCount-1){
+                                        return(
+
+                                            <>
+                                                {child}
+                                                <div className={classes.midDivs}></div>
+                                            </>
+                                        );
+                                    }
+                                    else{
+                                        return(
+
+                                            <>
+                                                {child}
+                                            </>
+                                        );
+
+                                    }
+
+
+
+
+                                })
+
+
+
+                            }
+
+
+
+                    <div className={classes.grow5}></div>
+
+
+
+                </Paper>
+
+
+
+
+            </>
     );
 
 

@@ -122,16 +122,16 @@ class MultiChoiceInput extends React.Component{
 
 
     render() {
+        {/*nice technique of passing a container component
+        composition rocks :)*/}
         const GridSetup = this.props.gridSetup;
 
         return (
 
             <div>
+
                 <GridSetup>
 
-                {/*<TripleStyledButtonContainer>*/}
-
-                {/*<MuiStyledButtonContainer>*/}
                 {
                 this.props.values.map( (item, index) => {
 
@@ -153,9 +153,6 @@ class MultiChoiceInput extends React.Component{
                     )
 
                 }
-                {/*</MuiStyledButtonContainer>*/}
-
-                {/*</TripleStyledButtonContainer>*/}
 
 
             </GridSetup>
