@@ -51,9 +51,9 @@ export const AGE_OPTIONS = {
 export const AGE_CALORIFIC_OPTIONS = {
 
     "2-4":0.95,
-    "4-12":0.95,
-    "12-72":0.9,
-    "72+":0.9
+    "4-12":0.90,
+    "12-72":0.85,
+    "72+":0.85
 
 }
 

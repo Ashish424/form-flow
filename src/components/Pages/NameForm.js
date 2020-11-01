@@ -171,11 +171,7 @@ export function MuiStyledWeightForm(props){
                                 placeholder="weight in kg"
                                 name="mainInput"
                                 value= {props.textValue}
-
-
                                 className={classes.textBox}
-
-
 
                             >
                             </TextField>

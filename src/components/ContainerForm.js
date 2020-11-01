@@ -1159,7 +1159,7 @@ class ContainerForm extends React.Component{
     }
 
     getTempMer() {
-        this.temp_energy_requirements_mer = (this.temp_energy_requirements_rer*
+        this.temp_energy_requirements_mer = (this.getTempRer()*
                 POSSIBLE_ACTIVITIES[this.state.quesOutputPool.dogActivity]*
                 NEUTERED_OPTIONS[this.state.quesOutputPool.dogNeutered]*
                 AGE_OPTIONS[this.state.quesOutputPool.dogAge]*
@@ -1171,7 +1171,8 @@ class ContainerForm extends React.Component{
     }
 
     getTempCalorificCover() {
-        this.temp_energy_requirements_calorific_cover = this.temp_energy_requirements_mer*AGE_CALORIFIC_OPTIONS[this.state.quesOutputPool.dogAge];
+        this.temp_energy_requirements_calorific_cover = this.getTempMer()*AGE_CALORIFIC_OPTIONS[this.state.quesOutputPool.dogAge];
+
         return this.temp_energy_requirements_calorific_cover;
 
 
