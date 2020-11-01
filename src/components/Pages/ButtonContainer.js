@@ -103,7 +103,7 @@ export default function MuiStyledButtonContainer(props) {
     const children = props.children;
 
     const childrenCount = React.Children.count(children);
-    console.log("default matches "+matches.toString())
+    // console.log("default matches "+matches.toString())
 
 
     return(

@@ -9,7 +9,7 @@ import {
     AGE_OPTIONS,
     AGE_OPTIONS_KEYS,
     BODY_SCORES,
-    BODY_SCORES_KEYS,
+    BODY_SCORES_KEYS, BREED_CATEGORIES_LIST, BREED_CATEGORIES_MAPPED,
     BREED_OPTIONS,
     BREED_OPTIONS_KEYS,
     NEUTERED_OPTIONS,
@@ -59,7 +59,7 @@ import Grid from "@material-ui/core/Grid";
 import MuiToolBar from "@material-ui/core/Toolbar"
 import MuiButton from "@material-ui/core/Button";
 import {withStyles} from "@material-ui/core/styles";
-import MuiStyledNameForm, {MuiStyledWeightForm} from "./Pages/NameForm";
+import {MuiStyledBreedForm, MuiStyledNameForm, MuiStyledWeightForm} from "./Pages/PageForm";
 import MuiStyledButtonContainer, {
     DoubleStyledButtonContainer, PentaStyledButtonContainer, QuadStyledButtonContainer, TempDoubleStyleContainer,
     TripleStyledButtonContainer
@@ -126,7 +126,8 @@ class ContainerForm extends React.Component{
                 dogNeutered  : NEUTERED_OPTIONS_KEYS[0],
                 dogAge       : AGE_OPTIONS_KEYS[0],
                 dogBodyScore : BODY_SCORES_KEYS[0],
-                dogBreed     : BREED_OPTIONS_KEYS[0],
+                // dogBreed     : BREED_OPTIONS_KEYS[0],
+                dogBreedCategoriesIndex : -1,
                 //todo email validation
                 email : "test@test.com",
                 //indian phone number only
@@ -146,15 +147,13 @@ class ContainerForm extends React.Component{
 
         this.nameInputChange = this.nameInputChange.bind(this);
         this.weightInputChange = this.weightInputChange.bind(this);
+        this.breedSelectionChange = this.breedSelectionChange.bind(this);
+
+
 
 
 
         this.OnActivitySelectionChange = this.OnActivitySelectionChange.bind(this);
-
-
-        // this.saveQuestionAndMoveToNext = this.saveQuestionAndMoveToNext.bind(this);
-
-
 
 
 
@@ -175,21 +174,22 @@ class ContainerForm extends React.Component{
 
         this.onClickNextMultiChoiceDefault = this.onClickNextMultiChoiceDefault.bind(this);
 
+        this.onClickNextFormAhead = this.onClickNextFormAhead.bind(this);
+
+
+
+        // this is done to avoid this issue - https://github.com/spring-media/react-shadow-dom-retarget-events/issues/13
+        this.onFormSubmitAbsorb = this.onFormSubmitAbsorb.bind(this);
 
 
 
 
 
-        this.OnDogNameInformationCollection = this.OnDogNameInformationCollection.bind(this);
-        this.OnDogWeightInformationCollection = this.OnDogWeightInformationCollection.bind(this);
         this.OnGenderSelectionChange = this.OnGenderSelectionChange.bind(this);
         this.OnActivitySelectionChange = this.OnActivitySelectionChange.bind(this);
         this.OnNeuteredSelectionChange = this.OnNeuteredSelectionChange.bind(this);
         this.OnAgeSelectionChange = this.OnAgeSelectionChange.bind(this);
         this.OnBodyScoreSelectionChange = this.OnBodyScoreSelectionChange.bind(this);
-        this.OnBreedScoreSelectionChange = this.OnBreedScoreSelectionChange.bind(this);
-
-
 
 
 
@@ -205,9 +205,16 @@ class ContainerForm extends React.Component{
         this.renderPage = this.renderPage.bind(this);
         this.totalStateString = this.totalStateString.bind(this);
 
+        //setter method for breed index
+        this.setBreedIndex = this.setBreedIndex.bind(this);
+
+
 
         //getter methods for data collected.
         this.getCurrentDogName = this.getCurrentDogName.bind(this);
+        this.getDogBreedCategory = this.getDogBreedCategory.bind(this);
+
+
 
 
 
@@ -233,7 +240,7 @@ class ContainerForm extends React.Component{
 
                             <MuiStyledNameForm
                                 secondaryText = {NAME_SECONDARY_TITLE(this.state.quesOutputPool)}
-                                formOnSubmit={this.OnDogNameInformationCollection}
+                                formOnSubmit={this.onFormSubmitAbsorb}
                                 formId = {this.dogNameFormID}
                                 keyVal={this.nameInputKey}
                                 onChange = {this.nameInputChange}
@@ -255,10 +262,12 @@ class ContainerForm extends React.Component{
                 },
                 nextButtonAttribs : ()=> {
                     return {
-                        type: "submit", form: this.dogNameFormID,
-                        //todo fix bug in this can be blocked because of some other data needs to depend solely on input state
+                        type: "submit",
+                        form: this.dogNameFormID,
                         //todo check this thing ok ???
-                        disabled: this.state.quesOutputPool.dogName === ""
+                        disabled: this.state.quesOutputPool.dogName === "",
+                        onClick:this.onClickNextFormAhead
+
                     };
                 },
 
@@ -440,18 +449,8 @@ class ContainerForm extends React.Component{
                                 {WEIGHT_SECONDARY_TITLE(this.state.quesOutputPool)}
                             </MuiStyledSecondaryQuestionLabel>
 
-                            {/*<MuiStyledNameForm*/}
-                            {/*    // secondaryText = {NAME_SECONDARY_TITLE(this.state.quesOutputPool)}*/}
-                            {/*    formOnSubmit={this.OnDogWeightInformationCollection}*/}
-                            {/*    formId = {this.dogWeightFormID}*/}
-                            {/*    keyVal={this.weightInputKey}*/}
-                            {/*    onChange = {this.weightInputChange}*/}
-                            {/*    textValue = {this.state.quesOutputPool.dogWeight}>*/}
-
-                            {/*</MuiStyledNameForm>*/}
-
-
-                            {/*<form onSubmit={this.OnDogWeightInformationCollection}*/}
+                            {/*<form*/}
+                            {/*    onSubmit={this.onFormSubmitAbsorb}*/}
                             {/*      id={this.dogWeightFormID}*/}
                             {/*      key={this.weightInputKey}>*/}
                             {/*    <input*/}
@@ -466,7 +465,7 @@ class ContainerForm extends React.Component{
                             {/*</form>*/}
 
                             <MuiStyledWeightForm
-                                formOnSubmit={this.OnDogWeightInformationCollection}
+                                formOnSubmit={this.onFormSubmitAbsorb}
                                 formId = {this.dogWeightFormID}
                                 keyVal={this.weightInputKey}
                                 onChange = {this.weightInputChange}
@@ -491,7 +490,8 @@ class ContainerForm extends React.Component{
                     return {
                         type: "submit",
                         form: this.dogWeightFormID,
-                        disabled: this.state.nextBlocked
+                        disabled: this.state.quesOutputPool.dogWeight === "",
+                        onClick: this.onClickNextFormAhead
 
 
                     };
@@ -561,16 +561,21 @@ class ContainerForm extends React.Component{
                             </MuiStyledSecondaryQuestionLabel>
 
 
-                            <MultiChoiceInput
+                            <MuiStyledBreedForm
+                                dogName = {this.state.quesOutputPool.dogName}
+                                listOptions = {BREED_CATEGORIES_LIST}
+                                textValue = {
+                                    this.state.quesOutputPool.dogBreedCategoriesIndex === -1 ?
+                                        "" :
+                                        BREED_CATEGORIES_LIST[this.state.quesOutputPool.dogBreedCategoriesIndex]}
 
-                                key ={this.breedScoreMultiChoiceKey}
-                                //todo adding complex structure here with strings
-                                values = {BREED_OPTIONS_KEYS}
-                                defaultSelectionIndex = {BREED_OPTIONS_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogBreed;})}
-                                onSelectionChanged={this.OnBreedScoreSelectionChange}
-                                ref={this.currentPageRef}
-                                gridSetup ={PentaStyledButtonContainer}
-                            />
+                                onSelectionChanged = {this.breedSelectionChange}
+
+
+
+                            >
+                            </MuiStyledBreedForm>
+
 
 
 
@@ -582,11 +587,17 @@ class ContainerForm extends React.Component{
                     return {};
                 },
                 nextButtonAttribs : ()=> {
-                    return {onClick:this.onClickNextMultiChoiceDefault};
+                    return {
+                        disabled: this.state.quesOutputPool.dogBreedCategoriesIndex === -1,
+                        //todo using onclick next multi choice default here use different.
+                        onClick:this.onClickNextMultiChoiceDefault
+                    };
 
                 },
                 onGainFocus : ()=> {
                     console.log("breed question gained focus");
+                    console.log("cat index " + this.state.quesOutputPool.dogBreedCategoriesIndex);
+
 
 
                 }
@@ -602,9 +613,9 @@ class ContainerForm extends React.Component{
                         <>
 
                             <h2>End Form Results</h2>
-                            {/*<h4>Rer = {this.getTempRer()}</h4>*/}
-                            {/*<h4>Mer = {this.getTempMer()}</h4>*/}
-                            {/*<h4>CalorificCover = {this.getTempCalorificCover()}</h4>*/}
+                            <h4>Rer = {this.getTempRer()}</h4>
+                            <h4>Mer = {this.getTempMer()}</h4>
+                            <h4>CalorificCover = {this.getTempCalorificCover()}</h4>
                             <h4>Min Calories = {this.getTempCalorieMin()}</h4>
                             <h4>Max Calories = {this.getTempCalorieMax()}</h4>
 
@@ -742,13 +753,38 @@ class ContainerForm extends React.Component{
 
     }
 
+    setBreedIndex(index){
+        this.setState(
+            (state,props)=> {
+                // let ques = this.getQuestionData(state.currentQues);
+                //todo need a better solution for all this cloning.
+                //todo use immutability-helper here
+                let clonedQuesPool = cloneDeep(state.quesOutputPool);
+                clonedQuesPool.dogBreedCategoriesIndex = index;
+
+                return {quesOutputPool:clonedQuesPool};
+
+            });
+
+    }
+
+    breedSelectionChange(event,newValue){
+
+        let newBreedIndex = BREED_CATEGORIES_LIST.findIndex((ele)=>{
+            return ele === newValue;
+        });
+        console.log("new breed index is "+newBreedIndex);
+
+        this.setBreedIndex(newBreedIndex);
+
+    }
+
+
     moveToNexPage(){
-        // event.preventDefault();
-        //TODO make changes to the prev and next button as necessary for this question
-        //use dynamic props https://stackoverflow.com/questions/40868189/how-to-create-a-dynamic-prop-name-in-react
 
-        // hookupNextButton();
 
+        //use dynamic props
+        // https://stackoverflow.com/questions/40868189/how-to-create-a-dynamic-prop-name-in-react
 
         //NOTE set state function is asynchronous.
         this.setState(
@@ -788,40 +824,33 @@ class ContainerForm extends React.Component{
 
     //do click specific stuff only form submission already added
     onClickNext(event){
+        console.log("on click next fired");
 
 
 
     }
 
     onClickNextMultiChoiceDefault(event){
+        console.log("fired on click next multi choice");
         this.moveToNexPage();
 
     }
-    // onClickNextActivityMoveAhead(event){
-    //
-    //     this.moveToNexPage();
-    //
-    //
-    // }
-    // onClickNextNeuteredMoveAhead(event){
-    //
-    //     this.moveToNexPage();
-    //
-    //
-    // }
-    // onClickNextAgeMoveAhead(event){
-    //
-    //     this.moveToNexPage();
-    //
-    // }
-    // onClickNextBodyScoreAhead(event){
-    //
-    //     this.moveToNexPage();
-    //
-    // }
-    // onClickNextBreedAhead(event){
-    //     this.moveToNexPage();
-    // }
+
+    onClickNextFormAhead(event){
+        console.log("fired on click next weight ahead");
+        this.moveToNexPage();
+
+
+
+    }
+    onFormSubmitAbsorb(event){
+
+        //absorb the page refresh event on form submit.
+        event.preventDefault();
+
+    }
+
+
 
 
     onClickPrev(event){
@@ -829,62 +858,6 @@ class ContainerForm extends React.Component{
         // console.log("clicked prev");
     }
 
-    //dog name information question handler
-    OnDogNameInformationCollection(event){
-
-
-
-
-
-        event.preventDefault();
-
-        event.persist();
-        // console.log("target value is "+event.target[0].value.toString());
-        // console.log("target value is "+event.target.mainInput.value);
-
-
-        this.setState(
-            (state,props)=> {
-                // let ques = this.getQuestionData(state.currentQues);
-                //todo need a better solution for all this cloning.
-                let clonedQuesPool = cloneDeep(state.quesOutputPool);
-                clonedQuesPool.dogName = event.target.mainInput.value;
-
-
-                return {quesOutputPool:clonedQuesPool};
-
-            });
-
-
-
-        this.moveToNexPage();
-
-
-    }
-    OnDogWeightInformationCollection(event){
-        // console.log("here in weight collection");
-        // console.log("the value of weight is "+ event.target.mainInput.value);
-
-        event.preventDefault();
-        event.persist();
-
-        this.setState(
-            (state,props)=> {
-                // let ques = this.getQuestionData(state.currentQues);
-
-                let clonedQuesPool = cloneDeep(state.quesOutputPool);
-                clonedQuesPool.dogWeight = event.target.mainInput.value;
-
-                return {quesOutputPool:clonedQuesPool};
-
-            });
-
-
-
-        this.moveToNexPage();
-
-
-    }
 
 
     OnGenderSelectionChange(arr){
@@ -992,24 +965,6 @@ class ContainerForm extends React.Component{
 
     }
 
-    OnBreedScoreSelectionChange(arr){
-
-        for (let i =0 ;i< arr.length;i++ ){
-            //first selection match algorithm
-            if(arr[i] === 1){
-
-                this.setState(
-                    (state,props)=> {
-                        let newPool = cloneDeep(state.quesOutputPool);
-                        newPool.dogBreed = BREED_OPTIONS_KEYS[i];
-                        return {quesOutputPool : newPool};
-                    }
-                );
-                return;
-            }
-        }
-
-    }
 
 
 
@@ -1034,6 +989,20 @@ class ContainerForm extends React.Component{
 
     }
 
+    getDogBreedCategory(){
+
+        const dBCI = this.state.quesOutputPool.dogBreedCategoriesIndex;
+        if(dBCI !== -1){
+            return BREED_CATEGORIES_MAPPED[BREED_CATEGORIES_LIST[dBCI]];
+        }
+        else{
+            //returning default breed
+            //todo discuss this default based on implementation
+            return BREED_OPTIONS_KEYS[0];
+        }
+
+    }
+
     totalStateString(){
 
         const dn = this.state.quesOutputPool.dogName;
@@ -1044,13 +1013,10 @@ class ContainerForm extends React.Component{
         const dne = this.state.quesOutputPool.dogNeutered;
         const dag = this.state.quesOutputPool.dogAge;
         const dBc = this.state.quesOutputPool.dogBodyScore;
-        const dBr = this.state.quesOutputPool.dogBreed;
 
 
 
-
-
-        return dn +" "+dG+" " + dW + " "+dA + " "+ dne +" "+dag +" "+dBc+" "+dBr;
+        return dn +" "+dG+" " + dW + " "+dA + " "+ dne +" "+dag +" "+dBc+" "+this.getDogBreedCategory(this.state.quesOutputPool.dogBreedCategoriesIndex);
 
 
 
@@ -1133,6 +1099,7 @@ class ContainerForm extends React.Component{
                         </MuiButton>
 
 
+
                         {/*todo move this inline style out*/}
                         <div style = {
                             {
@@ -1164,7 +1131,7 @@ class ContainerForm extends React.Component{
                 NEUTERED_OPTIONS[this.state.quesOutputPool.dogNeutered]*
                 AGE_OPTIONS[this.state.quesOutputPool.dogAge]*
                 BODY_SCORES[this.state.quesOutputPool.dogBodyScore]*
-                BREED_OPTIONS[this.state.quesOutputPool.dogBreed]);
+                BREED_OPTIONS[this.getDogBreedCategory()]);
         return this.temp_energy_requirements_mer;
 
 

@@ -8,6 +8,10 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Card from '@material-ui/core/Card';
 import Paper from "@material-ui/core/Paper";
 import MuiStyledSecondaryQuestionLabel from "./SecondaryQuestionLabel";
+import Autocomplete from '@material-ui/lab/Autocomplete';
+
+
+
 
 
 const useStyles = makeStyles((theme)=>({
@@ -55,7 +59,7 @@ const useStyles = makeStyles((theme)=>({
 
 
 
-export default function MuiStyledNameForm(props){
+export function MuiStyledNameForm(props){
     const classes = useStyles();
     return (
 
@@ -68,6 +72,8 @@ export default function MuiStyledNameForm(props){
 
                 >
                     <Grid item xs={false} sm={3}/>
+
+                    {/*made this item container just for the flex box use*/}
                     <Grid item xs={12} sm={6} container>
 
                         <div className={classes.grow}/>
@@ -154,12 +160,6 @@ export function MuiStyledWeightForm(props){
 
                         <Paper>
 
-                            {/*<MuiTypography*/}
-                            {/*    classes={{root:classes.header}}*/}
-                            {/*    // align="center"*/}
-                            {/*    variant="h6">*/}
-                            {/*    {props.secondaryText}*/}
-                            {/*</MuiTypography>*/}
 
                             <TextField
                                 fullWidth={true}
@@ -197,4 +197,87 @@ export function MuiStyledWeightForm(props){
         </div>
 
     );
+}
+
+
+export function MuiStyledBreedForm(props) {
+    const classes = useStyles();
+    return (
+
+        <div className={classes.root}>
+            <form id ={props.formId} key ={props.keyVal} onSubmit={props.formOnSubmit}>
+
+                <Grid container
+                      direction="row"
+                      justify="center"
+
+                >
+                    <Grid item xs={false} sm={3}/>
+                    <Grid item xs={12} sm={6} container>
+
+                        <div className={classes.grow}/>
+
+                        <Paper>
+
+
+
+                            <Autocomplete
+                                //todo set this id from outside if needed
+                                id="combo-box-demo"
+                                value = {props.textValue}
+                                options={props.listOptions}
+                                getOptionLabel={(option) => option}
+                                onChange={props.onSelectionChanged}
+                                //todo inline styl here ???
+                                style={{ width: 300 }}
+                                renderInput={(params) =>
+                                    <TextField
+                                        {...params}
+
+                                        placeholder={props.dogName + "'s breed"}
+                                        variant="outlined"
+
+
+                                    />}
+
+
+                            />
+                            {/*<TextField*/}
+                            {/*    fullWidth={true}*/}
+                            {    /*Logic Fields*/ }
+                            {/*    type="number"*/}
+                            {/*    step="0.01"*/}
+                            {/*    variant="outlined"*/}
+                            {/*    onChange={props.onChange}*/}
+                            {/*    placeholder="weight in kg"*/}
+                            {/*    name="mainInput"*/}
+                            {/*    value= {props.textValue}*/}
+                            {/*    className={classes.textBox}*/}
+
+                            {/*>*/}
+                            {/*</TextField>*/}
+
+
+
+                        </Paper>
+                        <div className={classes.grow}/>
+
+
+                        {/*</Grid>*/}
+
+
+                    </Grid>
+                    <Grid item xs={false} sm={3}/>
+
+                </Grid>
+
+
+
+
+            </form>
+        </div>
+
+    );
+
+
 }
