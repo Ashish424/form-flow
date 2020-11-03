@@ -1138,6 +1138,9 @@ class ContainerForm extends React.Component{
 
     // this.state.currentQues
     render() {
+
+        console.log("dev build "+isDev());
+
         const currentPage = this.getPageData(this.state.currentQues);
         const progressScore = ((this.state.currentQues + 1) / this.pages.length) * 100;
 
