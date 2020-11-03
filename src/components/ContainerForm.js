@@ -626,13 +626,17 @@ class ContainerForm extends React.Component{
                             {
                                 (()=>{
                                     if(isDev()){
-                                        return (<>
-                                            <h2>End Form Results</h2>
-                                            <h4>Rer = {this.getTempRer()}</h4>
-                                            <h4>Mer = {this.getTempMer()}</h4>
-                                            <h4>CalorificCover = {this.getTempCalorificCover()}</h4>
 
-                                        </>);
+
+                                        return (<></>);
+                                        //todo fix this later
+                                        // return (<>
+                                        //     <h2>End Form Results</h2>
+                                        //     <h4>Rer = {this.getTempRer()}</h4>
+                                        //     <h4>Mer = {this.getTempMer()}</h4>
+                                        //     <h4>CalorificCover = {this.getTempCalorificCover()}</h4>
+                                        //
+                                        // </>);
 
                                     }
                                     else{
@@ -1204,7 +1208,9 @@ class ContainerForm extends React.Component{
                     (() => {
                         if(isDev()){
                             return (
-                                <p>value of all ques output is {this.totalStateString()}</p>
+                                //todo fix this later
+                                // <p>value of all ques output is {this.totalStateString()}</p>
+                                <> </>
 
                             );
                         }
