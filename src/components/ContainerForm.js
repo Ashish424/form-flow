@@ -265,48 +265,6 @@ class ContainerForm extends React.Component{
                 page : ()=>{
                     return (
                         <>
-                            <MuiStyledPrimaryQuestion align="center" variant="h4">{GENDER_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
-
-                            <MuiStyledSecondaryQuestionLabel align="center" variant="h6">
-                                {GENDER_SECONDARY_TITLE(this.state.quesOutputPool)}
-                            </MuiStyledSecondaryQuestionLabel>
-
-                            <MultiChoiceInput
-                                key ={this.genderMultiChoiceKey}
-                                values = {POSSIBLE_GENDERS_KEYS}
-                                defaultSelectionIndex = {POSSIBLE_GENDERS_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogGender;})}
-                                onSelectionChanged={this.OnGenderSelectionChange}
-                                ref={this.currentPageRef}
-                                // gridSetup ={DoubleStyledButtonContainer}
-                                gridSetup ={StandardStyleContainer}
-
-                            />
-
-
-
-                        </>);
-
-
-                },
-                prevButtonAttribs : ()=> {
-                    return {};
-                },
-                nextButtonAttribs : ()=> {
-                    return {onClick:this.onClickNextMultiChoiceDefault};
-
-                },
-                onGainFocus : ()=> {
-                    console.log("gender question gained focus");
-
-
-                }
-
-            },
-            {
-
-                page : ()=>{
-                    return (
-                        <>
                             <MuiStyledPrimaryQuestion align="center" variant="h4">{AGE_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
                             <MuiStyledSecondaryQuestionLabel align="center" variant="h6">
                                 {AGE_SECONDARY_TITLE(this.state.quesOutputPool)}
@@ -365,7 +323,146 @@ class ContainerForm extends React.Component{
                 }
 
             },
+            {
 
+                page : ()=>{
+                    return (
+                        <>
+                            <MuiStyledPrimaryQuestion align="center" variant="h4">{BREED_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
+                            <MuiStyledSecondaryQuestionLabel align="center" variant="h6">
+                                {BREED_SECONDARY_TITLE(this.state.quesOutputPool)}
+                            </MuiStyledSecondaryQuestionLabel>
+
+
+
+
+                            <MuiStyledBreedForm
+                                formOnSubmit={this.onFormSubmitAbsorb}
+                                formId = {this.dogBreedFormID}
+                                keyVal={this.breedSelectKey}
+
+                                dogName = {this.state.quesOutputPool.dogName}
+                                listOptions = {BREED_CATEGORIES_LIST}
+                                textValue = {
+                                    this.state.quesOutputPool.dogBreedCategoriesIndex === -1 ?
+                                        "" :
+                                        BREED_CATEGORIES_LIST[this.state.quesOutputPool.dogBreedCategoriesIndex]}
+
+                                onSelectionChanged = {this.breedSelectionChange}
+
+                            >
+                            </MuiStyledBreedForm>
+
+
+
+                        </>);
+
+
+                },
+                prevButtonAttribs : ()=> {
+                    return {};
+                },
+                nextButtonAttribs : ()=> {
+                    return {
+
+                        type: "submit",
+                        form: this.dogBreedFormID,
+                        disabled: this.state.quesOutputPool.dogBreedCategoriesIndex === -1,
+                        //todo using onclick next multi choice default here use different.
+                        onClick:this.onClickNextMultiChoiceDefault
+                    };
+
+                },
+                onGainFocus : ()=> {
+                    console.log("breed question gained focus");
+                    console.log("cat index " + this.state.quesOutputPool.dogBreedCategoriesIndex);
+
+
+
+                }
+
+            },
+            {
+
+                page : ()=>{
+                    return (
+                        <>
+                            <MuiStyledPrimaryQuestion align="center" variant="h4">{NEUTERED_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
+                            <MuiStyledSecondaryQuestionLabel align="center" variant="h6">
+                                {NEUTERED_SECONDARY_TITLE(this.state.quesOutputPool)}
+                            </MuiStyledSecondaryQuestionLabel>
+
+                            <MultiChoiceInput
+                                key ={this.neuteredMultiChoiceKey}
+                                values = {NEUTERED_OPTIONS_KEYS}
+                                defaultSelectionIndex = {NEUTERED_OPTIONS_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogNeutered;})}
+                                onSelectionChanged={this.OnNeuteredSelectionChange}
+                                ref={this.currentPageRef}
+                                gridSetup ={StandardStyleContainer}
+                            />
+
+
+
+                        </>);
+
+
+                },
+                prevButtonAttribs : ()=> {
+                    return {};
+                },
+                nextButtonAttribs : ()=> {
+                    return {onClick:this.onClickNextMultiChoiceDefault};
+
+                },
+                onGainFocus : ()=> {
+                    console.log("neutered question gained focus");
+
+
+                }
+
+            },
+            {
+
+                page : ()=>{
+                    return (
+                        <>
+                            <MuiStyledPrimaryQuestion align="center" variant="h4">{GENDER_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
+
+                            <MuiStyledSecondaryQuestionLabel align="center" variant="h6">
+                                {GENDER_SECONDARY_TITLE(this.state.quesOutputPool)}
+                            </MuiStyledSecondaryQuestionLabel>
+
+                            <MultiChoiceInput
+                                key ={this.genderMultiChoiceKey}
+                                values = {POSSIBLE_GENDERS_KEYS}
+                                defaultSelectionIndex = {POSSIBLE_GENDERS_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogGender;})}
+                                onSelectionChanged={this.OnGenderSelectionChange}
+                                ref={this.currentPageRef}
+                                // gridSetup ={DoubleStyledButtonContainer}
+                                gridSetup ={StandardStyleContainer}
+
+                            />
+
+
+
+                        </>);
+
+
+                },
+                prevButtonAttribs : ()=> {
+                    return {};
+                },
+                nextButtonAttribs : ()=> {
+                    return {onClick:this.onClickNextMultiChoiceDefault};
+
+                },
+                onGainFocus : ()=> {
+                    console.log("gender question gained focus");
+
+
+                }
+
+            },
             {
 
                 page : ()=>{
@@ -448,7 +545,6 @@ class ContainerForm extends React.Component{
                 }
 
             },
-
             {
 
                 page : ()=>{
@@ -514,106 +610,10 @@ class ContainerForm extends React.Component{
 
             },
 
-            {
-
-                page : ()=>{
-                    return (
-                        <>
-                            <MuiStyledPrimaryQuestion align="center" variant="h4">{NEUTERED_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
-                            <MuiStyledSecondaryQuestionLabel align="center" variant="h6">
-                                {NEUTERED_SECONDARY_TITLE(this.state.quesOutputPool)}
-                            </MuiStyledSecondaryQuestionLabel>
-
-                            <MultiChoiceInput
-                                key ={this.neuteredMultiChoiceKey}
-                                values = {NEUTERED_OPTIONS_KEYS}
-                                defaultSelectionIndex = {NEUTERED_OPTIONS_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogNeutered;})}
-                                onSelectionChanged={this.OnNeuteredSelectionChange}
-                                ref={this.currentPageRef}
-                                gridSetup ={StandardStyleContainer}
-                            />
-
-
-
-                        </>);
-
-
-                },
-                prevButtonAttribs : ()=> {
-                    return {};
-                },
-                nextButtonAttribs : ()=> {
-                    return {onClick:this.onClickNextMultiChoiceDefault};
-
-                },
-                onGainFocus : ()=> {
-                    console.log("neutered question gained focus");
-
-
-                }
-
-            },
-
-
-            {
-
-                page : ()=>{
-                    return (
-                        <>
-                            <MuiStyledPrimaryQuestion align="center" variant="h4">{BREED_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
-                            <MuiStyledSecondaryQuestionLabel align="center" variant="h6">
-                                {BREED_SECONDARY_TITLE(this.state.quesOutputPool)}
-                            </MuiStyledSecondaryQuestionLabel>
 
 
 
 
-                            <MuiStyledBreedForm
-                                formOnSubmit={this.onFormSubmitAbsorb}
-                                formId = {this.dogBreedFormID}
-                                keyVal={this.breedSelectKey}
-
-                                dogName = {this.state.quesOutputPool.dogName}
-                                listOptions = {BREED_CATEGORIES_LIST}
-                                textValue = {
-                                    this.state.quesOutputPool.dogBreedCategoriesIndex === -1 ?
-                                        "" :
-                                        BREED_CATEGORIES_LIST[this.state.quesOutputPool.dogBreedCategoriesIndex]}
-
-                                onSelectionChanged = {this.breedSelectionChange}
-
-                            >
-                            </MuiStyledBreedForm>
-
-
-
-                        </>);
-
-
-                },
-                prevButtonAttribs : ()=> {
-                    return {};
-                },
-                nextButtonAttribs : ()=> {
-                    return {
-
-                        type: "submit",
-                        form: this.dogBreedFormID,
-                        disabled: this.state.quesOutputPool.dogWeight === "",
-                        //todo using onclick next multi choice default here use different.
-                        onClick:this.onClickNextMultiChoiceDefault
-                    };
-
-                },
-                onGainFocus : ()=> {
-                    console.log("breed question gained focus");
-                    console.log("cat index " + this.state.quesOutputPool.dogBreedCategoriesIndex);
-
-
-
-                }
-
-            },
 
 
 
@@ -625,11 +625,7 @@ class ContainerForm extends React.Component{
 
                             {
                                 (()=>{
-                                    if(!isDev()){
-                                        return (<></>);
-
-                                    }
-                                    else{
+                                    if(isDev()){
                                         return (<>
                                             <h2>End Form Results</h2>
                                             <h4>Rer = {this.getTempRer()}</h4>
@@ -637,6 +633,13 @@ class ContainerForm extends React.Component{
                                             <h4>CalorificCover = {this.getTempCalorificCover()}</h4>
 
                                         </>);
+
+                                    }
+                                    else{
+
+
+                                        return (<></>);
+
 
                                     }
                                 })()
@@ -1196,15 +1199,17 @@ class ContainerForm extends React.Component{
 
                 {
                     (() => {
-                        if(!isDev()){
-                            return (<> </>);
-
-                        }
-                        else{
+                        if(isDev()){
                             return (
                                 <p>value of all ques output is {this.totalStateString()}</p>
 
                             );
+                        }
+                        else{
+
+
+                            return (<> </>);
+
 
                         }
                     })()
