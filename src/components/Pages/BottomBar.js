@@ -1,17 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+
 import { withStyles } from '@material-ui/core/styles';
-import MuiTypography from "@material-ui/core/Typography";
 import MuiAppBar from "@material-ui/core/AppBar"
 
 
-
-//todo sync style of both primary and secondary questions.
-// #21CBF3
-const styles = {
+const styles = (theme)=>({
     root: {
 
         width : "100%",
+
         top : 'auto',
         bottom :0,
         // height : 12,
@@ -34,19 +31,19 @@ const styles = {
         // color: 'white',
 
         // padding: '0 30px',
-        //todo use theme spacing here for consistency
-        margin: "16px 0px 0px 0px",
-        padding: '9px 9px 9px 9px',
 
-    },
-    grow: {
-        flexGrow: 1
-    },
+
+        // margin: `${theme.spacing(2)}px 0px 0px 0px`,
+        padding: `${theme.spacing(1)}px ${theme.spacing(1)}px ${theme.spacing(1)}px ${theme.spacing(1)}px`,
 
 
 
+    }
 
-};
+
+
+});
+
 
 
 function MuiStyledButtonBarRaw(props) {
@@ -65,13 +62,6 @@ function MuiStyledButtonBarRaw(props) {
 
 }
 
-// MyButtonRaw.propTypes = {
-//     /**
-//      * Override or extend the styles applied to the component.
-//      */
-//     classes: PropTypes.object.isRequired,
-//     color: PropTypes.oneOf(['blue', 'red']).isRequired,
-// };
 
 const MuiStyledButtonBar = withStyles(styles)(MuiStyledButtonBarRaw);
 export default MuiStyledButtonBar;

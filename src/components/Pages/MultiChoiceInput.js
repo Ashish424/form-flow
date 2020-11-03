@@ -2,7 +2,7 @@ import React from 'react';
 import DivButton from "../DivButton";
 import cloneDeep from 'lodash/cloneDeep';
 
-import MuiStyledButtonContainer, {ClassWrapped, TripleStyledButtonContainer} from "./ButtonContainer";
+import MuiStyledButtonContainer from "./ButtonContainer";
 
 class MultiChoiceInput extends React.Component{
 
@@ -122,8 +122,8 @@ class MultiChoiceInput extends React.Component{
 
 
     render() {
-        {/*nice technique of passing a container component
-        composition rocks :)*/}
+        /*nice technique of passing a container component
+        composition rocks :)*/
         const GridSetup = this.props.gridSetup;
 
         return (
@@ -137,14 +137,13 @@ class MultiChoiceInput extends React.Component{
 
                     /*todo using values array here breaks abstraction.It would be better if only the length is passed instead of values array so the content
                     so that the content of children can be set in a better way. */
-                    //TODO use better index and ids.
+                    //TODO use better ids.
                     return (
                         <DivButton selected={this.state.selectionState[index]}
                                    id={index.toString()}
                                    key={index}
                                    handler={this.onClickHandler}>
                             {this.props.values[index]}
-                            {/*<p id="test">{this.props.values[index]}</p>*/}
 
 
                         </DivButton>);

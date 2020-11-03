@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import MuiProgressbar from "@material-ui/core/LinearProgress";
@@ -66,22 +65,7 @@ function MuiStyledProgressBarRaw(props) {
     {...other} />;
 }
 
-// MyButtonRaw.propTypes = {
-//     /**
-//      * Override or extend the styles applied to the component.
-//      */
-//     classes: PropTypes.object.isRequired,
-//     color: PropTypes.oneOf(['blue', 'red']).isRequired,
-// };
 
 const MuiStyledProgressBar = withStyles(styles)(MuiStyledProgressBarRaw);
 export default MuiStyledProgressBar;
 
-// export default function AdaptingHOC() {
-//     return (
-//         <React.Fragment>
-//             <MyButton disabled={true} color="red">Red</MyButton>
-//             <MyButton color="blue">Blue</MyButton>
-//         </React.Fragment>
-//     );
-// }

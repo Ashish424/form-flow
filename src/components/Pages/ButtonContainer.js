@@ -4,8 +4,7 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {useTheme} from "@material-ui/core/styles";
-
-import { yellow,red,green,blue } from '@material-ui/core/colors';
+import FlexDiv from "../FlexDiv";
 
 const useStyles = makeStyles((theme)=>({
         root: {
@@ -20,45 +19,22 @@ const useStyles = makeStyles((theme)=>({
 
         },
 
-        grow : {
-
-            flexGrow : 1
-        },
-
-        //todo move this to a root level @ theme
-        grow1:{
-            flexGrow: 1
-
-        },
-        grow3:{
-            flexGrow: 3
-
-        },
-
-        grow5:{
-            flexGrow: 7
-
-        },
-
-
-        testPaperFlex : {
+        PaperFlex : {
             display : "flex",
             width : "100%",
-
-
 
         },
 
         topSpacerDiv : {
           width : "100%",
-          // minHeight : "20px",
 
 
-          //  xs sm md lg
+
+
+          //the order of these is important because css
+          //applies the latest rule only.
           [theme.breakpoints.down('lg')]: {
               minHeight : "20px",
-
-
               // backgroundColor: blue[500],
           },
           [theme.breakpoints.down('md')]: {
@@ -78,6 +54,7 @@ const useStyles = makeStyles((theme)=>({
 
           },
         },
+    //todo this needs to move out like flex div.
         midDivs : {
           height : "100%",
           minWidth : "10px"
@@ -98,13 +75,9 @@ export default function MuiStyledButtonContainer(props) {
 
 
 
-    // console.log("children here "+ props.children.length);
-
     const children = props.children;
 
-    const childrenCount = React.Children.count(children);
-    // console.log("default matches "+matches.toString())
-
+    // const childrenCount = React.Children.count(children);
 
     return(
     //todo make this gird container work for better accessibility on mobile phone.
@@ -234,7 +207,7 @@ MuiStyledButtonContainer.defaultProps = {
 
 
 
-
+//todo remove these double,triple,quad,penta if useless.
 export function DoubleStyledButtonContainer(props){
 
 
@@ -362,8 +335,8 @@ export function PentaStyledButtonContainer(props){
 }
 
 
-//todo using flex for the positioning here in this iteration
-export function TempDoubleStyleContainer(props){
+//using flex for the positioning here in this iteration
+export function StandardStyleContainer(props){
     const classes = useStyles();
 
 
@@ -378,32 +351,29 @@ export function TempDoubleStyleContainer(props){
 
     return(
 
-        //todo make this gird container work for better accessibility on mobile phone.
-        //todo if use media query hook is not worth the effort add a div with flex using custom classes.
-
         <>
 
 
-                <div className={classes.topSpacerDiv}></div>
+                <div className={classes.topSpacerDiv}/>
                 <Paper elevation={3} variant="outlined" square classes={
-                    { root:classes.testPaperFlex
+                    { root:classes.PaperFlex
 
                     }
                 }>
 
-                    <div className={classes.grow5}></div>
+                    <FlexDiv grow={7}/>
+
 
 
                             {
                                 React.Children.map(children,(child,index)=>{
 
-                                    //todo improve this logic structure
                                     if(index !== childrenCount-1){
                                         return(
 
                                             <>
                                                 {child}
-                                                <div className={classes.midDivs}></div>
+                                                <div className={classes.midDivs}/>
                                             </>
                                         );
                                     }
@@ -428,7 +398,9 @@ export function TempDoubleStyleContainer(props){
 
 
 
-                    <div className={classes.grow5}></div>
+
+                    <FlexDiv grow={7}/>
+
 
 
 
@@ -444,4 +416,6 @@ export function TempDoubleStyleContainer(props){
 
 
 }
+
+
 

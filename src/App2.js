@@ -8,8 +8,8 @@ import ContainerForm from "./components/ContainerForm";
 
 import MuiAppBar from "@material-ui/core/AppBar"
 import {createMuiTheme,ThemeProvider} from "@material-ui/core/styles";
-import green from "@material-ui/core/colors/green";
 import MuiTypography from "@material-ui/core/Typography";
+import blue from "@material-ui/core/colors/blue";
 
 
 class App2 extends React.Component{
@@ -33,12 +33,13 @@ class App2 extends React.Component{
 
 
                 },
-            }
+            },
+            test : blue[500]
             //default value is 8
             // spacing : 8
 
         })
-        console.log("theme spacing"+this.theme.spacing(1));
+        // console.log("theme spacing"+this.theme.spacing(1));
 
     }
 

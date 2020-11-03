@@ -1,24 +1,37 @@
 import React from 'react';
 
 import MuiButton from "@material-ui/core/Button";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+
+
+const useStyles = makeStyles({
+    root : {
+        minWidth : "100px",
+        //todo make this border radius responsive
+        borderRadius: "5em"
+
+    }
+});
+
+
+function MuiStyledDivButton(props){
+    const classes = useStyles();
+
+    return (
+
+        <MuiButton {...props} classes={
+            {root : classes.root}
+        }>
+
+        </MuiButton>
+
+    );
+
+
+}
 
 
 class DivButton extends React.Component{
-
-    highLightedStyle = {
-        backgroundColor:"#FF00FF",
-        // width:100,
-        // height:100
-
-
-    };
-    normalStyle = {
-        // backgroundColor: "red",
-        // width:100,
-        // height:100
-
-    }
-
     constructor(props) {
         super(props);
 
@@ -35,12 +48,11 @@ class DivButton extends React.Component{
     }
 
 
-
     render() {
         return (
 
 
-            <MuiButton
+            <MuiStyledDivButton
 
                 id={this.props.id}
                 role="button"
@@ -48,50 +60,21 @@ class DivButton extends React.Component{
                 color={this.props.selected ? "primary":"secondary"}
                 onClick= {this._onClick}
 
-                //todo remove inline styles
-                style={
-
-                    {
-                        minWidth : "100px",
-
-                        //todo make this border radius responsive
-                        borderRadius: "5em"
-                    }
-                }
                        variant="contained"
-                //todo this
+
 
             >
 
                 {this.props.children}
-            </MuiButton>
+            </MuiStyledDivButton>
 
-            //todo for reference only remove this later
-            // <div
-
-            // id={this.props.id}
-            //
-            // role="button"
-            // style={
-            //     this.props.selected ? this.highLightedStyle : this.normalStyle
-            // }
-            //
-            // onClick= {this._onClick}
-            //        /*title={dogActivity} key={dogActivity} onClick = {this.OnDogActivityLevelCollection}>*/
-            //     /*{dogActivity}*/
-            // >
-            //     {this.props.children}
-            // </div>
         );
     }
 
     _onClick(event){
 
-        console.log("current target event "+event.currentTarget.id);
-        console.log("target event "+event.target);
-
-        // this.setState({currentStyle : this.highLightedStyle});
-
+        // console.log("current target event "+event.currentTarget.id);
+        // console.log("target event "+event.target);
         // console.log("name is " +this.state.name);
         this.props.handler(event.currentTarget.id);
 

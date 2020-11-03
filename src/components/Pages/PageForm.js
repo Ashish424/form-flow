@@ -1,14 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import MuiTypography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import Card from '@material-ui/core/Card';
 import Paper from "@material-ui/core/Paper";
-import MuiStyledSecondaryQuestionLabel from "./SecondaryQuestionLabel";
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import FlexDiv from "../FlexDiv";
 
 
 
@@ -35,6 +32,7 @@ const useStyles = makeStyles((theme)=>({
 
     },
     textBox: {
+        // padding : "0px 0px 10px 10px"
         // "& $div": {
         //     justifyContent: "center",
         //     "& $input": {
@@ -54,7 +52,44 @@ const useStyles = makeStyles((theme)=>({
     grow: {
         flexGrow: 1
     },
-})
+    topSpacerDiv : {
+        width : "100%",
+
+
+
+
+        //the order of these is important because css
+        //applies the latest rule only.
+        [theme.breakpoints.down('lg')]: {
+            minHeight : "20px",
+            // backgroundColor: blue[500],
+        },
+        [theme.breakpoints.down('md')]: {
+            // backgroundColor: red[500],
+            minHeight : "40px",
+
+
+        },
+        [theme.breakpoints.down('sm')]: {
+            // backgroundColor: green[500],
+            minHeight : "60px",
+
+        },
+        [theme.breakpoints.down('xs')]: {
+            // backgroundColor: yellow[500],
+            minHeight : "80px",
+
+        },
+    },
+
+    //todo create a class for spacer div.
+    midDivs : {
+        height : "100%",
+        minWidth : "40px"
+
+    }
+
+    })
 );
 
 
@@ -139,8 +174,6 @@ export function MuiStyledNameForm(props){
 
     );
 }
-
-
 export function MuiStyledWeightForm(props){
     const classes = useStyles();
     return (
@@ -198,8 +231,6 @@ export function MuiStyledWeightForm(props){
 
     );
 }
-
-
 export function MuiStyledBreedForm(props) {
     const classes = useStyles();
     return (
@@ -242,20 +273,6 @@ export function MuiStyledBreedForm(props) {
 
 
                             />
-                            {/*<TextField*/}
-                            {/*    fullWidth={true}*/}
-                            {    /*Logic Fields*/ }
-                            {/*    type="number"*/}
-                            {/*    step="0.01"*/}
-                            {/*    variant="outlined"*/}
-                            {/*    onChange={props.onChange}*/}
-                            {/*    placeholder="weight in kg"*/}
-                            {/*    name="mainInput"*/}
-                            {/*    value= {props.textValue}*/}
-                            {/*    className={classes.textBox}*/}
-
-                            {/*>*/}
-                            {/*</TextField>*/}
 
 
 
@@ -276,6 +293,85 @@ export function MuiStyledBreedForm(props) {
 
             </form>
         </div>
+
+    );
+
+
+}
+export function MuiStyledAgeForm(props) {
+    const classes = useStyles();
+    return (
+
+        <>
+            <form id ={props.formId} key ={props.keyVal} onSubmit={props.formOnSubmit}>
+
+
+                    <div className={classes.topSpacerDiv}/>
+                        {/*todo inline style remove later*/}
+                        <Paper style={
+                            {
+                            "display": "flex",
+                            "width": "100%",
+                            }
+                        }
+                        >
+
+
+                            <FlexDiv grow={1}/>
+
+                            <TextField
+                                fullWidth={false}
+                            // Logic Fields
+                                type="number"
+                                // step="0.01"
+                                variant="outlined"
+                                onChange={props.onChange}
+                                // placeholder="years"
+                                label="years"
+                                //todo pass the name from props
+                                name={props.years_name}
+                                //todo limit years
+                                value= {props.years_value}
+                                className={classes.textBox}
+
+
+                            />
+
+                            {/*todo create a class for mid divs*/}
+                            <div className={classes.midDivs}/>
+
+                            <TextField
+                                fullWidth={false}
+                            // Logic Fields
+                                type="number"
+                                step="0.01"
+                                variant="outlined"
+                                onChange={props.onChange}
+                                // placeholder="months"
+                                label="months"
+                                name={props.months_name}
+
+                                //todo limit months
+                                value= {props.months_value}
+                                className={classes.textBox}
+
+                            />
+
+
+                            <FlexDiv grow={1}/>
+
+
+
+                        </Paper>
+
+
+
+
+
+
+
+            </form>
+        </>
 
     );
 

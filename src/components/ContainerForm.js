@@ -3,13 +3,14 @@ import cloneDeep from 'lodash/cloneDeep';
 
 
 
+
 import MultiChoiceInput from "./Pages/MultiChoiceInput";
 import {
     AGE_CALORIFIC_OPTIONS,
     AGE_OPTIONS,
     AGE_OPTIONS_KEYS,
     BODY_SCORES,
-    BODY_SCORES_KEYS, BREED_CATEGORIES_LIST, BREED_CATEGORIES_MAPPED,
+    BODY_SCORES_KEYS,
     BREED_OPTIONS,
     BREED_OPTIONS_KEYS,
     NEUTERED_OPTIONS,
@@ -18,7 +19,8 @@ import {
     POSSIBLE_ACTIVITIES_CALORIE_RANGE_MULTIPLIER_MAX,
     POSSIBLE_ACTIVITIES_CALORIE_RANGE_MULTIPLIER_MIN,
     POSSIBLE_ACTIVITIES_KEYS,
-    POSSIBLE_GENDERS_KEYS
+    POSSIBLE_GENDERS_KEYS,
+    BREED_CATEGORIES_LIST, BREED_CATEGORIES_MAPPED, getLowerKey, getUpperKey,
 } from "../StaticData";
 import {
     ACTIVITY_PRIMARY_TITLE,
@@ -33,10 +35,11 @@ import {
     GENDER_SECONDARY_TITLE,
     NAME_PRIMARY_TITLE,
     NAME_SECONDARY_TITLE,
-    NEUTERED_PRIMARY_TITLE,
+    NEUTERED_PRIMARY_TITLE, NEUTERED_SECONDARY_TITLE,
     // NEUTERED_SECONDARY_TITLE,
     WEIGHT_PRIMARY_TITLE,
-    WEIGHT_SECONDARY_TITLE
+    WEIGHT_SECONDARY_TITLE,
+
 } from "../StaticText";
 
 
@@ -46,49 +49,22 @@ import MuiStyledPrimaryQuestion from "./Pages/PrimaryQuestionLabel";
 import MuiStyledSecondaryQuestionLabel from "./Pages/SecondaryQuestionLabel";
 import MuiStyledButtonBar from "./Pages/BottomBar";
 
-import MuiAppBar from "@material-ui/core/AppBar";
-
-
-
-
-import TextField from "@material-ui/core/TextField";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-
-
 import MuiToolBar from "@material-ui/core/Toolbar"
 import MuiButton from "@material-ui/core/Button";
-import {withStyles} from "@material-ui/core/styles";
-import {MuiStyledBreedForm, MuiStyledNameForm, MuiStyledWeightForm} from "./Pages/PageForm";
+
+import {MuiStyledAgeForm, MuiStyledBreedForm, MuiStyledNameForm, MuiStyledWeightForm} from "./Pages/PageForm";
 import MuiStyledButtonContainer, {
-    DoubleStyledButtonContainer, PentaStyledButtonContainer, QuadStyledButtonContainer, TempDoubleStyleContainer,
+    // DoubleStyledButtonContainer, PentaStyledButtonContainer, QuadStyledButtonContainer,
+    StandardStyleContainer,
     TripleStyledButtonContainer
 } from "./Pages/ButtonContainer";
+import isDev from "../Environment";
+import FlexDiv from "./FlexDiv";
 
 
-//todo test here remove later move to the theme level
-const styles = {
-    root: {
-        flexGrow: 1,
-    },
-
-
-};
-
-function getTempStyledDiv(){
-
-
-    return withStyles(styles)((props) =>{
-        const { classes, ...other } = props;
-        return (<div className={classes.root}>
-
-        </div>);
-    } );
-
-
-}
 
 class ContainerForm extends React.Component{
+
 
 
 
@@ -100,15 +76,22 @@ class ContainerForm extends React.Component{
 
         this.dogNameFormID = "name-form";
         this.dogWeightFormID = "weight-form";
+        this.dogBreedFormID = "breed-form";
+        this.dogAgeFormID = "age-form";
+
+
         this.genderMultiChoiceKey = "gender-multi-choice";
 
         this.activityMultiChoiceKey = "activity-multi-choice";
         this.neuteredMultiChoiceKey = "neutered-multi-choice";
         this.nameInputKey = "name-key";
         this.weightInputKey = "weight-key";
-        this.ageMultiChoiceKey = "age-key";
+        this.ageInputKey = "age-key";
         this.bodyScoreMultiChoiceKey = "body-score-key";
-        this.breedScoreMultiChoiceKey = "breed-key";
+        this.breedSelectKey = "breed-key";
+
+        this.dogYearNameIdentifier ="dog-year-name";
+        this.dogMonthNameIdentifier ="dog-month-name";
 
 
 
@@ -124,9 +107,12 @@ class ContainerForm extends React.Component{
                 dogWeight : "",
                 dogActivity  : POSSIBLE_ACTIVITIES_KEYS[1],
                 dogNeutered  : NEUTERED_OPTIONS_KEYS[0],
-                dogAge       : AGE_OPTIONS_KEYS[0],
+                // dogAge       : "",
+                dogAgeYears  : "",
+                dogAgeMonths  : "",
+
                 dogBodyScore : BODY_SCORES_KEYS[0],
-                // dogBreed     : BREED_OPTIONS_KEYS[0],
+
                 dogBreedCategoriesIndex : -1,
                 //todo email validation
                 email : "test@test.com",
@@ -134,7 +120,7 @@ class ContainerForm extends React.Component{
                 mobile : "9123456789"
 
             },
-            nextBlocked : true,
+
 
 
         };
@@ -148,6 +134,7 @@ class ContainerForm extends React.Component{
         this.nameInputChange = this.nameInputChange.bind(this);
         this.weightInputChange = this.weightInputChange.bind(this);
         this.breedSelectionChange = this.breedSelectionChange.bind(this);
+        this.ageInputChange = this.ageInputChange.bind(this);
 
 
 
@@ -188,7 +175,7 @@ class ContainerForm extends React.Component{
         this.OnGenderSelectionChange = this.OnGenderSelectionChange.bind(this);
         this.OnActivitySelectionChange = this.OnActivitySelectionChange.bind(this);
         this.OnNeuteredSelectionChange = this.OnNeuteredSelectionChange.bind(this);
-        this.OnAgeSelectionChange = this.OnAgeSelectionChange.bind(this);
+
         this.OnBodyScoreSelectionChange = this.OnBodyScoreSelectionChange.bind(this);
 
 
@@ -213,7 +200,7 @@ class ContainerForm extends React.Component{
         //getter methods for data collected.
         this.getCurrentDogName = this.getCurrentDogName.bind(this);
         this.getDogBreedCategory = this.getDogBreedCategory.bind(this);
-
+        this.getDogAgeBracket = this.getDogAgeBracket.bind(this);
 
 
 
@@ -264,7 +251,6 @@ class ContainerForm extends React.Component{
                     return {
                         type: "submit",
                         form: this.dogNameFormID,
-                        //todo check this thing ok ???
                         disabled: this.state.quesOutputPool.dogName === "",
                         onClick:this.onClickNextFormAhead
 
@@ -292,7 +278,7 @@ class ContainerForm extends React.Component{
                                 onSelectionChanged={this.OnGenderSelectionChange}
                                 ref={this.currentPageRef}
                                 // gridSetup ={DoubleStyledButtonContainer}
-                                gridSetup ={TempDoubleStyleContainer}
+                                gridSetup ={StandardStyleContainer}
 
                             />
 
@@ -326,15 +312,31 @@ class ContainerForm extends React.Component{
                                 {AGE_SECONDARY_TITLE(this.state.quesOutputPool)}
                             </MuiStyledSecondaryQuestionLabel>
 
-                            <MultiChoiceInput
-                                key ={this.ageMultiChoiceKey}
-                                values = {AGE_OPTIONS_KEYS}
-                                defaultSelectionIndex = {AGE_OPTIONS_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogAge;})}
-                                onSelectionChanged={this.OnAgeSelectionChange}
-                                ref={this.currentPageRef}
-                                gridSetup ={QuadStyledButtonContainer}
-                            />
 
+                            {/*<MultiChoiceInput*/}
+                            {/*    key ={this.ageMultiChoiceKey}*/}
+                            {/*    values = {AGE_OPTIONS_KEYS}*/}
+                            {/*    defaultSelectionIndex = {AGE_OPTIONS_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogAge;})}*/}
+                            {/*    onSelectionChanged={this.OnAgeSelectionChange}*/}
+                            {/*    ref={this.currentPageRef}*/}
+                            {/*    gridSetup ={QuadStyledButtonContainer}*/}
+                            {/*/>*/}
+
+
+                            <MuiStyledAgeForm
+                                formOnSubmit={this.onFormSubmitAbsorb}
+                                formId = {this.dogAgeFormID}
+                                keyVal={this.ageInputKey}
+                                onChange = {this.ageInputChange}
+                                years_name = {this.dogYearNameIdentifier}
+                                months_name = {this.dogMonthNameIdentifier}
+                                years_value = {this.state.quesOutputPool.dogAgeYears}
+                                months_value = {this.state.quesOutputPool.dogAgeMonths}
+
+
+                            >
+
+                            </MuiStyledAgeForm>
 
 
                         </>);
@@ -345,7 +347,15 @@ class ContainerForm extends React.Component{
                     return {};
                 },
                 nextButtonAttribs : ()=> {
-                    return {onClick:this.onClickNextMultiChoiceDefault};
+
+                    return {
+                        type: "submit",
+                        form: this.dogAgeFormID,
+                        disabled:
+                            this.state.quesOutputPool.dogAgeYears === "" &&
+                            this.state.quesOutputPool.dogAgeMonths === "",
+                        onClick:this.onClickNextFormAhead
+                    };
 
                 },
                 onGainFocus : ()=> {
@@ -373,7 +383,7 @@ class ContainerForm extends React.Component{
                                 defaultSelectionIndex = {POSSIBLE_ACTIVITIES_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogActivity;})}
                                 onSelectionChanged={this.OnActivitySelectionChange}
                                 ref={this.currentPageRef}
-                                gridSetup ={TripleStyledButtonContainer}
+                                gridSetup ={StandardStyleContainer}
                             />
 
 
@@ -415,7 +425,7 @@ class ContainerForm extends React.Component{
                                 defaultSelectionIndex = {BODY_SCORES_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogBodyScore;})}
                                 onSelectionChanged={this.OnBodyScoreSelectionChange}
                                 ref={this.currentPageRef}
-                                gridSetup ={TripleStyledButtonContainer}
+                                gridSetup ={StandardStyleContainer}
                             />
 
 
@@ -499,11 +509,6 @@ class ContainerForm extends React.Component{
                 onGainFocus : ()=> {
                     console.log("weight question gained focus");
 
-                    this.setState((state,props)=>{
-                        //resetting next blocked to the state for the next question.
-                        return {nextBlocked : state.quesOutputPool.dogWeight === "" } ;
-
-                    });
 
                 }
 
@@ -515,9 +520,9 @@ class ContainerForm extends React.Component{
                     return (
                         <>
                             <MuiStyledPrimaryQuestion align="center" variant="h4">{NEUTERED_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
-                            {/*<MuiStyledSecondaryQuestionLabel align="center" variant="h6">*/}
-                            {/*    {NEUTERED_SECONDARY_TITLE(this.state.quesOutputPool)}*/}
-                            {/*</MuiStyledSecondaryQuestionLabel>*/}
+                            <MuiStyledSecondaryQuestionLabel align="center" variant="h6">
+                                {NEUTERED_SECONDARY_TITLE(this.state.quesOutputPool)}
+                            </MuiStyledSecondaryQuestionLabel>
 
                             <MultiChoiceInput
                                 key ={this.neuteredMultiChoiceKey}
@@ -525,7 +530,7 @@ class ContainerForm extends React.Component{
                                 defaultSelectionIndex = {NEUTERED_OPTIONS_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogNeutered;})}
                                 onSelectionChanged={this.OnNeuteredSelectionChange}
                                 ref={this.currentPageRef}
-                                gridSetup ={TempDoubleStyleContainer}
+                                gridSetup ={StandardStyleContainer}
                             />
 
 
@@ -561,7 +566,13 @@ class ContainerForm extends React.Component{
                             </MuiStyledSecondaryQuestionLabel>
 
 
+
+
                             <MuiStyledBreedForm
+                                formOnSubmit={this.onFormSubmitAbsorb}
+                                formId = {this.dogBreedFormID}
+                                keyVal={this.breedSelectKey}
+
                                 dogName = {this.state.quesOutputPool.dogName}
                                 listOptions = {BREED_CATEGORIES_LIST}
                                 textValue = {
@@ -571,11 +582,8 @@ class ContainerForm extends React.Component{
 
                                 onSelectionChanged = {this.breedSelectionChange}
 
-
-
                             >
                             </MuiStyledBreedForm>
-
 
 
 
@@ -588,7 +596,10 @@ class ContainerForm extends React.Component{
                 },
                 nextButtonAttribs : ()=> {
                     return {
-                        disabled: this.state.quesOutputPool.dogBreedCategoriesIndex === -1,
+
+                        type: "submit",
+                        form: this.dogBreedFormID,
+                        disabled: this.state.quesOutputPool.dogWeight === "",
                         //todo using onclick next multi choice default here use different.
                         onClick:this.onClickNextMultiChoiceDefault
                     };
@@ -612,10 +623,27 @@ class ContainerForm extends React.Component{
                     return (
                         <>
 
-                            <h2>End Form Results</h2>
-                            <h4>Rer = {this.getTempRer()}</h4>
-                            <h4>Mer = {this.getTempMer()}</h4>
-                            <h4>CalorificCover = {this.getTempCalorificCover()}</h4>
+                            {
+                                (()=>{
+                                    if(!isDev()){
+                                        return (<></>);
+
+                                    }
+                                    else{
+                                        return (<>
+                                            <h2>End Form Results</h2>
+                                            <h4>Rer = {this.getTempRer()}</h4>
+                                            <h4>Mer = {this.getTempMer()}</h4>
+                                            <h4>CalorificCover = {this.getTempCalorificCover()}</h4>
+
+                                        </>);
+
+                                    }
+                                })()
+
+                            }
+
+
                             <h4>Min Calories = {this.getTempCalorieMin()}</h4>
                             <h4>Max Calories = {this.getTempCalorieMax()}</h4>
 
@@ -700,8 +728,7 @@ class ContainerForm extends React.Component{
         event.preventDefault();
         event.persist();
 
-        //validation
-        // this.setState({nextBlocked : event.target.value === ""});
+
 
 
 
@@ -718,7 +745,7 @@ class ContainerForm extends React.Component{
                 let clonedQuesPool = cloneDeep(state.quesOutputPool);
                 clonedQuesPool.dogName = event.target.value;
 
-                return {quesOutputPool:clonedQuesPool,nextBlocked : event.target.value === ""};
+                return {quesOutputPool:clonedQuesPool};
 
             });
 
@@ -729,8 +756,9 @@ class ContainerForm extends React.Component{
         event.preventDefault();
         event.persist();
 
+
         //validation
-        // this.setState({nextBlocked : event.target.value === ""});
+
 
 
 
@@ -747,7 +775,7 @@ class ContainerForm extends React.Component{
                 //todo error checking here
                 clonedQuesPool.dogWeight = event.target.value;
 
-                return {quesOutputPool:clonedQuesPool,nextBlocked : event.target.value === ""};
+                return {quesOutputPool:clonedQuesPool};
 
             });
 
@@ -778,6 +806,43 @@ class ContainerForm extends React.Component{
         this.setBreedIndex(newBreedIndex);
 
     }
+
+    ageInputChange(event){
+
+        event.preventDefault();
+        event.persist();
+        // console.log("value is "+event.target.value);
+        // console.log("value is "+event.target.name);
+
+
+        this.setState(
+            (state,props)=> {
+
+                //todo need a better solution for all this cloning.
+                let clonedQuesPool = cloneDeep(state.quesOutputPool);
+
+                if(event.target.name === this.dogYearNameIdentifier){
+                    clonedQuesPool.dogAgeYears = event.target.value;
+                    console.log("updating years ");
+
+
+                }
+                else if(event.target.name === this.dogMonthNameIdentifier){
+                    clonedQuesPool.dogAgeMonths = event.target.value;
+                    console.log("updating months");
+                }
+                else{
+                    console.log("rogue event fired");
+                }
+
+                return {quesOutputPool:clonedQuesPool};
+
+            });
+
+
+    }
+
+
 
 
     moveToNexPage(){
@@ -924,27 +989,27 @@ class ContainerForm extends React.Component{
 
 
     }
-    OnAgeSelectionChange(arr){
-        //todo cannot modify arr here at any cost !!!!!!
-
-        for (let i =0 ;i< arr.length;i++ ){
-            //first selection match algorithm
-            if(arr[i] === 1){
-
-                this.setState(
-                    (state,props)=> {
-                        let newPool = cloneDeep(state.quesOutputPool);
-                        newPool.dogAge = AGE_OPTIONS_KEYS[i];
-                        return {quesOutputPool : newPool};
-                    }
-                );
-                return;
-            }
-        }
-
-
-
-    }
+    // OnAgeSelectionChange(arr){
+    //     //todo cannot modify arr here at any cost !!!!!!
+    //
+    //     for (let i =0 ;i< arr.length;i++ ){
+    //         //first selection match algorithm
+    //         if(arr[i] === 1){
+    //
+    //             this.setState(
+    //                 (state,props)=> {
+    //                     let newPool = cloneDeep(state.quesOutputPool);
+    //                     newPool.dogAge = AGE_OPTIONS_KEYS[i];
+    //                     return {quesOutputPool : newPool};
+    //                 }
+    //             );
+    //             return;
+    //         }
+    //     }
+    //
+    //
+    //
+    // }
 
     OnBodyScoreSelectionChange(arr){
         for (let i =0 ;i< arr.length;i++ ){
@@ -989,6 +1054,7 @@ class ContainerForm extends React.Component{
 
     }
 
+    //todo move this is a backend function
     getDogBreedCategory(){
 
         const dBCI = this.state.quesOutputPool.dogBreedCategoriesIndex;
@@ -1003,7 +1069,34 @@ class ContainerForm extends React.Component{
 
     }
 
+
+    //todo move this is a backend function
+    getDogAgeBracket(){
+        //todo parse int here strings !!!!
+        const years =  parseInt(this.state.quesOutputPool.dogAgeYears) || 0;
+        const months = parseInt(this.state.quesOutputPool.dogAgeMonths) || 0;
+        const totalMonths = years*12+months;
+        // console.log("total months "+totalMonths);
+        let ansIndex = 0;
+        for(let i = 0;i<AGE_OPTIONS_KEYS.length;i++){
+            const lower = getLowerKey(AGE_OPTIONS_KEYS[i]);
+            const upper = getUpperKey(AGE_OPTIONS_KEYS[i]);
+            //todo check lower upper connection
+            if(totalMonths >= lower && totalMonths < upper){
+                ansIndex = i;
+                break;
+            }
+
+        }
+
+
+        return AGE_OPTIONS_KEYS[ansIndex];
+
+
+    }
+
     totalStateString(){
+
 
         const dn = this.state.quesOutputPool.dogName;
         const dG = this.state.quesOutputPool.dogGender;
@@ -1011,12 +1104,22 @@ class ContainerForm extends React.Component{
         const dW = this.state.quesOutputPool.dogWeight;
         const dA = this.state.quesOutputPool.dogActivity;
         const dne = this.state.quesOutputPool.dogNeutered;
-        const dag = this.state.quesOutputPool.dogAge;
+        // const dag = this.state.quesOutputPool.dogAge;
+        const dagY = this.state.quesOutputPool.dogAgeYears;
+        const dagM = this.state.quesOutputPool.dogAgeMonths;
+
+
         const dBc = this.state.quesOutputPool.dogBodyScore;
 
 
 
-        return dn +" "+dG+" " + dW + " "+dA + " "+ dne +" "+dag +" "+dBc+" "+this.getDogBreedCategory(this.state.quesOutputPool.dogBreedCategoriesIndex);
+        return dn +" "+dG+" " + dW + " "+dA + " "+ dne +" "
+            + dagY +" "+dagM
+            +" "
+            +dBc
+            +" "+this.getDogBreedCategory(this.state.quesOutputPool.dogBreedCategoriesIndex)
+            +" age bracket "+this.getDogAgeBracket()
+            ;
 
 
 
@@ -1055,14 +1158,8 @@ class ContainerForm extends React.Component{
 
                     <MuiToolBar>
 
+                        <FlexDiv grow = {1} />
 
-                        {/*todo move this inline style out*/}
-                        <div style = {
-                            {
-                                "flexGrow": 1
-                            }
-                        }>
-                        </div>
 
                         {/*<button onClick={this.onClickPrev} {... currentPage.prevButtonAttribs()} > Prev</button>*/}
                         <MuiButton
@@ -1077,15 +1174,7 @@ class ContainerForm extends React.Component{
 
 
 
-
-
-                        {/*todo move this inline style out*/}
-                        <div style = {
-                            {
-                            "flexGrow": 1
-                            }
-                        }>
-                        </div>
+                        <FlexDiv grow={1} />
 
 
                         {/*NOTE next button attribs ahead so questions can override behaviour*/}
@@ -1099,19 +1188,28 @@ class ContainerForm extends React.Component{
                         </MuiButton>
 
 
+                        <FlexDiv grow={1} />
 
-                        {/*todo move this inline style out*/}
-                        <div style = {
-                            {
-                                "flexGrow": 1
-                            }
-                        }>
-                        </div>
 
                     </MuiToolBar>
                 </MuiStyledButtonBar>
 
-                <p>value of all ques output is {this.totalStateString()}</p>
+                {
+                    (() => {
+                        if(!isDev()){
+                            return (<> </>);
+
+                        }
+                        else{
+                            return (
+                                <p>value of all ques output is {this.totalStateString()}</p>
+
+                            );
+
+                        }
+                    })()
+
+                }
 
             </>
         );
@@ -1129,7 +1227,8 @@ class ContainerForm extends React.Component{
         this.temp_energy_requirements_mer = (this.getTempRer()*
                 POSSIBLE_ACTIVITIES[this.state.quesOutputPool.dogActivity]*
                 NEUTERED_OPTIONS[this.state.quesOutputPool.dogNeutered]*
-                AGE_OPTIONS[this.state.quesOutputPool.dogAge]*
+                AGE_OPTIONS[this.getDogAgeBracket()]*
+                // AGE_OPTIONS[this.state.quesOutputPool.dogAge]*
                 BODY_SCORES[this.state.quesOutputPool.dogBodyScore]*
                 BREED_OPTIONS[this.getDogBreedCategory()]);
         return this.temp_energy_requirements_mer;
@@ -1138,7 +1237,7 @@ class ContainerForm extends React.Component{
     }
 
     getTempCalorificCover() {
-        this.temp_energy_requirements_calorific_cover = this.getTempMer()*AGE_CALORIFIC_OPTIONS[this.state.quesOutputPool.dogAge];
+        this.temp_energy_requirements_calorific_cover = this.getTempMer()*AGE_CALORIFIC_OPTIONS[this.getDogAgeBracket()];
 
         return this.temp_energy_requirements_calorific_cover;
 
