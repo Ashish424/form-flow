@@ -9,25 +9,6 @@ const useStyles = makeStyles((theme)=>({
         }),
 
 
-        // grow : {
-        //     flexGrow : (props) =>({
-        //         props.grow
-        //     })
-        //
-        //
-        //     // flexGrow : 1,
-        //     // "backgroundColor" : theme.test
-        //
-        //
-        // },
-
-
-        // [theme.test] : {
-        //
-        //     "backgroundColor": blue[500]
-        // }
-
-
 
     })
 );
@@ -44,4 +25,3 @@ export default function FlexDiv(props) {
 
 
 }
-

@@ -7,6 +7,9 @@ export const POSSIBLE_ACTIVITIES = {
         "High" : 1.4
 };
 
+
+export const POSSIBLE_ACTIVITIES_KEYS = Object.keys(POSSIBLE_ACTIVITIES);
+
 export const POSSIBLE_ACTIVITIES_CALORIE_RANGE_MULTIPLIER_MIN = {
     "Low" : 0.95,
     "Medium" : 0.9,
@@ -30,7 +33,6 @@ export const POSSIBLE_GENDERS = {
 export const POSSIBLE_GENDERS_KEYS = Object.keys(POSSIBLE_GENDERS);
 
 
-export const POSSIBLE_ACTIVITIES_KEYS = Object.keys(POSSIBLE_ACTIVITIES);
 
 
 export const NEUTERED_OPTIONS = {
@@ -43,8 +45,7 @@ export const AGE_OPTIONS = {
     "2-4" : 2,
     "4-12" : 1.5,
     "12-72" : 1.2,
-    //todo 20000 here added just for upper limit
-    "72-181" : 0.9
+    "72-240" : 0.9
 
 
 };
@@ -68,10 +69,15 @@ export function getUpperKey(age_key){
 //todo duplicated data but will go away any way to backend
 export const AGE_CALORIFIC_OPTIONS = {
 
-    "2-4":0.95,
-    "4-12":0.90,
-    "12-72":0.85,
-    "72-181":0.85
+    // "2-4":0.95,
+    // "4-12":0.90,
+    // "12-72":0.85,
+    // "72-240":0.85,
+    [AGE_OPTIONS_KEYS[0]] : 0.95,
+    [AGE_OPTIONS_KEYS[1]] : 0.90,
+    [AGE_OPTIONS_KEYS[2]] : 0.85,
+    [AGE_OPTIONS_KEYS[3]] : 0.85,
+
 
 };
 
@@ -92,16 +98,22 @@ export const BREED_OPTIONS = {
     "Mini" : 1.2,
     "Medium" : 1.1,
     "Large":1,
-    "Giant":0.9
+    "Giant":0.9,
+    "None":1
 };
 export const BREED_OPTIONS_KEYS = Object.keys(BREED_OPTIONS);
 
 export const CALORIFIC_COVERS = {
 
-    "2-4":0.95,
-    "4-12":0.95,
-    "12-72":0.9,
-    "72-181":0.9
+    [AGE_OPTIONS_KEYS[0]] : 0.95,
+    [AGE_OPTIONS_KEYS[1]] : 0.95,
+    [AGE_OPTIONS_KEYS[2]] : 0.9,
+    [AGE_OPTIONS_KEYS[3]] : 0.9,
+
+    // "2-4":0.95,
+    // "4-12":0.95,
+    // "12-72":0.9,
+    // "72-240":0.9
 
 };
 

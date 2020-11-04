@@ -1,8 +1,9 @@
 import React from 'react';
 import DivButton from "../DivButton";
 import cloneDeep from 'lodash/cloneDeep';
+import StandardStyleContainer from "./ButtonContainer";
 
-import MuiStyledButtonContainer from "./ButtonContainer";
+
 
 class MultiChoiceInput extends React.Component{
 
@@ -137,7 +138,7 @@ class MultiChoiceInput extends React.Component{
 
                     /*todo using values array here breaks abstraction.It would be better if only the length is passed instead of values array so the content
                     so that the content of children can be set in a better way. */
-                    //TODO use better ids.
+
                     return (
                         <DivButton selected={this.state.selectionState[index]}
                                    id={index.toString()}
@@ -162,7 +163,7 @@ class MultiChoiceInput extends React.Component{
 }
 MultiChoiceInput.defaultProps = {
     defaultSelectionIndex : 0,
-    gridSetup : MuiStyledButtonContainer
+    gridSetup : StandardStyleContainer
 }
 
 export default MultiChoiceInput;

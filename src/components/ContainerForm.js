@@ -53,12 +53,8 @@ import MuiToolBar from "@material-ui/core/Toolbar"
 import MuiButton from "@material-ui/core/Button";
 
 import {MuiStyledAgeForm, MuiStyledBreedForm, MuiStyledNameForm, MuiStyledWeightForm} from "./Pages/PageForm";
-import MuiStyledButtonContainer, {
-    // DoubleStyledButtonContainer, PentaStyledButtonContainer, QuadStyledButtonContainer,
-    StandardStyleContainer,
-    TripleStyledButtonContainer
-} from "./Pages/ButtonContainer";
-import isDev from "../Environment";
+import StandardStyleContainer from "./Pages/ButtonContainer";
+
 import FlexDiv from "./FlexDiv";
 
 
@@ -108,8 +104,8 @@ class ContainerForm extends React.Component{
                 dogActivity  : POSSIBLE_ACTIVITIES_KEYS[1],
                 dogNeutered  : NEUTERED_OPTIONS_KEYS[0],
                 // dogAge       : "",
-                dogAgeYears  : "",
-                dogAgeMonths  : "",
+                dogAgeYears  : 0,
+                dogAgeMonths  : 0,
 
                 dogBodyScore : BODY_SCORES_KEYS[0],
 
@@ -203,11 +199,11 @@ class ContainerForm extends React.Component{
         this.getDogAgeBracket = this.getDogAgeBracket.bind(this);
 
 
+        //validation methods
+        this.isValidAge = this.isValidAge.bind(this);
 
 
 
-        //grid setup
-        this.getGenderGrid = this.getGenderGrid.bind(this);
 
 
 
@@ -288,8 +284,8 @@ class ContainerForm extends React.Component{
                                 onChange = {this.ageInputChange}
                                 years_name = {this.dogYearNameIdentifier}
                                 months_name = {this.dogMonthNameIdentifier}
-                                years_value = {this.state.quesOutputPool.dogAgeYears}
-                                months_value = {this.state.quesOutputPool.dogAgeMonths}
+                                years_value = {this.state.quesOutputPool.dogAgeYears ||  ""  }
+                                months_value = {this.state.quesOutputPool.dogAgeMonths || ""}
 
 
                             >
@@ -310,8 +306,10 @@ class ContainerForm extends React.Component{
                         type: "submit",
                         form: this.dogAgeFormID,
                         disabled:
-                            this.state.quesOutputPool.dogAgeYears === "" &&
-                            this.state.quesOutputPool.dogAgeMonths === "",
+                            this.state.quesOutputPool.dogAgeYears === 0
+                            && this.state.quesOutputPool.dogAgeMonths === 0
+                            // && this.isValidAge()
+                        ,
                         onClick:this.onClickNextFormAhead
                     };
 
@@ -345,7 +343,7 @@ class ContainerForm extends React.Component{
                                 listOptions = {BREED_CATEGORIES_LIST}
                                 textValue = {
                                     this.state.quesOutputPool.dogBreedCategoriesIndex === -1 ?
-                                        "" :
+                                        null :
                                         BREED_CATEGORIES_LIST[this.state.quesOutputPool.dogBreedCategoriesIndex]}
 
                                 onSelectionChanged = {this.breedSelectionChange}
@@ -624,29 +622,16 @@ class ContainerForm extends React.Component{
                         <>
 
                             {
-                                (()=>{
-                                    if(isDev()){
+                                   <></>
+                                   //todo comment out in prod
 
-
-                                        return (<></>);
-                                        //todo fix this later
-                                        // return (<>
-                                        //     <h2>End Form Results</h2>
-                                        //     <h4>Rer = {this.getTempRer()}</h4>
-                                        //     <h4>Mer = {this.getTempMer()}</h4>
-                                        //     <h4>CalorificCover = {this.getTempCalorificCover()}</h4>
-                                        //
-                                        // </>);
-
-                                    }
-                                    else{
-
-
-                                        return (<></>);
-
-
-                                    }
-                                })()
+                                   // <>
+                                   //          <h2>End Form Results</h2>
+                                   //          <h4>Rer = {this.getTempRer()}</h4>
+                                   //          <h4>Mer = {this.getTempMer()}</h4>
+                                   //          <h4>CalorificCover = {this.getTempCalorificCover()}</h4>
+                                   //
+                                   //  </>
 
                             }
 
@@ -714,19 +699,6 @@ class ContainerForm extends React.Component{
 
 
 
-
-    getGenderGrid() {
-        return (
-                (props)=>{
-
-                    return (<MuiStyledButtonContainer>
-                        {props.children}
-                    </MuiStyledButtonContainer>);
-
-                }
-            );
-
-    }
 
     nameInputChange(event){
         // console.log("q1 changed "+event.target.value);
@@ -805,6 +777,7 @@ class ContainerForm extends React.Component{
 
     breedSelectionChange(event,newValue){
 
+        //find index returns -1 if not found
         let newBreedIndex = BREED_CATEGORIES_LIST.findIndex((ele)=>{
             return ele === newValue;
         });
@@ -816,10 +789,108 @@ class ContainerForm extends React.Component{
 
     ageInputChange(event){
 
+
+        // console.log("event target is "+event.target.value);
+
         event.preventDefault();
         event.persist();
-        // console.log("value is "+event.target.value);
-        // console.log("value is "+event.target.name);
+        const inputVal = event.target.value;
+        if (typeof inputVal != "string") {
+            console.log("input needs to be a string");
+            return;
+        }
+
+
+        let number = 0;
+        //allow empty sting as input but will fail ahead
+        if(inputVal === ""){
+
+            //todo discuss this implementation which restricts input.
+            // let years = this.state.quesOutputPool.dogAgeYears;
+            // let months = this.state.quesOutputPool.dogAgeMonths;
+            // let total = 0;
+            //
+            // if(event.target.name === this.dogMonthNameIdentifier){
+            //     total = years*12;
+            //
+            // }
+            //
+            // if(event.target.name === this.dogYearNameIdentifier){
+            //
+            //     total = months;
+            //
+            // }
+            //
+            // //combined constraints here
+            // if(total < 2){
+            //     console.log("age less than 2 months");
+            //     return;
+            // }
+
+
+
+
+        }
+        else {
+
+
+            let valid = true;
+
+            valid &= (!isNaN(inputVal) && !isNaN(parseFloat(inputVal)));
+            if (!valid) {
+                console.log("entered value is not a number");
+                //todo raise the appropriate error before exit
+                return;
+
+            }
+
+
+            valid &= Number.isInteger(parseFloat(inputVal));
+            if (!valid) {
+                console.log("entered value is not an integer");
+                //todo raise the appropriate error before exit
+                return;
+
+
+            }
+
+
+            let years = this.state.quesOutputPool.dogAgeYears;
+            let months = this.state.quesOutputPool.dogAgeMonths;
+            let total = 0;
+
+
+            number = parseInt(inputVal, 10);
+            if(event.target.name === this.dogMonthNameIdentifier){
+
+                //check if valid in months
+                if(number < 0 || number > 11){
+                    console.log("months outside range ");
+                    return;
+                }
+                total = years*12+number;
+
+
+            }
+
+            if(event.target.name === this.dogYearNameIdentifier){
+                if(number < 0 || number > 19){
+                    console.log("years outside range");
+                    return;
+                }
+                total = number*12+months;
+
+            }
+
+            //combined constraints here
+            if(total < 2){
+                console.log("age less than 2 months");
+                return;
+            }
+
+
+        }
+
 
 
         this.setState(
@@ -829,13 +900,13 @@ class ContainerForm extends React.Component{
                 let clonedQuesPool = cloneDeep(state.quesOutputPool);
 
                 if(event.target.name === this.dogYearNameIdentifier){
-                    clonedQuesPool.dogAgeYears = event.target.value;
-                    console.log("updating years ");
+                    clonedQuesPool.dogAgeYears = number;
+                    console.log("updating years "+event.target.value);
 
 
                 }
                 else if(event.target.name === this.dogMonthNameIdentifier){
-                    clonedQuesPool.dogAgeMonths = event.target.value;
+                    clonedQuesPool.dogAgeMonths = number;
                     console.log("updating months");
                 }
                 else{
@@ -1077,11 +1148,13 @@ class ContainerForm extends React.Component{
     }
 
 
+
+
     //todo move this is a backend function
     getDogAgeBracket(){
         //todo parse int here strings !!!!
-        const years =  parseInt(this.state.quesOutputPool.dogAgeYears) || 0;
-        const months = parseInt(this.state.quesOutputPool.dogAgeMonths) || 0;
+        const years =  this.state.quesOutputPool.dogAgeYears;
+        const months = this.state.quesOutputPool.dogAgeMonths;
         const totalMonths = years*12+months;
         // console.log("total months "+totalMonths);
         let ansIndex = 0;
@@ -1143,7 +1216,9 @@ class ContainerForm extends React.Component{
     // this.state.currentQues
     render() {
 
-        console.log("dev build "+isDev());
+
+        console.log("calorific options "+ Object.keys(AGE_CALORIFIC_OPTIONS).toString());
+
 
         const currentPage = this.getPageData(this.state.currentQues);
         const progressScore = ((this.state.currentQues + 1) / this.pages.length) * 100;
@@ -1205,23 +1280,11 @@ class ContainerForm extends React.Component{
                 </MuiStyledButtonBar>
 
                 {
-                    (() => {
-                        if(isDev()){
-                            return (
-                                //todo fix this later
-                                // <p>value of all ques output is {this.totalStateString()}</p>
-                                <> </>
 
-                            );
-                        }
-                        else{
+                        //todo comment this in prod
+                        // <p>value of all ques output is {this.totalStateString()}</p>
+                        // <> </>
 
-
-                            return (<> </>);
-
-
-                        }
-                    })()
 
                 }
 
@@ -1279,6 +1342,11 @@ class ContainerForm extends React.Component{
 
     }
 
+    isValidAge() {
+
+
+        return false;
+    }
 }
 
 export default ContainerForm;
