@@ -4,6 +4,16 @@
     <!--TODO setup changes in this file for title and other metas   -->
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+<!--TODO reduce the number of imports here     -->
+
+<!-- Make sure your bundler doesn't eager load all the font variations (100/300/400/500/700/900, italic/regular, SVG/woff). Fontsource can be configured to -->
+<!-- TODO load specific subsets, weights and styles. Inlining all the font files can -->
+<!-- TODO significantly increase the size of your bundle. Material-UI default typography configuration only relies on 300, 400, 500, and 700 font weights.&ndash;&gt;&ndash;&gt; -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<!-- TODO multiple imports here remove the font not used  -->
+    <link href="https://fonts.googleapis.com/css2?family=Mali:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+
+
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
@@ -25,7 +35,8 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>MomAndPaw Wizard</title>
+    <title>Wizard | MomAndPaw</title>
+
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

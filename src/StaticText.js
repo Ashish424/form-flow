@@ -1,7 +1,7 @@
-import {BODY_SCORES_KEYS} from "./StaticData";
+import {BODY_SCORES_KEYS, getHisOrHer} from "./StaticData";
 
 export const NAME_PRIMARY_TITLE = (quesOutputPool) => {
-    return "Hello Pet parent! What is your Dog's name?";
+    return ["Hello pet parent !","What's your Dog's name?"];
 
     // return "First,what's your dog's name?";
 };
@@ -124,24 +124,62 @@ export const BREED_SECONDARY_TITLE = (quesOutputPool) =>{
 };
 
 
-//todo use these strings.
-export const BODY_SCORES_STRINGS= {}
 
-BODY_SCORES_STRINGS[BODY_SCORES_KEYS[0]] = {
-    primary : "A little Skinny ",
-    secondary : "Narrow waistline and you can clearly see her ribs."
+export const BODY_SCORES_STRINGS= (quesOutputPool)=> (
+    [
 
-}
+        {
+            primary: "A little Skinny ",
+            secondary: `Narrow waistline and you can clearly see ${getHisOrHer(quesOutputPool.dogGender)} ribs.`
 
-BODY_SCORES_STRINGS[BODY_SCORES_KEYS[1]] = {
-    primary : "Just right",
-    //todo ribs his /her add gender based quest output pool.
-    secondary : "Visible waistline with some fat cover but ribs are easy to feel."
+        },
 
-}
-BODY_SCORES_STRINGS[BODY_SCORES_KEYS[2]] = {
-    primary : "A bit chubby",
-    secondary : "Waistline is not visible and her ribs are tricky to feel."
+        {
+            primary: "Just right",
+            //todo ribs his /her add gender based quest output pool.
+            secondary: `Visible waistline with some fat cover but ${getHisOrHer(quesOutputPool.dogGender)} ribs are easy to feel.`
 
-}
+        },
+        {
+            primary: "A bit chubby",
+            secondary: `Waistline is not visible and ${getHisOrHer(quesOutputPool.dogGender)} ribs are tricky to feel.`
+
+        }
+    ]
+)
+// "Dog's energy level and daily activity should have a perfect balance. Help us understand so that we serve them right.
+//
+// Not much Active
+// Prefers short walks and mostly sleeps through the day.
+//
+//     Pretty Active
+// Enjoys long walks and loves to play around.
+//
+//     Hyper Active
+// Never gets tired of jumping and only stops running to eat."
+//
+
+export const POSSIBLE_ACTIVITY_STRINGS = (quesOutputPool)=> (
+    [
+
+        {
+            primary: "Not much Active",
+            secondary: `Prefers short walks and mostly sleeps through the day.`
+
+        },
+
+        {
+            primary: "Pretty Active",
+            //todo ribs his /her add gender based quest output pool.
+            secondary: `Enjoys long walks and loves to play around.`
+
+        },
+        {
+            primary: "Hyper Active",
+            secondary: `Never gets tired of jumping and only stops running to eat.`
+
+        }
+    ]
+)
+
 

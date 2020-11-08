@@ -4,7 +4,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 
 
-import MultiChoiceInput from "./Pages/MultiChoiceInput";
+import MultiChoiceInput from "./Pages/MuitChoice/MultiChoiceInput";
 import {
     AGE_CALORIFIC_OPTIONS,
     AGE_OPTIONS,
@@ -28,14 +28,14 @@ import {
     AGE_PRIMARY_TITLE,
     AGE_SECONDARY_TITLE,
     BODY_SCORE_PRIMARY_TITLE,
-    BODY_SCORE_SECONDARY_TITLE,
+    BODY_SCORE_SECONDARY_TITLE, BODY_SCORES_STRINGS,
     BREED_PRIMARY_TITLE,
     BREED_SECONDARY_TITLE,
     GENDER_PRIMARY_TITLE,
     GENDER_SECONDARY_TITLE,
     NAME_PRIMARY_TITLE,
     NAME_SECONDARY_TITLE,
-    NEUTERED_PRIMARY_TITLE, NEUTERED_SECONDARY_TITLE,
+    NEUTERED_PRIMARY_TITLE, NEUTERED_SECONDARY_TITLE, POSSIBLE_ACTIVITY_STRINGS,
     // NEUTERED_SECONDARY_TITLE,
     WEIGHT_PRIMARY_TITLE,
     WEIGHT_SECONDARY_TITLE,
@@ -52,12 +52,69 @@ import MuiStyledButtonBar from "./Pages/BottomBar";
 import MuiToolBar from "@material-ui/core/Toolbar"
 import MuiButton from "@material-ui/core/Button";
 
-import {MuiStyledAgeForm, MuiStyledBreedForm, MuiStyledNameForm, MuiStyledWeightForm} from "./Pages/PageForm";
-import StandardStyleContainer from "./Pages/ButtonContainer";
 
-import FlexDiv from "./FlexDiv";
+import {MuiStyledBreedForm, MuiStyledWeightForm} from "./Pages/Forms/PageForm";
 
 
+import MuiStyledAgeForm from "./Pages/Forms/AgeForm"
+import MuiStyledNameForm from "./Pages/Forms/NameForm"
+
+import StandardStyleContainer, {StandardStyleImageContainer} from "./Pages/ButtonContainer";
+
+import FlexDiv from "./helper/FlexDiv";
+import OwnerForm from "./Pages/Owner/OwnerForm";
+import DivButton from "./Pages/MuitChoice/DivButton/DivButton";
+import MuiStyledChoiceButton from "./Pages/MuitChoice/choice/MuiStyledChoiceButton";
+import MuiStyledChoiceImage from "./Pages/MuitChoice/choice/MuiStyledChoiceImage";
+
+
+import skinnySelectedImage from "../svgs/bodyScore/normal-skinny--selected.svg";
+import skinnyImage from "../svgs/bodyScore/normal-skinny.svg";
+
+import justRightSelectedImage from "../svgs/bodyScore/normal-just-right--selected.svg";
+import justRightImage from "../svgs/bodyScore/normal-just-right.svg";
+
+
+import chubbySelectedImage from "../svgs/bodyScore/normal-chubby--selected.svg";
+import chubbyImage from "../svgs/bodyScore/normal-chubby.svg";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import {emptyDivStyles, imageTripleDivStyles} from "./helper/styles/DivStyles";
+
+
+import lazySelectedImage from "../svgs/activity/normal-lazy-bones--selected.svg";
+import lazyImage from "../svgs/activity/normal-lazy-bones.svg";
+
+import activeSelectedImage from "../svgs/activity/normal-fairly-active--selected.svg";
+import activeImage from "../svgs/activity/normal-fairly-active.svg";
+
+import hyperActiveSelectedImage from "../svgs/activity/normal-hyperactive--selected.svg";
+import hyperActiveImage from "../svgs/activity/normal-hyperactive.svg";
+import HelperBox from "./Pages/MuitChoice/HelperBox";
+import MovementButton from "./Pages/MovementButton";
+
+
+const BODY_SCORE_SVGS = [
+    skinnySelectedImage,
+    skinnyImage,
+    justRightSelectedImage,
+    justRightImage,
+    chubbySelectedImage,
+    chubbyImage
+
+
+]
+
+
+const ACTIVITY_SVGS = [
+
+    lazySelectedImage,
+    lazyImage,
+    activeSelectedImage,
+    activeImage,
+    hyperActiveSelectedImage,
+    hyperActiveImage
+
+]
 
 class ContainerForm extends React.Component{
 
@@ -92,10 +149,11 @@ class ContainerForm extends React.Component{
 
 
 
+
         //only set values like this in the constructor
         this.state = {
             //todo reset to zero in prod
-            currentQues : 0,
+            currentQues : 4,
             //initialized with default values
             quesOutputPool : {
                 dogName : "",
@@ -219,7 +277,16 @@ class ContainerForm extends React.Component{
                     return (
                         <>
 
-                            <MuiStyledPrimaryQuestion>{NAME_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
+                            <MuiStyledPrimaryQuestion>
+
+                                    <> {NAME_PRIMARY_TITLE(this.state.quesOutputPool)[0]} </>
+                                    <br/>
+                                    <>{NAME_PRIMARY_TITLE(this.state.quesOutputPool)[1]}</>
+
+
+                                {/*}*/}
+                            </MuiStyledPrimaryQuestion>
+
 
                             <MuiStyledNameForm
                                 secondaryText = {NAME_SECONDARY_TITLE(this.state.quesOutputPool)}
@@ -261,20 +328,11 @@ class ContainerForm extends React.Component{
                 page : ()=>{
                     return (
                         <>
-                            <MuiStyledPrimaryQuestion align="center" variant="h4">{AGE_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
+                            <MuiStyledPrimaryQuestion>{AGE_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
                             <MuiStyledSecondaryQuestionLabel align="center" variant="h6">
                                 {AGE_SECONDARY_TITLE(this.state.quesOutputPool)}
                             </MuiStyledSecondaryQuestionLabel>
 
-
-                            {/*<MultiChoiceInput*/}
-                            {/*    key ={this.ageMultiChoiceKey}*/}
-                            {/*    values = {AGE_OPTIONS_KEYS}*/}
-                            {/*    defaultSelectionIndex = {AGE_OPTIONS_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogAge;})}*/}
-                            {/*    onSelectionChanged={this.OnAgeSelectionChange}*/}
-                            {/*    ref={this.currentPageRef}*/}
-                            {/*    gridSetup ={QuadStyledButtonContainer}*/}
-                            {/*/>*/}
 
 
                             <MuiStyledAgeForm
@@ -326,7 +384,7 @@ class ContainerForm extends React.Component{
                 page : ()=>{
                     return (
                         <>
-                            <MuiStyledPrimaryQuestion align="center" variant="h4">{BREED_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
+                            <MuiStyledPrimaryQuestion>{BREED_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
                             <MuiStyledSecondaryQuestionLabel align="center" variant="h6">
                                 {BREED_SECONDARY_TITLE(this.state.quesOutputPool)}
                             </MuiStyledSecondaryQuestionLabel>
@@ -385,19 +443,51 @@ class ContainerForm extends React.Component{
                 page : ()=>{
                     return (
                         <>
-                            <MuiStyledPrimaryQuestion align="center" variant="h4">{NEUTERED_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
+                            <MuiStyledPrimaryQuestion >{NEUTERED_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
                             <MuiStyledSecondaryQuestionLabel align="center" variant="h6">
                                 {NEUTERED_SECONDARY_TITLE(this.state.quesOutputPool)}
                             </MuiStyledSecondaryQuestionLabel>
 
                             <MultiChoiceInput
                                 key ={this.neuteredMultiChoiceKey}
-                                values = {NEUTERED_OPTIONS_KEYS}
+                                numChoices = {NEUTERED_OPTIONS_KEYS.length}
                                 defaultSelectionIndex = {NEUTERED_OPTIONS_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogNeutered;})}
                                 onSelectionChanged={this.OnNeuteredSelectionChange}
                                 ref={this.currentPageRef}
+
+
+
+                                divStyle = {emptyDivStyles}
                                 gridSetup ={StandardStyleContainer}
-                            />
+                                Clickable = {MuiStyledChoiceButton}
+                                ClickableSetupData = {
+                                    NEUTERED_OPTIONS_KEYS
+                                }
+                                ClickableMaker={
+                                    NEUTERED_OPTIONS_KEYS.map((item,index)=>{
+
+                                        return (
+
+                                            (MuiStyledChoiceButton,data) => props =>(
+                                                <MuiStyledChoiceButton {...props}>
+                                                    {data}
+                                                </MuiStyledChoiceButton>
+                                            )
+
+
+                                        );
+
+
+                                    }
+                                    )
+
+
+
+                                }
+                            >
+
+
+                            </MultiChoiceInput>
 
 
 
@@ -419,12 +509,13 @@ class ContainerForm extends React.Component{
                 }
 
             },
+
             {
 
                 page : ()=>{
                     return (
                         <>
-                            <MuiStyledPrimaryQuestion align="center" variant="h4">{GENDER_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
+                            <MuiStyledPrimaryQuestion >{GENDER_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
 
                             <MuiStyledSecondaryQuestionLabel align="center" variant="h6">
                                 {GENDER_SECONDARY_TITLE(this.state.quesOutputPool)}
@@ -432,12 +523,40 @@ class ContainerForm extends React.Component{
 
                             <MultiChoiceInput
                                 key ={this.genderMultiChoiceKey}
-                                values = {POSSIBLE_GENDERS_KEYS}
+                                numChoices = {POSSIBLE_GENDERS_KEYS.length}
                                 defaultSelectionIndex = {POSSIBLE_GENDERS_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogGender;})}
                                 onSelectionChanged={this.OnGenderSelectionChange}
                                 ref={this.currentPageRef}
-                                // gridSetup ={DoubleStyledButtonContainer}
+
+
+                                divStyle = {emptyDivStyles}
                                 gridSetup ={StandardStyleContainer}
+                                Clickable = {MuiStyledChoiceButton}
+                                ClickableSetupData = {
+                                    POSSIBLE_GENDERS_KEYS
+                                }
+                                ClickableMaker={
+                                    POSSIBLE_GENDERS_KEYS.map((item,index)=>{
+
+                                            return (
+
+                                                (MuiStyledChoiceButton,data) => props =>(
+                                                    <MuiStyledChoiceButton {...props}>
+                                                        {data}
+                                                    </MuiStyledChoiceButton>
+                                                )
+
+
+                                            );
+
+
+                                        }
+                                    )
+
+
+
+                                }
+
 
                             />
 
@@ -461,25 +580,88 @@ class ContainerForm extends React.Component{
                 }
 
             },
+
+
             {
 
                 page : ()=>{
                     return (
                         <>
 
-                            <MuiStyledPrimaryQuestion align="center" variant="h4">{ACTIVITY_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
+                            <MuiStyledPrimaryQuestion >{ACTIVITY_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
                             <MuiStyledSecondaryQuestionLabel align="center" variant="h6">
                                 {ACTIVITY_SECONDARY_TITLE(this.state.quesOutputPool)}
                             </MuiStyledSecondaryQuestionLabel>
 
                             <MultiChoiceInput
                                 key ={this.activityMultiChoiceKey}
-                                values = {POSSIBLE_ACTIVITIES_KEYS}
+                                numChoices = {POSSIBLE_ACTIVITIES_KEYS.length}
                                 defaultSelectionIndex = {POSSIBLE_ACTIVITIES_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogActivity;})}
                                 onSelectionChanged={this.OnActivitySelectionChange}
                                 ref={this.currentPageRef}
-                                gridSetup ={StandardStyleContainer}
+
+                                helperBox = {
+                                    {
+                                        component: HelperBox,
+                                        data : POSSIBLE_ACTIVITY_STRINGS(this.state.quesOutputPool)
+
+                                    }
+                                }
+
+
+
+                                //todo replace here if needed using body score styles
+                                divStyle = {imageTripleDivStyles}
+                                gridSetup ={StandardStyleImageContainer}
+                                Clickable = {MuiStyledChoiceImage}
+                                ClickableSetupData = {
+                                    POSSIBLE_ACTIVITIES_KEYS.map((item,index)=> (
+                                            {
+                                                selected : ACTIVITY_SVGS[2*index],
+                                                normal   : ACTIVITY_SVGS[2*index+1],
+                                                imgWidthPercent : 100,
+
+                                            }
+                                        )
+
+                                    )
+
+                                }
+                                ClickableMaker={
+                                    POSSIBLE_ACTIVITIES_KEYS.map((item,index)=>{
+
+                                            return (
+
+                                                (MuiStyledChoiceImage,data) => {
+
+                                                    return props => (
+                                                        <MuiStyledChoiceImage {...props}
+                                                                              selectedImg = {data.selected}
+                                                                              normalImg = {data.normal}
+                                                                              widthPercent = {data.imgWidthPercent}
+
+                                                        >
+                                                        </MuiStyledChoiceImage>
+
+                                                    )
+
+                                                }
+
+
+                                            );
+
+
+                                        }
+                                    )
+
+
+
+                                }
                             />
+
+
+
+
 
 
 
@@ -506,7 +688,7 @@ class ContainerForm extends React.Component{
                 page : ()=>{
                     return (
                         <>
-                            <MuiStyledPrimaryQuestion align="center" variant="h4">{BODY_SCORE_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
+                            <MuiStyledPrimaryQuestion >{BODY_SCORE_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
                             <MuiStyledSecondaryQuestionLabel align="center" variant="h6">
                                 {BODY_SCORE_SECONDARY_TITLE(this.state.quesOutputPool)}
                             </MuiStyledSecondaryQuestionLabel>
@@ -515,12 +697,67 @@ class ContainerForm extends React.Component{
                             <MultiChoiceInput
 
                                 key ={this.bodyScoreMultiChoiceKey}
-                                //todo adding complex structure here with strings
-                                values = {BODY_SCORES_KEYS}
+                                numChoices = {BODY_SCORES_KEYS.length}
                                 defaultSelectionIndex = {BODY_SCORES_KEYS.findIndex((ele)=>{return ele === this.state.quesOutputPool.dogBodyScore;})}
                                 onSelectionChanged={this.OnBodyScoreSelectionChange}
                                 ref={this.currentPageRef}
-                                gridSetup ={StandardStyleContainer}
+
+
+
+
+                                helperBox = {
+                                    {
+                                        component: HelperBox,
+                                        data : BODY_SCORES_STRINGS(this.state.quesOutputPool)
+
+                                    }
+                                }
+
+
+
+                                divStyle = {imageTripleDivStyles}
+                                gridSetup ={StandardStyleImageContainer}
+                                Clickable = {MuiStyledChoiceImage}
+                                ClickableSetupData = {
+                                    BODY_SCORES_KEYS.map((item,index)=> (
+                                            {
+                                               selected : BODY_SCORE_SVGS[2*index],
+                                               normal   : BODY_SCORE_SVGS[2*index+1],
+                                               imgWidthPercent : 100
+                                            }
+                                        )
+
+                                    )
+
+                                }
+                                ClickableMaker={
+                                    BODY_SCORES_KEYS.map((item,index)=>{
+
+                                            return (
+
+                                                (MuiStyledChoiceImage,data) => {
+
+                                                    return props => (
+                                                        <MuiStyledChoiceImage {...props}
+                                                          selectedImg = {data.selected}
+                                                          normalImg = {data.normal}
+                                                          widthPercent = {data.imgWidthPercent} >
+                                                        </MuiStyledChoiceImage>
+
+                                                    )
+
+                                                }
+
+
+                                            );
+
+
+                                        }
+                                    )
+
+
+
+                                }
                             />
 
 
@@ -548,25 +785,11 @@ class ContainerForm extends React.Component{
                 page : ()=>{
                     return (
                         <>
-                            <MuiStyledPrimaryQuestion align="center" variant="h4">{WEIGHT_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
+                            <MuiStyledPrimaryQuestion >{WEIGHT_PRIMARY_TITLE(this.state.quesOutputPool)}</MuiStyledPrimaryQuestion>
                             <MuiStyledSecondaryQuestionLabel align="center" variant="h6">
                                 {WEIGHT_SECONDARY_TITLE(this.state.quesOutputPool)}
                             </MuiStyledSecondaryQuestionLabel>
 
-                            {/*<form*/}
-                            {/*    onSubmit={this.onFormSubmitAbsorb}*/}
-                            {/*      id={this.dogWeightFormID}*/}
-                            {/*      key={this.weightInputKey}>*/}
-                            {/*    <input*/}
-                            {/*        type="number"*/}
-                            {/*        placeholder="00.00"*/}
-                            {/*        name="mainInput"*/}
-                            {/*        value={this.state.quesOutputPool.dogWeight}*/}
-                            {/*        onChange={this.weightInputChange}*/}
-
-                            {/*    />*/}
-                            {/*    <span> kgs</span>*/}
-                            {/*</form>*/}
 
                             <MuiStyledWeightForm
                                 formOnSubmit={this.onFormSubmitAbsorb}
@@ -607,6 +830,38 @@ class ContainerForm extends React.Component{
                 }
 
             },
+
+            // {
+            //
+            //     page : ()=>{
+            //         return (
+            //             <>
+            //
+            //
+            //                 <OwnerForm>
+            //
+            //                 </OwnerForm>
+            //
+            //
+            //
+            //
+            //             </>);
+            //
+            //
+            //     },
+            //     prevButtonAttribs : ()=> {
+            //         return {};
+            //     },
+            //     nextButtonAttribs : ()=> {
+            //         return {};
+            //
+            //     },
+            //     onGainFocus : ()=> {
+            //         console.log("end question gained focus");
+            //
+            //     }
+            //
+            // },
 
 
 
@@ -737,13 +992,11 @@ class ContainerForm extends React.Component{
 
 
         //validation
-
-
-
+        //todo validate here
+        const value = event.target.value;
 
         //need to persist event for the callback of setstate
         // event.persist();
-
         //NOTE set state function is asynchronous.
 
         this.setState(
@@ -752,11 +1005,12 @@ class ContainerForm extends React.Component{
                 //todo need a better solution for all this cloning.
                 let clonedQuesPool = cloneDeep(state.quesOutputPool);
                 //todo error checking here
-                clonedQuesPool.dogWeight = event.target.value;
+                clonedQuesPool.dogWeight = value;
 
                 return {quesOutputPool:clonedQuesPool};
 
-            });
+            }
+        );
 
     }
 
@@ -1217,7 +1471,6 @@ class ContainerForm extends React.Component{
     render() {
 
 
-        console.log("calorific options "+ Object.keys(AGE_CALORIFIC_OPTIONS).toString());
 
 
         const currentPage = this.getPageData(this.state.currentQues);
@@ -1225,21 +1478,22 @@ class ContainerForm extends React.Component{
 
 
 
+        // var innerScreenHeight = window.innerHeight;
+        // document.querySelector("#footer").style.top = innerScreenHeight + "px";
 
         return (
+
             <>
-
-                {/*<ProgressBar progress={progressScore}/>*/}
-
-                <MuiStyledProgressBar variant="determinate" value={progressScore}/>
-
-                {currentPage.page()}
+            {/*//todo remove inline styles  here*/}
 
 
 
-                <MuiStyledButtonBar color="secondary">
-                    {/*todo contain this inside the styled bar component.*/}
+                    <MuiStyledProgressBar variant="determinate" value={progressScore}/>
+                    {currentPage.page()}
 
+
+
+                <MuiStyledButtonBar color="transparent">
 
                     <MuiToolBar>
 
@@ -1247,30 +1501,30 @@ class ContainerForm extends React.Component{
 
 
                         {/*<button onClick={this.onClickPrev} {... currentPage.prevButtonAttribs()} > Prev</button>*/}
-                        <MuiButton
+                        <MovementButton
                             // color="secondary"
-                            variant="contained"
+                            variant="outlined"
                             color="primary"
 
                             onClick={this.onClickPrev}
                             {... currentPage.prevButtonAttribs()} >
                             Prev
-                        </MuiButton>
+                        </MovementButton>
 
 
 
-                        <FlexDiv grow={1} />
+                        <FlexDiv grow={3} />
 
 
                         {/*NOTE next button attribs ahead so questions can override behaviour*/}
                         {/*<button onClick={this.onClickNext} {... currentPage.nextButtonAttribs()} > Next</button>*/}
-                        <MuiButton
-                            variant="contained"
+                        <MovementButton
+                            variant="outlined"
                             color="primary"
                             onClick={this.onClickNext}
                             {... currentPage.nextButtonAttribs()} >
                             Next
-                        </MuiButton>
+                        </MovementButton>
 
 
                         <FlexDiv grow={1} />
@@ -1279,16 +1533,20 @@ class ContainerForm extends React.Component{
                     </MuiToolBar>
                 </MuiStyledButtonBar>
 
+
+
                 {
 
                         //todo comment this in prod
                         // <p>value of all ques output is {this.totalStateString()}</p>
-                        // <> </>
+                        <> </>
 
 
                 }
 
-            </>
+                </>
+
+
         );
     }
     //todo remove this temp methods and move then to backend.

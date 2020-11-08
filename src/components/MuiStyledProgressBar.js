@@ -2,6 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
 import MuiProgressbar from "@material-ui/core/LinearProgress";
+import {complementaryBlue, lighterWhite, visual} from "../helper/visual";
 
 
 // #21CBF3
@@ -11,13 +12,12 @@ const styles = (theme)=>( {
         width : "100%",
 
         // height : 12,
-        height : theme.spacing(1.5),
+        height : theme.spacing(0.75),
         margin: '0 auto',
 
 
 
-        // background: '#a92333',
-        // color: 'white',
+        background: visual.lighterWhite,
 
 
         // background: (props) =>
@@ -30,7 +30,7 @@ const styles = (theme)=>( {
         //     props.color === 'red'
         //         ? '0 3px 5px 2px rgba(255, 105, 135, .3)'
         //         : '0 3px 5px 2px rgba(33, 203, 243, .3)',
-        // color: 'white',
+        // background: 'black',
 
         // padding: '0 30px',
         // margin: 8,
@@ -40,8 +40,12 @@ const styles = (theme)=>( {
 
     },
     bar1Determinate :{
-        background: "#333333",
+
+        background: visual.complementaryBlue,
+
+
     },
+
 
 
 
@@ -53,12 +57,11 @@ function MuiStyledProgressBarRaw(props) {
     const { classes, color, ...other } = props;
 
     return <MuiProgressbar
-
-        // className={ `${classes.root} ${classes.bar1Determinate}` }
         classes={
             {
                 root:classes.root,
-                bar1Determinate:classes.bar1Determinate
+                bar1Determinate:classes.bar1Determinate,
+
 
             }
         }

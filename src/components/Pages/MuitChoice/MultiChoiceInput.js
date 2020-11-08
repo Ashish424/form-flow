@@ -1,7 +1,11 @@
 import React from 'react';
-import DivButton from "../DivButton";
+import DivButton from "./DivButton/DivButton";
+
 import cloneDeep from 'lodash/cloneDeep';
-import StandardStyleContainer from "./ButtonContainer";
+import StandardStyleContainer from "../ButtonContainer";
+import MuiStyledChoiceButton from "./choice/MuiStyledChoiceButton";
+import MuiStyledChoiceImage from "./choice/MuiStyledChoiceImage";
+
 
 
 
@@ -12,7 +16,10 @@ class MultiChoiceInput extends React.Component{
 
 
 
-        let arr = new Array(this.props.values.length).fill(0);
+        // let arr = new Array(this.props.values.length).fill(0);
+        let arr = new Array(this.props.numChoices).fill(0);
+
+
 
 
         arr[this.props.defaultSelectionIndex] = 1;
@@ -127,35 +134,81 @@ class MultiChoiceInput extends React.Component{
         composition rocks :)*/
         const GridSetup = this.props.gridSetup;
 
+        const helperPassed = this.props.hasOwnProperty("helperBox");
+
+        const HelperBox = helperPassed ? this.props.helperBox.component : null;
+
+
+
+
+
+        // console.log("value of helper passed "+helperPassed);
+
+
+
+
+        const currSelectedIndex = this.state.selectionState.findIndex((ele) => {return ele === 1;})
+
+
+
+        // console.log(this.props.ClickableSetupData);
+
+
         return (
 
             <div>
 
                 <GridSetup>
 
+
                 {
-                this.props.values.map( (item, index) => {
+                    this.state.selectionState.map((item,index)=>{
 
-                    /*todo using values array here breaks abstraction.It would be better if only the length is passed instead of values array so the content
-                    so that the content of children can be set in a better way. */
-
-                    return (
-                        <DivButton selected={this.state.selectionState[index]}
-                                   id={index.toString()}
-                                   key={index}
-                                   handler={this.onClickHandler}>
-                            {this.props.values[index]}
+                            return (
 
 
-                        </DivButton>);
+                                <DivButton
+                                    selected={this.state.selectionState[index]}
+                                               id={index.toString()}
+                                               key={index}
+                                               divStylePropsFunc = {this.props.divStyle}
+                                               handler={this.onClickHandler}
+                                               ClickableSetupData = {this.props.ClickableSetupData[index]}
+                                               ClickableMaker = {this.props.ClickableMaker[index]}
+                                               Clickable = {this.props.Clickable}
+
+                                >
+
+
+
+                                </DivButton>
+
+                               );
 
                         }
                     )
 
+
+
+
+
                 }
 
 
-            </GridSetup>
+                </GridSetup>
+
+                { helperPassed ?
+
+                    <HelperBox
+                    primaryText = {this.props.helperBox.data[currSelectedIndex].primary}
+                    secondaryText = {this.props.helperBox.data[currSelectedIndex].secondary}
+
+                    >
+
+                    </HelperBox> : <> </>
+                }
+
+
             </div>
 
         );
@@ -163,7 +216,8 @@ class MultiChoiceInput extends React.Component{
 }
 MultiChoiceInput.defaultProps = {
     defaultSelectionIndex : 0,
-    gridSetup : StandardStyleContainer
+    gridSetup : StandardStyleContainer,
+
 }
 
 export default MultiChoiceInput;

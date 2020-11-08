@@ -18,7 +18,28 @@ const useStyles = makeStyles((theme)=>({
 
         //todo need to make these things responsive.
         margin: "16px 0px 0px 0px",
-        padding: '9px 9px 9px 9px',
+        // padding: '9px 9px 9px 9px',
+
+        [theme.breakpoints.down('lg')]: {
+
+            padding : theme.spacing(1.125),
+        },
+        [theme.breakpoints.down('m      d')]: {
+
+
+            padding : theme.spacing(1.125),
+
+        },
+        [theme.breakpoints.down('sm')]: {
+
+
+            padding : theme.spacing(1.125),
+        },
+        [theme.breakpoints.down('xs')]: {
+
+            padding : theme.spacing(1.125),
+
+        }
 
     }
 
@@ -33,13 +54,15 @@ export default function MuiStyledSecondaryQuestionLabel(props) {
 
 
     return(
-        <Paper elevation={3} variant="outlined" square classes={
+        <div
+            // elevation={3} variant="outlined" square
+            className={
             { root:classes.root,
 
             }
         }>
-            <MuiTypography className={classes.header}{...props} />
-        </Paper>
+            <MuiTypography classes={{root:classes.root}} {...props} />
+        </div>
     );
 
 

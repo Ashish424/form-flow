@@ -4,8 +4,8 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {useTheme} from "@material-ui/core/styles";
-import FlexDiv from "../FlexDiv";
-import HorizontalSpacerDiv from "../HorizontalSpacerDiv";
+import FlexDiv from "../helper/FlexDiv";
+import HorizontalSpacerDiv from "../helper/HorizontalSpacerDiv";
 
 const useStyles = makeStyles((theme)=>({
         root: {
@@ -23,6 +23,8 @@ const useStyles = makeStyles((theme)=>({
         PaperFlex : {
             display : "flex",
             width : "100%",
+            backgroundColor : "#ffffff00"
+
 
         },
 
@@ -32,14 +34,19 @@ const useStyles = makeStyles((theme)=>({
 
 
 
-          //the order of these is important because css
-          //applies the latest rule only.
+            //the order of these is important because css
+            //applies the latest rule only
+          [theme.breakpoints.down('xl')]: {
+              minHeight : "20px",
+              // backgroundColor: grey[500],
+          },
+
           [theme.breakpoints.down('lg')]: {
               minHeight : "20px",
               // backgroundColor: blue[500],
           },
           [theme.breakpoints.down('md')]: {
-                // backgroundColor: red[500],
+              // backgroundColor: red[500],
               minHeight : "40px",
 
 
@@ -346,10 +353,14 @@ export default function StandardStyleContainer(props){
 
 
                 <div className={classes.topSpacerDiv}/>
-                <Paper elevation={3} variant="outlined" square classes={
-                    { root:classes.PaperFlex
-
-                    }
+                <div className={classes.PaperFlex
+                        // elevation={3}
+                       // variant="outlined"
+                       // square
+                        //    classes={
+                        // { root:classes.PaperFlex
+                        //
+                        // }
                 }>
 
                     <FlexDiv grow={7}/>
@@ -396,7 +407,7 @@ export default function StandardStyleContainer(props){
 
 
 
-                </Paper>
+                </div>
 
 
 
@@ -409,5 +420,79 @@ export default function StandardStyleContainer(props){
 
 }
 
+export function StandardStyleImageContainer(props){
+    const classes = useStyles();
 
+    const children = props.children;
+
+    const childrenCount = React.Children.count(children);
+
+    return(
+
+        <>
+
+
+            <div className={classes.topSpacerDiv}/>
+            <Paper elevation={3} variant="outlined" square classes={
+                { root:classes.PaperFlex
+
+                }
+            }>
+
+                <FlexDiv grow={7}/>
+
+
+
+                {
+                    React.Children.map(children,(child,index)=>{
+
+                        if(index !== childrenCount-1){
+                            return(
+
+                                <>
+                                    {child}
+                                    <HorizontalSpacerDiv minWidth={60}/>
+
+                                </>
+                            );
+                        }
+                        else{
+                            return(
+
+                                <>
+                                    {child}
+                                </>
+                            );
+
+                        }
+
+
+
+
+                    })
+
+
+
+                }
+
+
+
+
+                <FlexDiv grow={7}/>
+
+
+
+
+            </Paper>
+
+
+
+
+        </>
+    );
+
+
+
+
+}
 

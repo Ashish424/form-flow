@@ -1,7 +1,8 @@
-import {makeStyles, useTheme} from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 import React from "react";
 
-const useStyles = makeStyles((theme)=>({
+const useStyles = makeStyles((theme)=>(
+    {
 
         root : (props) => ({
 
@@ -21,9 +22,6 @@ const useStyles = makeStyles((theme)=>({
 
 
 export default function HorizontalSpacerDiv(props) {
-
-
-    // const theme = useTheme();
 
     const {minWidth,...other} = props;
 

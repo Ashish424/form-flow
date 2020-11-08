@@ -6,12 +6,12 @@ import MuiAppBar from "@material-ui/core/AppBar"
 
 const styles = (theme)=>({
     root: {
+        // position : "absolute",
 
         width : "100%",
 
         top : 'auto',
         bottom :0,
-        // height : 12,
 
 
         // background: '#F5F5F7',
@@ -48,8 +48,11 @@ const styles = (theme)=>({
 
 function MuiStyledButtonBarRaw(props) {
     const { classes, ...other } = props;
-    return <MuiAppBar position="fixed"
-            classes={{
+    return <MuiAppBar
+        position="fixed"
+        // position="absolute"
+
+        classes={{
                 root:classes.root,
 
                 }

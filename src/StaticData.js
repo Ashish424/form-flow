@@ -9,14 +9,14 @@ export const POSSIBLE_ACTIVITIES = {
 
 
 export const POSSIBLE_ACTIVITIES_KEYS = Object.keys(POSSIBLE_ACTIVITIES);
-
+//todo use dynamic keys here
 export const POSSIBLE_ACTIVITIES_CALORIE_RANGE_MULTIPLIER_MIN = {
     "Low" : 0.95,
     "Medium" : 0.9,
     "High" : 0.85
 };
 
-
+//todo use dynamic keys here
 export const POSSIBLE_ACTIVITIES_CALORIE_RANGE_MULTIPLIER_MAX = {
     "Low" : 1.15,
     "Medium" : 1.1,
@@ -30,9 +30,12 @@ export const POSSIBLE_GENDERS = {
 };
 
 
+export function getHisOrHer(genderKey){
+    return genderKey === "Girl" ? "her" : "his";
+
+}
+
 export const POSSIBLE_GENDERS_KEYS = Object.keys(POSSIBLE_GENDERS);
-
-
 
 
 export const NEUTERED_OPTIONS = {
