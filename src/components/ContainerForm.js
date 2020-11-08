@@ -153,7 +153,7 @@ class ContainerForm extends React.Component{
         //only set values like this in the constructor
         this.state = {
             //todo reset to zero in prod
-            currentQues : 4,
+            currentQues : 0,
             //initialized with default values
             quesOutputPool : {
                 dogName : "",
