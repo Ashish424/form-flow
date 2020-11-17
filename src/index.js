@@ -3,9 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 // import App from './App';
 import * as serviceWorker from './serviceWorker';
-
-
 import App2 from "./App2";
+
+
+const dotenv = require('dotenv')
+dotenv.config({path: __dirname + '/.env'})
+// console.log("value is "+ process.env.REACT_APP_BREEDS);
+
+
+
+
 ReactDOM.render(
   <React.StrictMode>
     <App2 />

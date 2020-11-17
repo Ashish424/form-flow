@@ -20,11 +20,16 @@ const useStyles = makeStyles((theme)=>({
         margin: "16px 0px 0px 0px",
         // padding: '9px 9px 9px 9px',
 
+        [theme.breakpoints.down('xl')]: {
+
+            padding : theme.spacing(1.125),
+        },
+
         [theme.breakpoints.down('lg')]: {
 
             padding : theme.spacing(1.125),
         },
-        [theme.breakpoints.down('m      d')]: {
+        [theme.breakpoints.down('md')]: {
 
 
             padding : theme.spacing(1.125),

@@ -69,6 +69,7 @@ export default function MuiStyledImage(props){
                     className = {
 
                         `${classes.imgBaseFirst} ${isSelected ? classes.imgVisible : classes.imgHidden}`
+
                     }
                 />
                 <img src={normalImg}

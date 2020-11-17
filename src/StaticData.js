@@ -120,7 +120,7 @@ export const CALORIFIC_COVERS = {
 
 };
 
-
+//todo load from a file using env variables
 export const BREED_CATEGORIES_MAPPED = {
     "AFFENPINSCHER":"Toy",
     "AFGHAN HOUND":"Large",

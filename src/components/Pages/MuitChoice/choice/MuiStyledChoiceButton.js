@@ -1,9 +1,13 @@
-import makeStyles from "@material-ui/core/styles/makeStyles";
+// import makeStyles from "@material-ui/core/styles/makeStyles";
 import MuiButton from "@material-ui/core/Button";
 import React from "react";
 import {visual} from "../../../../helper/visual";
 
-const useStyles = makeStyles({
+import { ThemeProvider,makeStyles} from "@material-ui/core/styles";
+import blue from "@material-ui/core/colors/blue";
+import red from "@material-ui/core/colors/red";
+
+const useStyles = makeStyles((theme)=>({
     root :  (props) => ({
         minWidth : "100px",
         //todo make this border radius responsive
@@ -40,7 +44,7 @@ const useStyles = makeStyles({
         // },
 
     })
-});
+}));
 
 
 export default function MuiStyledChoiceButton(props){
@@ -51,14 +55,44 @@ export default function MuiStyledChoiceButton(props){
 
     return (
 
-        <MuiButton {...other}
-                   color={selected ? "primary":"secondary"}
-                   classes={
-            {root : classes.root}
-        } variant="contained">
+        <ThemeProvider theme={
+            (outerTheme)=>({
+                ...outerTheme,
 
-        </MuiButton>
+                palette : {
+                    ...outerTheme.palette,
 
+                    primary : {
+                        ...outerTheme.palette.primary,
+                        main :visual.packingOrange,
+                        dark :visual.packingOrange,
+
+
+
+
+                    },
+                    secondary : {
+                        ...outerTheme.palette.secondary,
+                        main :visual.packingOrange
+
+                    },
+
+                },
+
+            })
+        }>
+
+                <MuiButton {...other}
+                           color={selected ? "primary":"secondary"}
+                           classes={
+                    {root : classes.root}
+                }
+                variant={selected ? "contained":"outlined"}
+                >
+
+                </MuiButton>
+
+        </ThemeProvider>
     );
 
 

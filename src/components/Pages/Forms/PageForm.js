@@ -22,7 +22,7 @@ import {useNameStyles} from "./NameForm";
 
 export function MuiStyledWeightForm(props){
 
-    //todo remove this import dependency or restrcuture here
+    //todo remove this import dependency or re-structure here
     const classes = useNameStyles();
     return (
 
@@ -79,71 +79,5 @@ export function MuiStyledWeightForm(props){
 
     );
 }
-export function MuiStyledBreedForm(props) {
-    const classes = useNameStyles();
-    return (
 
-        <div className={classes.root}>
-            <form id ={props.formId} key ={props.keyVal} onSubmit={props.formOnSubmit}  >
-
-                <Grid container
-                      direction="row"
-                      justify="center"
-
-                >
-                    <Grid item xs={false} sm={3}/>
-                    <Grid item xs={12} sm={6} container>
-
-                        <div className={classes.grow}/>
-
-                        <Paper>
-
-
-
-                            <Autocomplete
-                                //todo set this id from outside if needed
-                                id="combo-box-demo"
-                                value = {props.textValue}
-                                options={props.listOptions}
-                                getOptionLabel={(option) => option}
-                                onChange={props.onSelectionChanged}
-                                //todo inline styl here ???
-                                style={{ width: 300 }}
-                                renderInput={(params) =>
-                                    <TextField
-                                        {...params}
-
-                                        placeholder={props.dogName + "'s breed"}
-                                        variant="outlined"
-
-
-                                    />}
-
-
-                            />
-
-
-
-                        </Paper>
-                        <div className={classes.grow}/>
-
-
-                        {/*</Grid>*/}
-
-
-                    </Grid>
-                    <Grid item xs={false} sm={3}/>
-
-                </Grid>
-
-
-
-
-            </form>
-        </div>
-
-    );
-
-
-}
 

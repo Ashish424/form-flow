@@ -11,7 +11,7 @@ const styles = (theme)=>({
         width : "100%",
 
         top : 'auto',
-        bottom :0,
+        // bottom :0,
 
 
         // background: '#F5F5F7',
@@ -38,7 +38,16 @@ const styles = (theme)=>({
 
 
 
+    },
+    hidden: {
+        opacity: 0.0,
+
+
+    },
+    visible: {
+        opacity: 1.0
     }
+
 
 
 
@@ -47,15 +56,25 @@ const styles = (theme)=>({
 
 
 function MuiStyledButtonBarRaw(props) {
-    const { classes, ...other } = props;
+    const { classes,visible = true, ...other } = props;
     return <MuiAppBar
-        position="fixed"
+        // position="fixed"
+        position="relative"
+        // position="sticky"
+
+        color="transparent"
         // position="absolute"
 
-        classes={{
-                root:classes.root,
+        className={
+            `${visible ? classes.visible : classes.hidden}`
+        }
 
-                }
+        classes={
+                    {
+                        root:classes.root,
+
+
+                    }
             }
             {...other}>
 

@@ -9,6 +9,19 @@ import yellow from "@material-ui/core/colors/yellow";
 import grey from "@material-ui/core/colors/grey";
 
 
+export const flexStyledDiv = makeStyles((theme)=>({
+
+        root : (props) => ({
+
+            display : "flex",
+            width : "100%",
+        }),
+
+
+
+    })
+);
+
 
 export const verticalSpacerDivStyles = makeStyles((theme)=>({
 
@@ -57,6 +70,23 @@ export const emptyDivStyles = makeStyles((theme)=>(
         {
 
             root: (props) => ({
+
+
+            })
+        }
+    )
+);
+
+export const fullHeightStyles =  makeStyles((theme)=>(
+        {
+
+            root: (props) => ({
+                minHeight : "100%",
+                // height:"100%",
+                //todo make this responsive
+                marginBottom: "-140px",
+                paddingBottom : "140px"
+
 
 
             })

@@ -16,6 +16,10 @@ const styles = (theme)=>({
 
             // backgroundColor : visual.packingOrangeLight
 
+            [theme.breakpoints.down('xl')]: {
+
+                margin: `${theme.spacing(2)}px 0px 0px 0px`,
+            },
             [theme.breakpoints.down('lg')]: {
 
                 margin: `${theme.spacing(2)}px 0px 0px 0px`,
@@ -44,6 +48,11 @@ const styles = (theme)=>({
         },
         header : {
             // color: "#FFFFFF",
+
+            [theme.breakpoints.down('xl')]: {
+
+                padding : theme.spacing(6),
+            },
             [theme.breakpoints.down('lg')]: {
 
                 padding : theme.spacing(6),

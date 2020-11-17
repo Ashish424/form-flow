@@ -1,4 +1,6 @@
-import {makeStyles, useTheme} from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
+// import {useTheme} from "@material-ui/core/styles";
+
 import React from "react";
 
 const useStyles = makeStyles((theme)=>({
@@ -7,7 +9,7 @@ const useStyles = makeStyles((theme)=>({
 
 
             // minHeight : `${props.minHeight}px`,
-            //todo width zero can also be useful for setting up ruler.
+
             width : `${props.widthPercent}%`,
 
             [theme.breakpoints.down('xl')]: {

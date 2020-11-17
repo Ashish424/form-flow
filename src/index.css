@@ -7,11 +7,57 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/*html,*/
-/*body {*/
-/*  height: 100%;*/
-/*  position: relative;*/
+
+/*html, body, #root {*/
+/*  !*height: 100%;*!*/
+/*  min-height: 100%;*/
+
+
+/*  !*position: relative;*!*/
 /*}*/
+
+
+
+/* refer this for details https://stackoverflow.com/questions/34357434/html-body-100-causing-scrollbar-to-appear/34357546#:~:text=Then%2C%20instead%20of%20using%20height,the%20html%20element%20as%20well.*/
+
+/*html{*/
+/*  height: 100%;*/
+/*  !*min-height: 100%;*!*/
+
+
+/*  !*position: relative;*!*/
+/*}*/
+
+html,body{
+  margin :0;
+  padding: 0;
+
+  height: 100%;
+  min-height: 100%;
+
+  overflow: hidden;
+
+
+  /*position: relative;*/
+}
+
+.make-overflow-hidden {
+  overflow: hidden;
+
+}
+
+.make-overflow-visible {
+  overflow: visible;
+
+}
+
+
+#root {
+  height: 100%;
+  min-height: 100%;
+
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

@@ -5,6 +5,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import MuiStyledChoiceButton from "../choice/MuiStyledChoiceButton";
 import MuiAppBar from "@material-ui/core/AppBar";
 import {withStyles} from "@material-ui/core/styles";
+import {emptyDivStyles} from "../../../helper/styles/DivStyles";
 
 
 
@@ -16,7 +17,7 @@ import {withStyles} from "@material-ui/core/styles";
 
 export function StyledDiv(props){
 
-    const {stylePropsFunc,...other } = props;
+    const {stylePropsFunc = emptyDivStyles,...other } = props;
 
 
     const classes = stylePropsFunc(other);

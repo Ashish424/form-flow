@@ -107,6 +107,7 @@ function HelperBox(props){
 
                 }>
 
+                    {/*todo highlight pimary text as needed*/}
                     <MuiTypography align="center" variant="h6">
                         {props.primaryText}
 

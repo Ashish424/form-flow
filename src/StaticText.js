@@ -1,4 +1,7 @@
-import {BODY_SCORES_KEYS, getHisOrHer} from "./StaticData";
+import { getHisOrHer} from "./StaticData";
+import React from "react";
+import {Box} from "@material-ui/core";
+import MuiStyledSecondaryQuestionLabel from "./components/Pages/SecondaryQuestionLabel";
 
 export const NAME_PRIMARY_TITLE = (quesOutputPool) => {
     return ["Hello pet parent !","What's your Dog's name?"];
@@ -181,5 +184,39 @@ export const POSSIBLE_ACTIVITY_STRINGS = (quesOutputPool)=> (
         }
     ]
 )
+
+
+
+export const USER_PRIMARY_TITLE = (quesOutputPool) =>{
+
+        return `We carefully noted everything you shared about ${quesOutputPool.dogName}. Now it's your turn!`
+
+};
+
+export const THANK_YOU_PRIMARY_MESSAGE = (quesOutputPool,minCalories,maxCalories)=>{
+
+    return (
+        <>
+                {`We have considered all your inputs and we suggest that the daily nutritional requirement
+                    for ${quesOutputPool.dogName} is `}
+
+                <Box component={"span"} fontWeight = {700} fontStyle="regular">
+                    {`${minCalories}-${maxCalories}`}
+                </Box>
+
+                {` cal/day.`}
+
+                <div>
+                    {`Our pet health specialist will get in touch with you soon and address ${quesOutputPool.dogName} needs.`}
+                </div>
+
+        </>
+    );
+
+    // return `We have considered all your inputs and we suggest that the daily nutritional requirement
+    // for ${quesOutputPool.dogName} is ${minCalories}-${maxCalories} cal/day>.`
+
+
+}
 
 

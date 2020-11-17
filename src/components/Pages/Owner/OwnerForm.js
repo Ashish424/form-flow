@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
-import StandardStyleContainer from "../ButtonContainer";
-import MultiChoiceInput from "../MuitChoice/MultiChoiceInput";
-
+// import StandardStyleContainer from "../ButtonContainer";
+// import MultiChoiceInput from "../MuitChoice/MultiChoiceInput";
+//
 
 //todo pass this as props to the function component
 const initialFValues = {

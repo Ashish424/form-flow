@@ -119,6 +119,12 @@ export default function MuiStyledNameForm(props){
 
                                 className={classes.textBox}
 
+                                onFocus = {props.onNameFieldFocus}
+                                onBlur  = {props.onNameFieldBlur}
+
+
+
+
                             >
                             </TextField>
 
