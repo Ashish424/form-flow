@@ -204,7 +204,7 @@ export const THANK_YOU_PRIMARY_MESSAGE = (quesOutputPool,minCalories,maxCalories
                     {`${minCalories}-${maxCalories}`}
                 </Box>
 
-                {` cal/day.`}
+                {` Cals/day.`}
 
                 <div>
                     {`Our pet health specialist will get in touch with you soon and address ${quesOutputPool.dogName} needs.`}

@@ -168,7 +168,9 @@ class ContainerForm extends React.Component{
             console.log("post began");
 
             //todo this statement needs to be evaluated
-            let data = this.state.quesOutputPool;
+            let data = cloneDeep(this.state.quesOutputPool);
+
+
             data['dogBreedType'] = getDogBreedType(
                 this.state.quesOutputPool.dogBreedCategoryUnknown,
                 this.state.quesOutputPool.dogBreedCategoriesIndex);
@@ -177,13 +179,15 @@ class ContainerForm extends React.Component{
                                         this.state.quesOutputPool.dogBreedCategoryUnknown,
                                         this.state.quesOutputPool.dogBreedCategoriesIndex);
 
+            console.log("post data");
+            console.log(data);
+
 
             let res = await API.post('/form-data',data);
 
             console.log("res is "+res);
 
 
-            this.state.isPostingData = false;
             return 1;
 
 
@@ -1325,18 +1329,18 @@ class ContainerForm extends React.Component{
 
                 },
                 prevButtonAttribs : ()=> {
-                    return {};
+                    return {
+                    };
                 },
                 nextButtonAttribs : ()=> {
-                    return {};
+                    return {
+                        disabled : true
+                    };
 
                 },
                 onGainFocus : ()=> {
                     //todo this will resubmit each time user re enters the
                     //todo form.Need to fix this in the future
-
-
-
 
                     this.postData();
                     console.log("end question gained focus");
