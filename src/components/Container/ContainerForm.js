@@ -62,7 +62,7 @@ import { withStyles } from "@material-ui/core/styles"
 
 
 
-import {MuiStyledWeightForm} from "../Pages/Forms/PageForm";
+import {MuiStyledWeightForm} from "../Pages/Forms/Weight/WeigthtForm";
 
 
 import MuiStyledAgeForm from "../Pages/Forms/AgeForm"
@@ -188,6 +188,7 @@ class ContainerForm extends React.Component{
             console.log("res is "+res);
 
 
+            //todo check if this needed
             return 1;
 
 
@@ -426,7 +427,7 @@ class ContainerForm extends React.Component{
         this.state = {
             //todo reset to zero in prod
 
-            currentQues : isDev() ? 9 : 0 ,
+            currentQues : isDev() ? 0 : 0 ,
             AppBarVisibility : true,
             isPostingData : false,
             //initialized with default values
@@ -459,6 +460,7 @@ class ContainerForm extends React.Component{
 
 
             },
+            weightErrors : "",
             userErrors : {}
 
 

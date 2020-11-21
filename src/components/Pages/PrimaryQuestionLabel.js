@@ -95,6 +95,10 @@ function MuiStyledPrimaryQuestionLabelRaw(props) {
                 <Box fontWeight = {700} fontStyle="regular">
                     {props.children}
                 </Box>
+                {/*<Box fontWeight = {500} fontStyle="regular">*/}
+                {/*    {props.children}*/}
+                {/*</Box>*/}
+
             </MuiTypography>
     </Paper>
     );

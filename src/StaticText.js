@@ -4,7 +4,7 @@ import {Box} from "@material-ui/core";
 import MuiStyledSecondaryQuestionLabel from "./components/Pages/SecondaryQuestionLabel";
 
 export const NAME_PRIMARY_TITLE = (quesOutputPool) => {
-    return ["Hello pet parent !","What's your Dog's name?"];
+    return ["Hello pet parent!","What's your Dog's name?"];
 
     // return "First,what's your dog's name?";
 };
@@ -118,7 +118,7 @@ export const BREED_PRIMARY_TITLE = (quesOutputPool) =>{
 
 export const BREED_SECONDARY_TITLE = (quesOutputPool) =>{
 
-    return `Every dog breed comes with its own set of needs.My ${quesOutputPool.dogName} is a`;
+    return `Every dog breed comes with its own set of needs. My ${quesOutputPool.dogName} is a`;
 
 
 

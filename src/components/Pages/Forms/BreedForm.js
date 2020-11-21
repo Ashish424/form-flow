@@ -170,7 +170,7 @@ export default function MuiStyledBreedForm(props) {
                                 class = {classes.checkBox}
 
                                 name="CheckBox"
-                                label = {"I don't know " + props.dogName +" breed"}
+                                label = {"I don't know " + props.dogName +"'s breed"}
                                 onChange = {toggleBreedBox}
                                 value = {props.checkBoxValue}
 

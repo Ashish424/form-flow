@@ -10,6 +10,7 @@ import MuiTypography from "@material-ui/core/Typography";
 import {makeStyles} from "@material-ui/core/styles";
 import VerticalSpacerDiv from "../../helper/VerticalSpacerDiv";
 import MuiStyledPrimaryQuestion from "../PrimaryQuestionLabel";
+import {Box} from "@material-ui/core";
 
 
 
@@ -107,13 +108,18 @@ function HelperBox(props){
 
                 }>
 
-                    {/*todo highlight pimary text as needed*/}
-                    <MuiTypography align="center" variant="h6">
-                        {props.primaryText}
+                        <MuiTypography align="center" variant="h6">
+
+                            <Box component={"span"} fontWeight = {700} fontStyle="regular">
+
+                                {props.primaryText}
 
 
+                            </Box>
 
-                    </MuiTypography>
+
+                        </MuiTypography>
+
 
 
                     <MuiTypography align="center" variant="h6">

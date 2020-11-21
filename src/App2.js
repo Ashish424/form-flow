@@ -44,6 +44,14 @@ class App2 extends React.Component{
                 },
             },
 
+            // typography: {
+            //     fontFamily: [
+            //         'IBM Plex Serif',
+            //         'serif',
+            //     ].join(','),
+            // },
+
+
             typography: {
                 fontFamily: [
                     'Nunito',
@@ -64,6 +72,9 @@ class App2 extends React.Component{
             //         'cursive',
             //     ].join(','),
             // },
+
+
+            // IBM Plex Serif
             // test : blue[500]
 
             //default value is 8
