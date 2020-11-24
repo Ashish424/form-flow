@@ -427,7 +427,7 @@ class ContainerForm extends React.Component{
         this.state = {
             //todo reset to zero in prod
 
-            currentQues : isDev() ? 6 : 0 ,
+            currentQues : isDev() ? 9 : 0 ,
             AppBarVisibility : true,
             isPostingData : false,
             //initialized with default values
@@ -1343,7 +1343,7 @@ class ContainerForm extends React.Component{
                 onGainFocus : ()=> {
                     //todo this will resubmit each time user re enters the
                     //todo form.Need to fix this in the future
-
+                    //todo also time out and inform user about the problem.
                     this.postData();
                     console.log("end question gained focus");
 

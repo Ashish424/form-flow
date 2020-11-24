@@ -198,16 +198,16 @@ export const THANK_YOU_PRIMARY_MESSAGE = (quesOutputPool,minCalories,maxCalories
     return (
         <>
                 {`We have considered all your inputs and we suggest that the daily nutritional requirement
-                    for ${quesOutputPool.dogName} is `}
+                    for ${quesOutputPool.dogName}'s is `}
 
                 <Box component={"span"} fontWeight = {700} fontStyle="regular">
                     {`${minCalories}-${maxCalories}`}
                 </Box>
 
-                {` Cals/day.`}
+                {` cal/day.`}
 
                 <div>
-                    {`Our pet health specialist will get in touch with you soon and address ${quesOutputPool.dogName} needs.`}
+                    {`Our pet health specialist will get in touch with you soon and address ${quesOutputPool.dogName}'s needs.`}
                 </div>
 
         </>
