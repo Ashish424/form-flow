@@ -259,18 +259,7 @@ class ContainerForm extends React.Component{
             return value ? "":"This field is required";
 
         }
-        funcObj[arr[1]] = (value) =>{
-            const test1 = value !=="";
-            if(!test1)return "This field is required";
-
-            const test2 = (/$^|.+@.+..+/).test(value);
-            if(!test2)return "Enter a valid email address";
-
-            return "";
-
-
-        }
-        funcObj[arr[2]] = (value) => {
+        funcObj[arr[1]] = (value) => {
 
             const test0 = value !== "";
             if(!test0) return "This field is required";
@@ -284,7 +273,7 @@ class ContainerForm extends React.Component{
 
         }
 
-        funcObj[arr[3]] = (value) => {
+        funcObj[arr[2]] = (value) => {
             const test1 = value.length === 6;
             if(!test1) return "Please enter a 6 digit Pin Code";
             const test2 = /^\d+$/.test(value);
@@ -298,6 +287,28 @@ class ContainerForm extends React.Component{
 
         }
 
+
+        funcObj[arr[3]] = (value) =>{
+
+
+
+
+            const test1 = value !=="";
+
+
+
+            if(!test1) {
+                //made email optional
+                return "";
+                // return "This field is required";
+            }
+            const test2 = (/$^|.+@.+..+/).test(value);
+            if(!test2)return "Enter a valid email address";
+
+            return "";
+
+
+        }
 
         for(let i =0 ;i < arr.length; i++ ){
             temp[arr[i]] = (funcObj[arr[i]])(this.state.quesOutputPool.user[arr[i]]);
@@ -427,7 +438,7 @@ class ContainerForm extends React.Component{
         this.state = {
             //todo reset to zero in prod
 
-            currentQues : isDev() ? 9 : 0 ,
+            currentQues : isDev() ? 8 : 0 ,
             AppBarVisibility : true,
             isPostingData : false,
             //initialized with default values
@@ -449,11 +460,12 @@ class ContainerForm extends React.Component{
 
                 user : {
                     userName: "",
-                    //todo email validation
-                    email : "",
                     //indian phone number only
                     mobile : "",
                     pinCode : "",
+
+                    //todo email validation
+                    email : "",
 
 
                 }
@@ -1195,16 +1207,17 @@ class ContainerForm extends React.Component{
                                 fieldData = {
                                     {
                                         names  : Object.keys(this.state.quesOutputPool.user),
-                                        // ["name", "email", "mobile", "pin"],
-                                        labels : ["* Full Name","* Email","* Mobile","* Pin Code"],
+                                        // ["name","mobile", "pin","email"],
+                                        labels : ["* Full Name","* Mobile","* Pin Code","Email"],
                                         values : Object.values(this.state.quesOutputPool.user),
                                         errors : Object.values(this.state.userErrors),
                                         adornment : [
-                                            {},{},
+                                            {},
                                             {
 
                                                 startAdornment: <InputAdornment position="start">+91</InputAdornment>
                                             },
+                                            {},
                                             {}
 
                                         ]
