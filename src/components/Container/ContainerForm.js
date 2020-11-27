@@ -438,7 +438,7 @@ class ContainerForm extends React.Component{
         this.state = {
             //todo reset to zero in prod
 
-            currentQues : isDev() ? 8 : 0 ,
+            currentQues : isDev() ? 2 : 0 ,
             AppBarVisibility : true,
             isPostingData : false,
             //initialized with default values

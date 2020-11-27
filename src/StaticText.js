@@ -109,7 +109,9 @@ export const BODY_SCORE_SECONDARY_TITLE = (quesOutputPool) =>{
 
 export const BREED_PRIMARY_TITLE = (quesOutputPool) =>{
 
-    return `Which breed ${quesOutputPool.dogName} belongs to?`;
+
+    return `Which breed does ${quesOutputPool.dogName} belong to?`;
+
 
 
     // return `What breed is ${quesOutputPool.dogName}?`;
