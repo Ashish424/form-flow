@@ -6,7 +6,7 @@ import {
     BREED_CATEGORIES_LIST,
     BREED_CATEGORIES_MAPPED,
     BREED_OPTIONS,
-    BREED_OPTIONS_KEYS,
+    BREED_OPTIONS_KEYS, CITIES_LIST,
     getLowerKey,
     getUpperKey,
     NEUTERED_OPTIONS,
@@ -17,7 +17,13 @@ import {
 import {isDev} from "../../helper/utilities";
 
 
+export function getCity(cityIndex){
+    if(cityIndex!==-1){
+        return CITIES_LIST[cityIndex];
 
+    }
+    return "Unknown";
+}
 
 export function getDogBreedType(categoryUnknown=true, categoryIndex=-1) {
     if(categoryUnknown){

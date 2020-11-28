@@ -114,7 +114,7 @@ import MuiStyledUserForm from "../Pages/Forms/User/UserForm";
 import {
     getCalorieMin,
     getCaloriesMax,
-    getCalorificCover,
+    getCalorificCover, getCity,
     getDogAgeBracket,
     getDogBreedCategory,
     getDogBreedType,
@@ -179,6 +179,9 @@ class ContainerForm extends React.Component{
                                         this.state.quesOutputPool.dogBreedCategoryUnknown,
                                         this.state.quesOutputPool.dogBreedCategoriesIndex);
 
+            data['city'] = getCity(this.state.quesOutputPool.cityIndex);
+
+
             console.log("post data");
             console.log(data);
 
@@ -223,7 +226,7 @@ class ContainerForm extends React.Component{
         let newCityIndex = CITIES_LIST.findIndex((ele)=>{
             return ele === newValue;
         });
-        console.log("new city index is "+newCityIndex);
+        // console.log("new city index is "+newCityIndex);
 
         this.setCityIndex(newCityIndex);
 
@@ -344,29 +347,19 @@ class ContainerForm extends React.Component{
         console.log("printing temp");
         console.log(temp);
 
+        let tempCityError = this.state.quesOutputPool.cityIndex !== -1 ? "": "Please select your city";
+
 
         this.setState(
             (state,props)=> {
-                // let ques = this.getQuestionData(state.currentQues);
-                //todo need a better solution for all this cloning.
-                //todo use immutability-helper here
-                // let clonedQuesPool = cloneDeep(state.quesOutputPool);
-                // clonedQuesPool.error = {
-                //     ...state.quesOutputPool.user,
-                //     errors : temp
-                // }
 
-                return {userErrors:temp};
+                return {userErrors:temp,cityErrors:tempCityError};
 
             });
 
 
 
-        // this.updateUserInputErrorState(temp);
-        // setErrors({
-        //     ...temp
-        // });
-        return Object.values(temp).every(x => x==="" );
+        return Object.values(temp).every(x => x==="" ) && tempCityError === "";
 
 
 
@@ -471,7 +464,7 @@ class ContainerForm extends React.Component{
             quesOutputPool : {
                 dogName : "",
                 dogGender : POSSIBLE_GENDERS_KEYS[0],
-                dogWeight : 0,
+                dogWeight : -1,
                 dogActivity  : POSSIBLE_ACTIVITIES_KEYS[1],
                 dogNeutered  : NEUTERED_OPTIONS_KEYS[0],
                 // dogAge       : "",
@@ -502,7 +495,8 @@ class ContainerForm extends React.Component{
 
             },
             weightErrors : "",
-            userErrors : {}
+            userErrors : {},
+            cityErrors : ""
 
 
 
@@ -1183,7 +1177,11 @@ class ContainerForm extends React.Component{
                                 formId = {this.dogWeightFormID}
                                 keyVal={this.weightInputKey}
                                 onChange = {this.weightInputChange}
-                                textValue = {this.state.quesOutputPool.dogWeight || ""}
+                                textValue = {this.state.quesOutputPool.dogWeight < 0 ? "" : this.state.quesOutputPool.dogWeight }
+                                // textValue = {this.state.quesOutputPool.dogWeight }
+
+
+
                             >
 
                             </MuiStyledWeightForm>
@@ -1204,7 +1202,7 @@ class ContainerForm extends React.Component{
                     return {
                         type: "submit",
                         form: this.dogWeightFormID,
-                        disabled: this.state.quesOutputPool.dogWeight === 0,
+                        disabled: this.state.quesOutputPool.dogWeight <= 0,
                         onClick: this.onClickNextFormAhead
 
 
@@ -1269,6 +1267,7 @@ class ContainerForm extends React.Component{
                                         CITIES_LIST[this.state.quesOutputPool.cityIndex]
 
                                 }
+                                cityError = {this.state.cityErrors}
 
                             >
 
@@ -1512,25 +1511,51 @@ class ContainerForm extends React.Component{
         event.preventDefault();
         event.persist();
 
+        const inputVal = event.target.value;
+        if (typeof inputVal != "string") {
+            console.log("input needs to be a string");
+            return;
+        }
 
-        //validation
-        //todo validate here
-        const value = event.target.value;
 
-        //need to persist event for the callback of setstate
-        // event.persist();
-        //NOTE set state function is asynchronous.
+
+        let number = 0;
+
+        //empty string as input override num
+        if(inputVal === ""){
+            console.log("input invalid here");
+            number = -1;
+
+        }
+        else if(inputVal === "0" ){
+            console.log("caught zero");
+            number = parseFloat(inputVal);
+        }
+
+        else {
+            console.log("here with value "+inputVal);
+
+
+            // let valid = true;
+            // valid &= (!isNaN(inputVal) && !isNaN(parseFloat(inputVal)));
+            // if (!valid) {
+            //     console.log("entered value is not a number");
+            //     //todo raise the appropriate error before exit
+            //     return;
+            // }
+            //
+            number = parseFloat(inputVal);
+
+
+        }
+
 
         this.setState(
             (state,props)=> {
-                // let ques = this.getQuestionData(state.currentQues);
                 //todo need a better solution for all this cloning.
                 let clonedQuesPool = cloneDeep(state.quesOutputPool);
-                //todo error checking here
-                clonedQuesPool.dogWeight = value;
-
+                clonedQuesPool.dogWeight = number;
                 return {quesOutputPool:clonedQuesPool};
-
             }
         );
 

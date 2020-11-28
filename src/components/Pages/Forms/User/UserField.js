@@ -16,8 +16,11 @@ export default function Input(props) {
                 onFocus(e);
             }}
             onBlur={onBlur}
-            InputProps={props.adornment}
+            InputProps={{...props.adornment, autoComplete: 'new-password'}}
+            // InputProps={props.adornment}
+
             {...(error && {error:true,helperText:error})}
+
         />
     )
 }

@@ -111,7 +111,7 @@ export default function MuiStyledBreedForm(props) {
                                     getOptionLabel={(option) => option}
                                     onChange={props.onSelectionChanged}
                                     disabled={props.checkBoxValue}
-                                    //todo inline styl here ???
+                                    //todo inline style here ???
                                     style={{ width: 300 }}
                                     renderInput={
                                         (params) =>
@@ -120,6 +120,7 @@ export default function MuiStyledBreedForm(props) {
 
                                                 placeholder={props.dogName + "'s breed"}
                                                 variant="outlined"
+                                                // InputProps={{autoComplete: 'new-password'}}
 
 
                                             />)

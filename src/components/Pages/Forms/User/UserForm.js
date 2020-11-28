@@ -12,6 +12,7 @@ import MuiTypography from "@material-ui/core/Typography";
 import {Box} from "@material-ui/core";
 import VerticalSpacerDiv from "../../../helper/VerticalSpacerDiv";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import UserAutoComplete from "./UserAutoComplete";
 
 
 export const useUserStyles = makeStyles((theme)=>({
@@ -223,7 +224,7 @@ export default function MuiStyledUserForm(props) {
                                     })
                                 }
 
-                                <AutoCompleteBox
+                                <UserAutoComplete
                                     //todo set this id from outside if needed
                                     id="combo-box-demo"
                                     value = {props.cityValue}
@@ -239,8 +240,8 @@ export default function MuiStyledUserForm(props) {
 
                                                 placeholder={"City"}
                                                 variant="outlined"
-
-
+                                                {...(props.cityError && {error:true,helperText:props.cityError})}
+                                                // InputProps={{autoComplete: 'new-password'}}
                                             />)
                                     }
 
@@ -250,7 +251,7 @@ export default function MuiStyledUserForm(props) {
 
 
 
-                                </AutoCompleteBox>
+                                </UserAutoComplete>
 
 
 
