@@ -105,7 +105,6 @@ export default function MuiStyledBreedForm(props) {
 
                                 <AutoCompleteBox
                                     //todo set this id from outside if needed
-
                                     id="combo-box-demo"
                                     value = {props.textValue}
                                     options={props.listOptions}

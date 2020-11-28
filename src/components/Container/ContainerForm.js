@@ -22,7 +22,7 @@ import {
     POSSIBLE_ACTIVITIES_CALORIE_RANGE_MULTIPLIER_MIN,
     POSSIBLE_ACTIVITIES_KEYS,
     POSSIBLE_GENDERS_KEYS,
-    BREED_CATEGORIES_LIST, BREED_CATEGORIES_MAPPED, getLowerKey, getUpperKey,
+    BREED_CATEGORIES_LIST, BREED_CATEGORIES_MAPPED, getLowerKey, getUpperKey, CITIES_DICT_ARR, CITIES_LIST,
 } from "../../StaticData";
 import {
     ACTIVITY_PRIMARY_TITLE,
@@ -217,6 +217,32 @@ class ContainerForm extends React.Component{
 
 
 
+    citySelectionChange(event,newValue){
+
+        //find index returns -1 if not found
+        let newCityIndex = CITIES_LIST.findIndex((ele)=>{
+            return ele === newValue;
+        });
+        console.log("new city index is "+newCityIndex);
+
+        this.setCityIndex(newCityIndex);
+
+    }
+
+    setCityIndex(index){
+        this.setState(
+            (state,props)=> {
+                // let ques = this.getQuestionData(state.currentQues);
+                //todo need a better solution for all this cloning.
+                //todo use immutability-helper here
+                let clonedQuesPool = cloneDeep(state.quesOutputPool);
+                clonedQuesPool.cityIndex = index;
+
+                return {quesOutputPool:clonedQuesPool};
+
+            });
+
+    }
 
     handleUserInputChange(event) {
 
@@ -255,6 +281,7 @@ class ContainerForm extends React.Component{
             funcObj[arr[i]] = (value)=>{return "";}
 
         }
+
         funcObj[arr[0]] = (value) =>{
             return value ? "":"This field is required";
 
@@ -272,25 +299,7 @@ class ContainerForm extends React.Component{
             return "";
 
         }
-
-        funcObj[arr[2]] = (value) => {
-            const test1 = value.length === 6;
-            if(!test1) return "Please enter a 6 digit Pin Code";
-            const test2 = /^\d+$/.test(value);
-            if(!test2) return "Please enter a valid Pin Code";
-
-            //todo test the pincode for the valid places
-            // const test3 = "";
-            // if(!test3) return "Currently not deliver to the address"
-
-            return "";
-
-        }
-
-
-        funcObj[arr[3]] = (value) =>{
-
-
+        funcObj[arr[2]] = (value) =>{
 
 
             const test1 = value !=="";
@@ -309,6 +318,23 @@ class ContainerForm extends React.Component{
 
 
         }
+
+        // funcObj[arr[3]] = (value) => {
+        //     const test1 = value.length === 6;
+        //     if(!test1) return "Please enter a 6 digit Pin Code";
+        //     const test2 = /^\d+$/.test(value);
+        //     if(!test2) return "Please enter a valid Pin Code";
+        //
+        //     //todo test the pincode for the valid places
+        //     // const test3 = "";
+        //     // if(!test3) return "Currently not deliver to the address"
+        //
+        //     return "";
+        //
+        // }
+
+
+
 
         for(let i =0 ;i < arr.length; i++ ){
             temp[arr[i]] = (funcObj[arr[i]])(this.state.quesOutputPool.user[arr[i]]);
@@ -438,7 +464,7 @@ class ContainerForm extends React.Component{
         this.state = {
             //todo reset to zero in prod
 
-            currentQues : isDev() ? 2 : 0 ,
+            currentQues : isDev() ? 8 : 0 ,
             AppBarVisibility : true,
             isPostingData : false,
             //initialized with default values
@@ -462,13 +488,16 @@ class ContainerForm extends React.Component{
                     userName: "",
                     //indian phone number only
                     mobile : "",
-                    pinCode : "",
+                    // pinCode : "",
 
                     //todo email validation
                     email : "",
 
 
-                }
+
+                },
+
+                cityIndex : -1
 
 
             },
@@ -500,6 +529,11 @@ class ContainerForm extends React.Component{
 
 
         this.handleUserInputChange = this.handleUserInputChange.bind(this);
+        this.citySelectionChange = this.citySelectionChange.bind(this);
+        this.setCityIndex = this.setCityIndex.bind(this);
+
+
+
         this.validateUserInputBeforeSubmit = this.validateUserInputBeforeSubmit.bind(this);
         this.updateUserInputErrorState =  this.updateUserInputErrorState.bind(this);
         this.onFormSubmitAbsorbUserForm = this.onFormSubmitAbsorbUserForm.bind(this);
@@ -704,9 +738,9 @@ class ContainerForm extends React.Component{
                         type: "submit",
                         form: this.dogAgeFormID,
                         disabled:
-                            this.state.quesOutputPool.dogAgeYears === 0
-                            && this.state.quesOutputPool.dogAgeMonths === 0
-                            // && this.isValidAge()
+                        (this.state.quesOutputPool.dogAgeYears === 0
+                            && this.state.quesOutputPool.dogAgeMonths === 0)
+                            || !this.isValidAge()
                         ,
                         onClick:this.onClickNextFormAhead
                     };
@@ -1208,7 +1242,9 @@ class ContainerForm extends React.Component{
                                     {
                                         names  : Object.keys(this.state.quesOutputPool.user),
                                         // ["name","mobile", "pin","email"],
-                                        labels : ["* Full Name","* Mobile","* Pin Code","Email"],
+                                        labels : ["* Full Name","* Mobile",
+                                            // "* Pin Code",
+                                            "Email"],
                                         values : Object.values(this.state.quesOutputPool.user),
                                         errors : Object.values(this.state.userErrors),
                                         adornment : [
@@ -1225,6 +1261,15 @@ class ContainerForm extends React.Component{
                                         // errors : [0,0,0,0]
                                     }
                                 }
+                                cityList = {CITIES_LIST}
+                                onCityChange = {this.citySelectionChange}
+                                cityValue={
+                                    this.state.quesOutputPool.cityIndex === -1 ?
+                                        null :
+                                        CITIES_LIST[this.state.quesOutputPool.cityIndex]
+
+                                }
+
                             >
 
                             </MuiStyledUserForm>
@@ -1632,11 +1677,11 @@ class ContainerForm extends React.Component{
 
             }
 
-            //combined constraints here
-            if(total < 2){
-                console.log("age less than 2 months");
-                return;
-            }
+            // //combined constraints here
+            // if(total < 2){
+            //     console.log("age less than 2 months");
+            //     return;
+            // }
 
 
         }
@@ -1914,7 +1959,10 @@ class ContainerForm extends React.Component{
         const userName = this.state.quesOutputPool.user.userName;
         const email = this.state.quesOutputPool.user.email;
         const mobile = this.state.quesOutputPool.user.mobile;
-        const pinCode = this.state.quesOutputPool.user.pinCode;
+        // const pinCode = this.state.quesOutputPool.user.pinCode;
+
+        const city = this.state.quesOutputPool.cityIndex!==-1 ? CITIES_LIST[this.state.quesOutputPool.cityIndex]: "no city";
+
 
 
         return dn +" "+dG+" " + dW + " "+dA + " "+ dne +" "
@@ -1927,7 +1975,9 @@ class ContainerForm extends React.Component{
             +userName + " "
             +email + " "
             +mobile + " "
-            +pinCode;
+            // +pinCode
+            +city + " "
+            ;
 
 
     }
@@ -2023,8 +2073,17 @@ class ContainerForm extends React.Component{
 
     isValidAge() {
 
+        let years = this.state.quesOutputPool.dogAgeYears;
+        let months = this.state.quesOutputPool.dogAgeMonths;
+        let total = years*12+months;
+        if(total < 2){
+            console.log("age less than 2 months");
+            return;
+        }
 
-        return false;
+
+        return total >=2;
+
     }
 
 

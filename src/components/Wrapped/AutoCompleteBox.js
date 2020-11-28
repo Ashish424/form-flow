@@ -30,12 +30,13 @@ export default function AutoCompleteBox(props){
     const classes = useStyles();
     // console.log("props value here is "+props.disabled);
 
+    const disabled = props.disabled || false;
 
 
     return (
         <Autocomplete
-            className={`${classes.root} ${props.disabled ? classes.faded : classes.focused}`}
-            disabled={props.disabled}
+            className={`${classes.root} ${disabled ? classes.faded : classes.focused}`}
+            disabled={disabled}
             value = {props.value}
             options={props.options}
             getOptionLabel={props.getOptionLabel}

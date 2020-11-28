@@ -259,3 +259,39 @@ export const BREED_CATEGORIES_MAPPED = {
 export const BREED_CATEGORIES_LIST = Object.keys(BREED_CATEGORIES_MAPPED);
 
 
+export const CITIES_DICT_ARR = [
+                                {
+                                    name : "Hyderabad",
+                                    delivering: true
+                                },
+                                {
+                                    name : "New Delhi",
+                                    delivering: false
+                                },
+                                {
+                                    name : "Bangalore",
+                                    delivering: false
+                                },
+                                {
+                                    name : "Gurgaon",
+                                    delivering: false
+                                },
+                                {
+                                    name : "Mumbai",
+                                    delivering: false
+                                },
+                                {
+                                    name : "Pune",
+                                    delivering: false
+                                },
+                                {
+                                    name : "Chennai",
+                                    delivering: false
+                                },
+
+
+                        ]
+
+
+
+export const CITIES_LIST = CITIES_DICT_ARR.map(a=>a.name);

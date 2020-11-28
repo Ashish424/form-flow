@@ -223,6 +223,35 @@ export default function MuiStyledUserForm(props) {
                                     })
                                 }
 
+                                <AutoCompleteBox
+                                    //todo set this id from outside if needed
+                                    id="combo-box-demo"
+                                    value = {props.cityValue}
+                                    options={props.cityList}
+                                    getOptionLabel={(option) => option}
+                                    onChange={props.onCityChange}
+                                    //todo inline styl here ???
+                                    // style={{ width: 300 }}
+                                    renderInput={
+                                        (params) =>
+                                            (<TextField
+                                                {...params}
+
+                                                placeholder={"City"}
+                                                variant="outlined"
+
+
+                                            />)
+                                    }
+
+
+
+                                >
+
+
+
+                                </AutoCompleteBox>
+
 
 
 
