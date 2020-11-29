@@ -6,7 +6,7 @@ import {
     BREED_CATEGORIES_LIST,
     BREED_CATEGORIES_MAPPED,
     BREED_OPTIONS,
-    BREED_OPTIONS_KEYS, CITIES_LIST,
+    BREED_OPTIONS_KEYS, CITIES_DICT_ARR, CITIES_LIST,
     getLowerKey,
     getUpperKey,
     NEUTERED_OPTIONS,
@@ -25,6 +25,13 @@ export function getCity(cityIndex){
     return "Unknown";
 }
 
+export function isCityDelivering(cityIndex){
+    if(cityIndex!==-1){
+        const city = CITIES_LIST[cityIndex];
+        return CITIES_DICT_ARR.find(a=>a.name === city).delivering;
+    }
+    return false;
+}
 export function getDogBreedType(categoryUnknown=true, categoryIndex=-1) {
     if(categoryUnknown){
         return "Unknown";

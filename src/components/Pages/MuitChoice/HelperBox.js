@@ -131,52 +131,6 @@ function HelperBox(props){
 
 
 
-                    {/*<MuiStyledSecondaryQuestionLabel align="center" variant="h6">*/}
-                    {/*    {this.props.primaryText}*/}
-                    {/*</MuiStyledSecondaryQuestionLabel>*/}
-
-
-                    {/*<MuiStyledSecondaryQuestionLabel align="center" variant="h6">*/}
-                    {/*    {this.props.secondaryText}*/}
-                    {/*</MuiStyledSecondaryQuestionLabel>*/}
-
-
-
-
-
-                {/*    {*/}
-                {/*        React.Children.map(children,(child,index)=>{*/}
-
-                {/*            if(index !== childrenCount-1){*/}
-                {/*                return(*/}
-
-                {/*                    <>*/}
-                {/*                        {child}*/}
-                {/*                        <HorizontalSpacerDiv minWidth={60}/>*/}
-
-                {/*                    </>*/}
-                {/*                );*/}
-                {/*            }*/}
-                {/*            else{*/}
-                {/*                return(*/}
-
-                {/*                    <>*/}
-                {/*                        {child}*/}
-                {/*                    </>*/}
-                {/*                );*/}
-
-                {/*            }*/}
-
-
-
-
-                {/*        })*/}
-
-
-
-                {/*    }*/}
-
-
 
                 </Paper>
 

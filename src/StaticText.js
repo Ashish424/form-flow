@@ -2,6 +2,7 @@ import { getHisOrHer} from "./StaticData";
 import React from "react";
 import {Box} from "@material-ui/core";
 import MuiStyledSecondaryQuestionLabel from "./components/Pages/SecondaryQuestionLabel";
+import {isCityDelivering} from "./components/Container/containerHelper";
 
 export const NAME_PRIMARY_TITLE = (quesOutputPool) => {
     return ["Hello pet parent!","What's your Dog's name?"];
@@ -208,8 +209,17 @@ export const THANK_YOU_PRIMARY_MESSAGE = (quesOutputPool,minCalories,maxCalories
 
                 {` cal/day.`}
 
+
+
+
                 <div>
-                    {`Our pet health specialist will get in touch with you soon and address ${quesOutputPool.dogName}'s needs.`}
+                    {isCityDelivering(quesOutputPool.cityIndex) ?
+                        `Our pet health specialist will get in touch with you soon and address ${quesOutputPool.dogName}'s needs.`:
+                        `Thank you for reaching out to Mom & Paw. We are currently not serving in your city. We will notify you once we are in your town.`
+                    }
+                    {/*{`Our pet health specialist will get in touch with you soon and address ${quesOutputPool.dogName}'s needs.`}*/}
+
+
                 </div>
 
         </>

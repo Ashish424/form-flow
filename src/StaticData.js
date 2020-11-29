@@ -288,6 +288,10 @@ export const CITIES_DICT_ARR = [
                                     name : "Chennai",
                                     delivering: false
                                 },
+                                {
+                                    name : "Other Cities",
+                                    delivering: false
+                                }
 
 
                         ]
