@@ -201,7 +201,7 @@ export const THANK_YOU_PRIMARY_MESSAGE = (quesOutputPool,minCalories,maxCalories
     return (
         <>
                 {`We have considered all your inputs and we suggest that the daily nutritional requirement
-                    for ${quesOutputPool.dogName}'s is `}
+                    for ${quesOutputPool.dogName} is `}
 
                 <Box component={"span"} fontWeight = {700} fontStyle="regular">
                     {`${minCalories}-${maxCalories}`}
