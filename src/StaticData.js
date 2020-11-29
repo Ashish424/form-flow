@@ -187,6 +187,7 @@ export const BREED_CATEGORIES_MAPPED = {
     "IRISH SETTER":"Large",
     "IRISH WATER SPANIEL":"Medium",
     "IRISH WOLFHOUND":"Giant",
+    "INDIE BREED" : "Medium",
     "JACK RUSSELL TERRIER":"Mini",
     "JAPANESE SPANIEL":"Toy",
     "KEESHOND":"Medium",
@@ -252,7 +253,8 @@ export const BREED_CATEGORIES_MAPPED = {
     "GADDI KUTTA":"Large",
     "TANGKHUL HUI":"Large",
     "TAJI (TAZI)":"Large",
-    "HAMEERPURA SIKAR GRAYHOUND":"Large"
+    "HAMEERPURA SIKAR GRAYHOUND":"Large",
+
 }
 
 
