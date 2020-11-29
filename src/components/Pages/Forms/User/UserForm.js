@@ -242,8 +242,21 @@ export default function MuiStyledUserForm(props) {
                                                 variant="outlined"
                                                 {...(props.cityError && {error:true,helperText:props.cityError})}
                                                 // InputProps={{autoComplete: 'new-password'}}
+
+                                                onFocus = {
+                                                    ()=>{
+                                                        props.handleFocusGain("complete-box")
+                                                    }
+                                                }
+                                                onBlur = {
+                                                    ()=>{
+                                                        props.handleFocusLoss("complete-box")
+                                                    }
+                                                }
                                             />)
                                     }
+
+
 
 
 
