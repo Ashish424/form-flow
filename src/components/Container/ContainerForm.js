@@ -8,21 +8,13 @@ import {isMobileOnly} from 'react-device-detect';
 
 import MultiChoiceInput from "../Pages/MuitChoice/MultiChoiceInput";
 import {
-    AGE_CALORIFIC_OPTIONS,
-    AGE_OPTIONS,
-    AGE_OPTIONS_KEYS,
-    BODY_SCORES,
+
     BODY_SCORES_KEYS,
-    BREED_OPTIONS,
-    BREED_OPTIONS_KEYS,
-    NEUTERED_OPTIONS,
     NEUTERED_OPTIONS_KEYS,
-    POSSIBLE_ACTIVITIES,
-    POSSIBLE_ACTIVITIES_CALORIE_RANGE_MULTIPLIER_MAX,
-    POSSIBLE_ACTIVITIES_CALORIE_RANGE_MULTIPLIER_MIN,
     POSSIBLE_ACTIVITIES_KEYS,
     POSSIBLE_GENDERS_KEYS,
-    BREED_CATEGORIES_LIST, BREED_CATEGORIES_MAPPED, getLowerKey, getUpperKey, CITIES_DICT_ARR, CITIES_LIST,
+    BREED_CATEGORIES_LIST,
+    CITIES_LIST,
 } from "../../StaticData";
 import {
     ACTIVITY_PRIMARY_TITLE,
@@ -111,16 +103,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import VerticalSpacerDiv from "../helper/VerticalSpacerDiv";
 import MuiStyledBreedForm from "../Pages/Forms/BreedForm";
 import MuiStyledUserForm from "../Pages/Forms/User/UserForm";
-import {
-    getCalorieMin,
-    getCaloriesMax,
-    getCalorificCover, getCity,
-    getDogAgeBracket,
-    getDogBreedCategory,
-    getDogBreedType,
-    getMer,
-    getRer
-} from "./containerHelper";
+import {getCity} from "./containerHelper";
 import InputAdornment from "@material-ui/core/InputAdornment";
 
 
@@ -170,15 +153,6 @@ class ContainerForm extends React.Component{
             //todo this statement needs to be evaluated
             let data = cloneDeep(this.state.quesOutputPool);
 
-
-            data['dogBreedType'] = getDogBreedType(
-                this.state.quesOutputPool.dogBreedCategoryUnknown,
-                this.state.quesOutputPool.dogBreedCategoriesIndex);
-
-            data['dogBreedCategory'] = getDogBreedCategory(
-                                        this.state.quesOutputPool.dogBreedCategoryUnknown,
-                                        this.state.quesOutputPool.dogBreedCategoriesIndex);
-
             data['city'] = getCity(this.state.quesOutputPool.cityIndex);
 
 
@@ -188,11 +162,12 @@ class ContainerForm extends React.Component{
 
             let res = await API.post('/form-data',data);
 
-            console.log("res is "+res);
+            // console.log("res is "+res.toString());
+            console.log(res.data);
+
+            return res.data;
 
 
-            //todo check if this needed
-            return 1;
 
 
         }
@@ -204,8 +179,10 @@ class ContainerForm extends React.Component{
             ()=>{
                 //on complete of request set back the state to default state.
                 createUserData().then((value)=>{
-                    console.log("post data done "+value.toString());
-                    this.setState({ isPostingData: false });
+                    console.log("post data done ");
+                    console.log(value);
+
+                    this.setState({ isPostingData: false,post_req_ret_data: value});
                 });
 
             });
@@ -215,7 +192,6 @@ class ContainerForm extends React.Component{
 
 
 
-        // console.log("called post data");
     }
 
 
@@ -387,12 +363,6 @@ class ContainerForm extends React.Component{
 
         this.makeOverflowVisible();
 
-        // if (e.currentTarget === e.target) {
-        //     console.log("focus (self)");
-        // }
-        // if (!e.currentTarget.contains(e.relatedTarget)) {
-        //     console.log("focusenter");
-        // }
 
     }
 
@@ -457,7 +427,7 @@ class ContainerForm extends React.Component{
         this.state = {
             //todo reset to zero in prod
 
-            currentQues : isDev() ? 2 : 0 ,
+            currentQues : isDev() ? 0 : 0 ,
             AppBarVisibility : true,
             isPostingData : false,
             //initialized with default values
@@ -496,7 +466,13 @@ class ContainerForm extends React.Component{
             },
             weightErrors : "",
             userErrors : {},
-            cityErrors : ""
+            cityErrors : "",
+            post_req_ret_data : {
+                minCalories : 0,
+                maxCalories : 0,
+
+
+            }
 
 
 
@@ -1337,11 +1313,12 @@ class ContainerForm extends React.Component{
                                         <MuiStyledPrimaryQuestion >That's it! Thank you for taking a step ahead for a better life for your pooch.</MuiStyledPrimaryQuestion>
 
                                         <MuiStyledSecondaryQuestionLabel align="center" variant="h6">
+
                                             {
                                                 THANK_YOU_PRIMARY_MESSAGE(
                                                     this.state.quesOutputPool,
-                                                    Math.floor(getCalorieMin(this.state.quesOutputPool)) || 0,
-                                                    Math.floor(getCaloriesMax(this.state.quesOutputPool)) || 0
+                                                    Math.floor(this.state.post_req_ret_data.minCalories),
+                                                    Math.floor(this.state.post_req_ret_data.maxCalories)
                                                 )
                                             }
 
@@ -1365,11 +1342,6 @@ class ContainerForm extends React.Component{
                                         <button onClick={this.postData}>
                                             post button
                                         </button>
-                                        <h4>Min Calories = {getCalorieMin(this.state.quesOutputPool)}</h4>
-                                        <h4>Max Calories = {getCaloriesMax(this.state.quesOutputPool)}</h4>
-                                        <h4>Rer = {getRer(this.state.quesOutputPool.dogWeight)}</h4>
-                                        <h4>Mer = {getMer(this.state.quesOutputPool)}</h4>
-                                        <h4>CalorificCover = {getCalorificCover(this.state.quesOutputPool)}</h4>
 
 
 
@@ -1895,27 +1867,6 @@ class ContainerForm extends React.Component{
 
 
     }
-    // OnAgeSelectionChange(arr){
-    //     //todo cannot modify arr here at any cost !!!!!!
-    //
-    //     for (let i =0 ;i< arr.length;i++ ){
-    //         //first selection match algorithm
-    //         if(arr[i] === 1){
-    //
-    //             this.setState(
-    //                 (state,props)=> {
-    //                     let newPool = cloneDeep(state.quesOutputPool);
-    //                     newPool.dogAge = AGE_OPTIONS_KEYS[i];
-    //                     return {quesOutputPool : newPool};
-    //                 }
-    //             );
-    //             return;
-    //         }
-    //     }
-    //
-    //
-    //
-    // }
 
     OnBodyScoreSelectionChange(arr){
         for (let i =0 ;i< arr.length;i++ ){
@@ -1995,7 +1946,7 @@ class ContainerForm extends React.Component{
             +" "
             +dBc
             // +" "+this.getDogBreedCategory(this.state.quesOutputPool.dogBreedCategoriesIndex)
-            +" age bracket "+getDogAgeBracket(dagY,dagM)
+            // +" age bracket "+getDogAgeBracket(dagY,dagM)
             +"\n"
             +userName + " "
             +email + " "
