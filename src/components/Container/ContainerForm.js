@@ -13,7 +13,6 @@ import {
     NEUTERED_OPTIONS_KEYS,
     POSSIBLE_ACTIVITIES_KEYS,
     POSSIBLE_GENDERS_KEYS,
-    BREED_CATEGORIES_LIST,
     CITIES_LIST,
 } from "../../StaticData";
 import {
@@ -422,12 +421,11 @@ class ContainerForm extends React.Component{
 
 
 
-
         //only set values like this in the constructor
         this.state = {
             //todo reset to zero in prod
 
-            currentQues : isDev() ? 0 : 0 ,
+            currentQues : isDev() ? 2 : 0 ,
             AppBarVisibility : true,
             isPostingData : false,
             //initialized with default values
@@ -437,7 +435,6 @@ class ContainerForm extends React.Component{
                 dogWeight : -1,
                 dogActivity  : POSSIBLE_ACTIVITIES_KEYS[1],
                 dogNeutered  : NEUTERED_OPTIONS_KEYS[0],
-                // dogAge       : "",
                 dogAgeYears  : 0,
                 dogAgeMonths  : 0,
 
@@ -472,7 +469,11 @@ class ContainerForm extends React.Component{
                 maxCalories : 0,
 
 
-            }
+            },
+            dogBreedsArr : []
+
+
+
 
 
 
@@ -744,11 +745,11 @@ class ContainerForm extends React.Component{
 
                                 dogName = {this.state.quesOutputPool.dogName}
 
-                                listOptions = {BREED_CATEGORIES_LIST}
+                                listOptions = {this.state.dogBreedsArr}
                                 textValue = {
                                     this.state.quesOutputPool.dogBreedCategoriesIndex === -1 ?
                                         null :
-                                        BREED_CATEGORIES_LIST[this.state.quesOutputPool.dogBreedCategoriesIndex]
+                                        this.state.dogBreedsArr[this.state.quesOutputPool.dogBreedCategoriesIndex]
                                 }
 
                                 checkBoxValue      = {this.state.quesOutputPool.dogBreedCategoryUnknown}
@@ -1290,6 +1291,18 @@ class ContainerForm extends React.Component{
                     return (
                         <>
 
+                            {
+                                isDev() ?
+                                    <p>
+
+                                        {
+                                            this.state.dogBreedsArr.toString()
+
+
+                                        }
+                                    </p> :
+                                    <> </>
+                            }
 
                             {
                                 this.state.isPostingData?
@@ -1323,6 +1336,7 @@ class ContainerForm extends React.Component{
                                             }
 
                                         </MuiStyledSecondaryQuestionLabel>
+
 
 
 
@@ -1399,6 +1413,41 @@ class ContainerForm extends React.Component{
         //
         // });
 
+
+
+
+
+    }
+
+
+    componentDidMount() {
+
+
+
+
+        if(isDev()) {
+            console.log("component mounted");
+        }
+
+
+
+        API.get('/breeds').then(res => {
+            // console.log("response received here " + res.data);
+            // console.log(res.data[0]);
+            // console.log(typeof res.data[0]);
+
+            this.setState({dogBreedsArr : res.data});
+
+
+        }).catch(err => {
+            console.log("err in get res " + err);
+            if (!err.response) {
+                console.log("no res from server");
+            }
+        }).then(() => {
+            //always executed
+            // console.log("always executed");
+        })
 
 
 
@@ -1551,7 +1600,7 @@ class ContainerForm extends React.Component{
     breedSelectionChange(event,newValue){
 
         //find index returns -1 if not found
-        let newBreedIndex = BREED_CATEGORIES_LIST.findIndex((ele)=>{
+        let newBreedIndex = this.state.dogBreedsArr.findIndex((ele)=>{
             return ele === newValue;
         });
         console.log("new breed index is "+newBreedIndex);
