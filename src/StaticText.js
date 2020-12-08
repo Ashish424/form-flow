@@ -1,4 +1,4 @@
-import { getHisOrHer} from "./StaticData";
+import {getHisOrHer} from "./StaticData";
 import React from "react";
 import {Box} from "@material-ui/core";
 import MuiStyledSecondaryQuestionLabel from "./components/Pages/SecondaryQuestionLabel";
@@ -142,7 +142,6 @@ export const BODY_SCORES_STRINGS= (quesOutputPool)=> (
 
         {
             primary: "Just right",
-            //todo ribs his /her add gender based quest output pool.
             secondary: `Visible waistline with some fat cover but ${getHisOrHer(quesOutputPool.dogGender)} ribs are easy to feel.`
 
         },
@@ -153,17 +152,7 @@ export const BODY_SCORES_STRINGS= (quesOutputPool)=> (
         }
     ]
 )
-// "Dog's energy level and daily activity should have a perfect balance. Help us understand so that we serve them right.
-//
-// Not much Active
-// Prefers short walks and mostly sleeps through the day.
-//
-//     Pretty Active
-// Enjoys long walks and loves to play around.
-//
-//     Hyper Active
-// Never gets tired of jumping and only stops running to eat."
-//
+
 
 export const POSSIBLE_ACTIVITY_STRINGS = (quesOutputPool)=> (
     [
@@ -190,18 +179,19 @@ export const POSSIBLE_ACTIVITY_STRINGS = (quesOutputPool)=> (
 
 
 
+
 export const USER_PRIMARY_TITLE = (quesOutputPool) =>{
 
         return `We carefully noted everything you shared about ${quesOutputPool.dogName}. Now it's your turn!`
 
 };
 
-export const THANK_YOU_PRIMARY_MESSAGE = (quesOutputPool,minCalories,maxCalories)=>{
+export const THANK_YOU_PRIMARY_MESSAGE = (dogName,minCalories,maxCalories)=>{
 
     return (
         <>
                 {`We have considered all your inputs and we suggest that the daily nutritional requirement
-                    for ${quesOutputPool.dogName} is `}
+                    for ${dogName} is `}
 
                 <Box component={"span"} fontWeight = {700} fontStyle="regular">
                     {`${minCalories}-${maxCalories}`}
@@ -211,24 +201,30 @@ export const THANK_YOU_PRIMARY_MESSAGE = (quesOutputPool,minCalories,maxCalories
 
 
 
-
-                <div>
-                    {isCityDelivering(quesOutputPool.cityIndex) ?
-                        `Our pet health specialist will get in touch with you soon and address ${quesOutputPool.dogName}'s needs.`:
-                        `Thank you for reaching out to Mom & Paw. We are currently not serving in your city. We will notify you once we are in your town.`
-                    }
-                    {/*{`Our pet health specialist will get in touch with you soon and address ${quesOutputPool.dogName}'s needs.`}*/}
-
-
-                </div>
-
         </>
     );
 
-    // return `We have considered all your inputs and we suggest that the daily nutritional requirement
-    // for ${quesOutputPool.dogName} is ${minCalories}-${maxCalories} cal/day>.`
+}
 
+export const THANK_YOU_SECONDARY_MESSAGE = (dogName,isCityDelivering)=>{
+
+    return(
+
+        <div>
+            {isCityDelivering?
+                `Our pet health specialist will get in touch with you soon and address ${dogName}'s needs.`:
+                `Thank you for reaching out to Mom & Paw. We are currently not serving in your city. We will notify you once we are in your town.`
+            }
+            {/*{`Our pet health specialist will get in touch with you soon and address ${quesOutputPool.dogName}'s needs.`}*/}
+
+        </div>
+
+
+    )
 
 }
+
+
+
 
 

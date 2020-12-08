@@ -12,8 +12,6 @@ const useStyles = makeStyles((theme)=>({
 
 
 
-
-
     })
     ,
     imgBaseFirst: (props)=>({

@@ -67,7 +67,7 @@ export default function LogoWrap(props){
 
         <div className={classes.root}>
 
-            <a href="https://momandpaw.in" target="_blank">
+            <a href="https://momandpaw.com" target="_blank">
                 <MainLogo  {...props} />
             </a>
         </div>

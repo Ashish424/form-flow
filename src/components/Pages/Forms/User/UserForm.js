@@ -96,9 +96,6 @@ export default function MuiStyledUserForm(props) {
 
     const classes = useUserStyles();
 
-    //todo see if this hook is required
-    // const [errors, setErrors] = useState({});
-
 
     function handleInputChange(event){
 
@@ -216,6 +213,7 @@ export default function MuiStyledUserForm(props) {
                                                     }
                                                 }
                                                 adornment={props.fieldData.adornment[index]}
+                                                numberOnly={props.fieldData.numberOnly[index]}
 
                                             />
                                         );

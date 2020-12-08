@@ -116,7 +116,6 @@ class MultiChoiceInput extends React.Component{
                 let currentIndex = parseInt(id);
                 //TODO is this clone deep necessary
                 let clonedArr = cloneDeep(state.selectionState);
-
                 return {selectionState:this.handleSingleSelection(clonedArr,currentIndex,false)};
 
             },()=>{
@@ -195,6 +194,7 @@ class MultiChoiceInput extends React.Component{
                 }
 
 
+
                 </GridSetup>
 
                 { helperPassed ?
@@ -203,10 +203,13 @@ class MultiChoiceInput extends React.Component{
                     primaryText = {this.props.helperBox.data[currSelectedIndex].primary}
                     secondaryText = {this.props.helperBox.data[currSelectedIndex].secondary}
 
+
                     >
 
                     </HelperBox> : <> </>
                 }
+
+
 
 
             </div>

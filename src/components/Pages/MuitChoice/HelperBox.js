@@ -59,9 +59,6 @@ const useStyles = makeStyles((theme)=>({
             marginLeft: "auto",
             marginRight: "auto"
 
-
-
-
             // "backgroundColor": props.color
         }),
 
@@ -78,6 +75,7 @@ function HelperBox(props){
 
 
     const classes = useStyles(props);
+
 
 
     // constructor(props) {

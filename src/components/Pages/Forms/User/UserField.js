@@ -4,7 +4,7 @@ import TextField from "@material-ui/core/TextField";
 
 export default function Input(props) {
 
-    const { name, label, value,error=null, onChange,onBlur=()=>{},onFocus=()=>{} } = props;
+    const { name, label, value,error=null, numberOnly=false,onChange,onBlur=()=>{},onFocus=()=>{} } = props;
     return (
         <TextField
             variant="outlined"
@@ -20,6 +20,8 @@ export default function Input(props) {
             // InputProps={props.adornment}
 
             {...(error && {error:true,helperText:error})}
+            {...(numberOnly && {type:"number"})}
+
 
         />
     )

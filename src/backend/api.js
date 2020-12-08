@@ -6,6 +6,10 @@ import axios from 'axios'
 
 
         // baseURL:`http://127.0.0.1:5000/`
+        // baseURL:`http://e5bcc5437ca4.ngrok.io`
+
+
+
         // baseURL: `http://localhost:5000/`
         // baseURL: `http://13.127.23.230:5000//`
 
@@ -20,11 +24,7 @@ export function makeGetReq(){
     API.get('/breeds').then(res => {
         // console.log("response received here " + res.data);
         console.log(res.data[0]);
-
         console.log(typeof res.data[0]);
-
-
-
 
     }).catch(err => {
         console.log("err in get res " + err);

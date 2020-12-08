@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme)=>({
 
 
 
-export default function MovementButton(props){
+export default function SecondaryButton(props){
 
 
 

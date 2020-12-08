@@ -29,3 +29,26 @@ export function arraysEqual(a, b) {
     }
     return true;
 }
+
+
+
+export function makeOverflowVisibleBodyHtml(){
+    document.body.classList.remove('make-overflow-hidden');
+    document.body.classList.add('make-overflow-visible');
+
+
+    document.documentElement.classList.remove('make-overflow-hidden');
+    document.documentElement.classList.add('make-overflow-visible');
+
+}
+
+export function makeOverflowHiddenBodyHtml(){
+    document.body.classList.remove('make-overflow-visible');
+    document.body.classList.add('make-overflow-hidden');
+
+
+    document.documentElement.classList.remove('make-overflow-visible');
+    document.documentElement.classList.add('make-overflow-hidden');
+
+
+}

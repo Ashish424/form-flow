@@ -77,17 +77,23 @@ export const emptyDivStyles = makeStyles((theme)=>(
     )
 );
 
-export const fullHeightStyles =  makeStyles((theme)=>(
+export const mainContainerHeightStyles =  makeStyles((theme)=>(
         {
 
             root: (props) => ({
-                minHeight : "100%",
-                // height:"100%",
+
+                //old approach not dynamic
+                // minHeight: "100%",
+                // marginBottom: "-140px",
+                // paddingBottom : "140px",
+
+
+
+                //dynamic to the size of the stuff here
                 //todo make this responsive
-                marginBottom: "-140px",
-                paddingBottom : "140px"
-
-
+                overflow : "auto",
+                maxHeight: "calc(100% - 140px)",
+                height:"calc(100% - 140px)",
 
             })
         }
@@ -97,7 +103,7 @@ export const imageTripleDivStyles = makeStyles((theme)=>(
     {
 
         root : (props) => ({
-            // width : "100%"
+            // width : "100%",
 
             [theme.breakpoints.down('xl')]: {
                 width : "10%",
@@ -137,3 +143,4 @@ export const imageTripleDivStyles = makeStyles((theme)=>(
 
     })
 );
+

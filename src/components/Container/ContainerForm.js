@@ -32,7 +32,7 @@ import {
     NEUTERED_PRIMARY_TITLE,
     NEUTERED_SECONDARY_TITLE,
     POSSIBLE_ACTIVITY_STRINGS,
-    THANK_YOU_PRIMARY_MESSAGE,
+    THANK_YOU_PRIMARY_MESSAGE, THANK_YOU_SECONDARY_MESSAGE,
     USER_PRIMARY_TITLE,
     // NEUTERED_SECONDARY_TITLE,
     WEIGHT_PRIMARY_TITLE,
@@ -62,7 +62,7 @@ import MuiStyledNameForm from "../Pages/Forms/NameForm"
 import StandardStyleContainer, {StandardStyleImageContainer} from "../Pages/ButtonContainer";
 
 import FlexDiv from "../helper/FlexDiv";
-import OwnerForm from "../Pages/Owner/OwnerForm";
+
 import DivButton, {StyledDiv} from "../Pages/MuitChoice/DivButton/DivButton";
 import MuiStyledChoiceButton from "../Pages/MuitChoice/choice/MuiStyledChoiceButton";
 import MuiStyledChoiceImage from "../Pages/MuitChoice/choice/MuiStyledChoiceImage";
@@ -78,7 +78,12 @@ import justRightImage from "../../svgs/bodyScore/normal-just-right.svg";
 import chubbySelectedImage from "../../svgs/bodyScore/normal-chubby--selected.svg";
 import chubbyImage from "../../svgs/bodyScore/normal-chubby.svg";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import {emptyDivStyles, flexStyledDiv, fullHeightStyles, imageTripleDivStyles} from "../helper/styles/DivStyles";
+import {
+    emptyDivStyles,
+    flexStyledDiv,
+    mainContainerHeightStyles,
+    imageTripleDivStyles
+} from "../helper/styles/DivStyles";
 
 
 import lazySelectedImage from "../../svgs/activity/normal-lazy-bones--selected.svg";
@@ -90,20 +95,33 @@ import activeImage from "../../svgs/activity/normal-fairly-active.svg";
 import hyperActiveSelectedImage from "../../svgs/activity/normal-hyperactive--selected.svg";
 import hyperActiveImage from "../../svgs/activity/normal-hyperactive.svg";
 import HelperBox from "../Pages/MuitChoice/HelperBox";
-import MovementButton from "../Pages/MovementButton";
+import SecondaryButton from "../Pages/SecondaryButton";
+
+
+
+import chickenDishImage from "../../jpgs/chicken-1024-h-sq.jpg";
+import paneerDishImage from "../../jpgs/paneer-1024-h-sq.jpg";
+import lambDishImage from "../../jpgs/lamb-1024-h-sq.jpg";
+
 
 
 
 
 
 import {API} from "../../backend/api"
-import {capitalizeFirstLetterAndLowerCaseRest, isDev} from "../../helper/utilities";
+import {
+    capitalizeFirstLetterAndLowerCaseRest,
+    isDev,
+    makeOverflowHiddenBodyHtml,
+    makeOverflowVisibleBodyHtml
+} from "../../helper/utilities";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import VerticalSpacerDiv from "../helper/VerticalSpacerDiv";
 import MuiStyledBreedForm from "../Pages/Forms/BreedForm";
 import MuiStyledUserForm from "../Pages/Forms/User/UserForm";
-import {getCity} from "./containerHelper";
+import {getCity, isCityDelivering} from "./containerHelper";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import DishExplorer from "../Pages/DishExplorer";
 
 
 const BODY_SCORE_SVGS = [
@@ -124,6 +142,14 @@ const ACTIVITY_SVGS = [
     activeImage,
     hyperActiveSelectedImage,
     hyperActiveImage
+
+]
+
+const DISH_IMAGES = [
+    chickenDishImage,
+    paneerDishImage,
+    lambDishImage
+
 
 ]
 
@@ -345,7 +371,7 @@ class ContainerForm extends React.Component{
         if(this.validateUserInputBeforeSubmit()){
 
             //make sure overflow is hidden for the next question.
-            this.makeOverflowHidden();
+            makeOverflowHiddenBodyHtml();
             this.moveToNexPage();
         }
         console.log("fired on click next form ahead");
@@ -360,7 +386,7 @@ class ContainerForm extends React.Component{
 
         // console.log(this);
 
-        this.makeOverflowVisible();
+        makeOverflowVisibleBodyHtml();
 
 
     }
@@ -368,7 +394,7 @@ class ContainerForm extends React.Component{
     handleUserInputFocusLoss(name) {
         console.log("handle user input focus loss " + name);
         // this.validateUserInputBeforeSubmit();
-        this.makeOverflowHidden();
+        makeOverflowHiddenBodyHtml();
 
 
 
@@ -395,6 +421,7 @@ class ContainerForm extends React.Component{
 
 
 
+
         this.dogNameFormID = "name-form";
         this.dogWeightFormID = "weight-form";
         this.dogBreedFormID = "breed-form";
@@ -413,6 +440,7 @@ class ContainerForm extends React.Component{
         this.bodyScoreMultiChoiceKey = "body-score-key";
         this.breedSelectKey = "breed-key";
         this.userSelectKey =  "user-key";
+        this.dishMultiChoiceKey = "dish-key";
 
 
         this.dogYearNameIdentifier ="dog-year-name";
@@ -425,7 +453,7 @@ class ContainerForm extends React.Component{
         this.state = {
             //todo reset to zero in prod
 
-            currentQues : isDev() ? 2 : 0 ,
+            currentQues : isDev() ? 9 : 0 ,
             AppBarVisibility : true,
             isPostingData : false,
             //initialized with default values
@@ -457,20 +485,35 @@ class ContainerForm extends React.Component{
 
                 },
 
-                cityIndex : -1
+                cityIndex : -1,
 
 
             },
+
             weightErrors : "",
             userErrors : {},
             cityErrors : "",
+
+
+            // request filer received here
             post_req_ret_data : {
                 minCalories : 0,
                 maxCalories : 0,
+                //todo default values here for recipe if request fails
+                recipe_links:[
+                    "https://www.momandpaw.com/pages/recipes-collection",
+                    "https://www.momandpaw.com/pages/recipes-collection",
+                    "https://www.momandpaw.com/pages/recipes-collection"
+
+                ]
+
 
 
             },
-            dogBreedsArr : []
+
+
+            //get request initial save
+            dogBreedsArr : [],
 
 
 
@@ -559,9 +602,6 @@ class ContainerForm extends React.Component{
 
 
 
-
-
-
         this.getPageData = this.getPageData.bind(this);
 
 
@@ -597,9 +637,6 @@ class ContainerForm extends React.Component{
         this.handleUserInputGainFocus = this.handleUserInputGainFocus.bind(this);
         this.handleUserInputFocusLoss = this.handleUserInputFocusLoss.bind(this);
 
-
-        this.makeOverflowHidden  = this.makeOverflowHidden.bind(this);
-        this.makeOverflowVisible = this.makeOverflowVisible.bind(this);
 
 
         //array of function components.
@@ -1225,12 +1262,15 @@ class ContainerForm extends React.Component{
                                         adornment : [
                                             {},
                                             {
-
                                                 startAdornment: <InputAdornment position="start">+91</InputAdornment>
                                             },
                                             {},
-                                            {}
+                                            // {}
 
+                                        ],
+                                        //if the field is number restricted
+                                        numberOnly : [
+                                            false,true,false
                                         ]
 
                                         // errors : [0,0,0,0]
@@ -1296,7 +1336,7 @@ class ContainerForm extends React.Component{
                                     <p>
 
                                         {
-                                            this.state.dogBreedsArr.toString()
+                                            this.state.dogBreedsArr[0]
 
 
                                         }
@@ -1329,13 +1369,70 @@ class ContainerForm extends React.Component{
 
                                             {
                                                 THANK_YOU_PRIMARY_MESSAGE(
-                                                    this.state.quesOutputPool,
+                                                    this.state.quesOutputPool.dogName,
                                                     Math.floor(this.state.post_req_ret_data.minCalories),
                                                     Math.floor(this.state.post_req_ret_data.maxCalories)
                                                 )
+
+                                            }
+                                            {
+                                                THANK_YOU_SECONDARY_MESSAGE(this.state.quesOutputPool.dogName,
+                                                    isCityDelivering(this.state.quesOutputPool.cityIndex))
                                             }
 
                                         </MuiStyledSecondaryQuestionLabel>
+
+
+                                        {
+                                            (isCityDelivering(this.state.quesOutputPool.cityIndex) || isDev() )?
+
+                                                <DishExplorer
+                                                    data = {
+                                                        [
+                                                            {
+
+                                                                img :  DISH_IMAGES[0],
+                                                                title : "Chicken Recipe",
+                                                                description : "With gently cooked Chicken and calcium-rich Bone meal, this recipe is super soothing for your pooch's stomach.",
+                                                                buyLink : this.state.post_req_ret_data.recipe_links[0]
+
+
+
+                                                            },
+                                                            {
+                                                                img :  DISH_IMAGES[1],
+                                                                title : "Paneer Recipe",
+                                                                description : "Let your furball indulge in the goodness of Cottage cheese and the nutriments of Spinach.",
+                                                                buyLink : this.state.post_req_ret_data.recipe_links[1]
+
+
+
+
+                                                            },
+                                                            {
+                                                                img : DISH_IMAGES[2],
+                                                                title : "Lamb Recipe",
+                                                                description : "Rich in high-quality Iron and Protein, every bit of this meal is full of health benefits.",
+                                                                buyLink : this.state.post_req_ret_data.recipe_links[2]
+
+
+                                                            }
+
+
+                                                        ]
+
+                                                    }
+
+                                                >
+                                                </DishExplorer>
+                                                :
+                                                <> </>
+                                        }
+
+
+
+
+
 
 
 
@@ -1401,18 +1498,17 @@ class ContainerForm extends React.Component{
 
 
 
-        // document.addEventListener('focusout', function(e) {
-        //     console.log("focus out called");
-        //     window.scrollTo(0, 0);
-        //     // this.makeOverflowHidden();
-        //     document.body.classList.add('make-overflow-visible');
-        //     document.body.classList.remove('make-overflow-hidden');
-        //
-        //
-        //     document.documentElement.scrollTop = 0;
-        //
-        // });
 
+
+        // window.matchMedia("(min-height: 768px)").onchange =
+        // (e) => {
+        //     if (e.matches) {
+        //         console.log('This is a longer screen — more than 768px height.')
+        //     } else {
+        //         /* the viewport is more than than 600 pixels wide */
+        //         console.log('This is a shorter screen — less than 768px height.')
+        //     }
+        // }
 
 
 
@@ -1452,21 +1548,8 @@ class ContainerForm extends React.Component{
 
 
 
-    }
-
-    makeOverflowHidden(){
-        document.body.classList.remove('make-overflow-visible');
-        document.body.classList.add('make-overflow-hidden');
-
-
 
     }
-    makeOverflowVisible(){
-        document.body.classList.remove('make-overflow-hidden');
-        document.body.classList.add('make-overflow-visible');
-
-    }
-
 
 
 
@@ -1873,7 +1956,7 @@ class ContainerForm extends React.Component{
 
 
 
-    //todo merge loops in these functions into one
+    //todo merge loops in these functions into one->convert to higher order functions.
     OnActivitySelectionChange(arr){
         //todo cannot modify arr here at any cost !!!!!!
 
@@ -1935,6 +2018,7 @@ class ContainerForm extends React.Component{
 
 
     }
+
 
 
 
@@ -2020,6 +2104,8 @@ class ContainerForm extends React.Component{
 
 
 
+        // console.log(window.matchMedia("(min-height: 768px)").onchange);
+
 
 
 
@@ -2034,7 +2120,7 @@ class ContainerForm extends React.Component{
 
             <>
 
-                <StyledDiv stylePropsFunc={fullHeightStyles}>
+                <StyledDiv stylePropsFunc={mainContainerHeightStyles}>
 
 
                     <MuiStyledProgressBar variant="determinate" value={progressScore}/>
@@ -2054,7 +2140,7 @@ class ContainerForm extends React.Component{
 
 
                         {/*<button onClick={this.onClickPrev} {... currentPage.prevButtonAttribs()} > Prev</button>*/}
-                        <MovementButton
+                        <SecondaryButton
                             // color="secondary"
                             variant="outlined"
                             color="primary"
@@ -2062,7 +2148,7 @@ class ContainerForm extends React.Component{
                             onClick={this.onClickPrev}
                             {... currentPage.prevButtonAttribs()} >
                             Prev
-                        </MovementButton>
+                        </SecondaryButton>
 
 
                         <FlexDiv grow={3} />
@@ -2070,13 +2156,13 @@ class ContainerForm extends React.Component{
 
                         {/*NOTE next button attribs ahead so questions can override behaviour*/}
                         {/*<button onClick={this.onClickNext} {... currentPage.nextButtonAttribs()} > Next</button>*/}
-                        <MovementButton
+                        <SecondaryButton
                             variant="outlined"
                             color="primary"
                             onClick={this.onClickNext}
                             {... currentPage.nextButtonAttribs()} >
                             Next
-                        </MovementButton>
+                        </SecondaryButton>
 
 
                         <FlexDiv grow={1} />

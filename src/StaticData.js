@@ -1,33 +1,19 @@
 
-//todo load this data from a csv file
-//todo this values should be on the backend not on front end!!!!!
-export const POSSIBLE_ACTIVITIES = {
-        "Low" : 0,
-        "Medium" : 0,
-        "High" : 0
-};
+
+export const POSSIBLE_ACTIVITIES = [
+        "Low" ,
+        "Medium",
+        "High",
+];
+
+export const POSSIBLE_ACTIVITIES_KEYS = POSSIBLE_ACTIVITIES;
 
 
-export const POSSIBLE_ACTIVITIES_KEYS = Object.keys(POSSIBLE_ACTIVITIES);
-//todo use dynamic keys here
-export const POSSIBLE_ACTIVITIES_CALORIE_RANGE_MULTIPLIER_MIN = {
-    "Low" : 0,
-    "Medium" : 0,
-    "High" : 0
-};
-
-//todo use dynamic keys here
-export const POSSIBLE_ACTIVITIES_CALORIE_RANGE_MULTIPLIER_MAX = {
-    "Low" : 0,
-    "Medium" : 0,
-    "High" : 1.05
-};
-
-//todo get these values from Roopesh
-export const POSSIBLE_GENDERS = {
-    "Girl" : 1.0,
-    "Boy" : 1.0
-};
+export const POSSIBLE_GENDERS = [
+    "Girl" ,
+    "Boy" ,
+];
+export const POSSIBLE_GENDERS_KEYS = POSSIBLE_GENDERS;
 
 
 export function getHisOrHer(genderKey){
@@ -35,26 +21,22 @@ export function getHisOrHer(genderKey){
 
 }
 
-export const POSSIBLE_GENDERS_KEYS = Object.keys(POSSIBLE_GENDERS);
 
 
-export const NEUTERED_OPTIONS = {
-    "No": 0,
-    "Yes": 0
-};
-export const NEUTERED_OPTIONS_KEYS = Object.keys(NEUTERED_OPTIONS);
+export const NEUTERED_OPTIONS = [
+    "No",
+    "Yes",
+];
+export const NEUTERED_OPTIONS_KEYS = NEUTERED_OPTIONS;
 
-export const BODY_SCORES = {
-    "1" : 1.2,
-    "3" : 1,
-    "5" : 0.8
-};
-
-
-export const BODY_SCORES_KEYS = Object.keys(BODY_SCORES);
+export const BODY_SCORES = [
+    "1" ,
+    "3" ,
+    "5" ,
+];
 
 
-
+export const BODY_SCORES_KEYS = BODY_SCORES;
 
 
 
