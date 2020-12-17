@@ -453,7 +453,7 @@ class ContainerForm extends React.Component{
         this.state = {
             //todo reset to zero in prod
 
-            currentQues : isDev() ? 9 : 0 ,
+            currentQues : isDev() ? 8 : 0 ,
             AppBarVisibility : true,
             isPostingData : false,
             //initialized with default values
@@ -1240,7 +1240,6 @@ class ContainerForm extends React.Component{
                             {/*    {WEIGHT_SECONDARY_TITLE(this.state.quesOutputPool)}*/}
                             {/*</MuiStyledSecondaryQuestionLabel>*/}
 
-
                             <MuiStyledUserForm
                                 formOnSubmit={this.onFormSubmitAbsorb}
                                 formId = {this.userFormID}
@@ -1291,10 +1290,6 @@ class ContainerForm extends React.Component{
                             </MuiStyledUserForm>
 
 
-
-
-
-
                         </>);
 
 
@@ -1314,6 +1309,7 @@ class ContainerForm extends React.Component{
                 },
                 onGainFocus : ()=> {
                     console.log("user form question gained focus");
+
 
 
                 }

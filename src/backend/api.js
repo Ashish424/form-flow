@@ -5,13 +5,9 @@ import axios from 'axios'
         //todo set the right base url
 
 
+
         // baseURL:`http://127.0.0.1:5000/`
-        // baseURL:`http://e5bcc5437ca4.ngrok.io`
-
-
-
         // baseURL: `http://localhost:5000/`
-        // baseURL: `http://13.127.23.230:5000//`
 
     })
 
