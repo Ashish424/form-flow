@@ -29,13 +29,9 @@ export const verticalSpacerDivStyles = makeStyles((theme)=>({
             minHeight : `${props.minHeight}px`,
             width : "100%",
 
-            // height : "100%",
-
-            //todo add functionality for both absolute and relative here
             //todo add breakpoints for different widths if needed.
             // minWidth : `${props.minWidth}px`
 
-            // "backgroundColor": props.color
         }),
 
 
@@ -51,11 +47,9 @@ export const horizontalSpacerDivStyles = makeStyles((theme)=>(
 
 
             height : "100%",
-            //todo add functionality for both absolute and relative here
             //todo add breakpoints for different widths if needed.
             minWidth : `${props.minWidth}px`
 
-            // "backgroundColor": props.color
         }),
 
 
@@ -90,8 +84,8 @@ export const mainContainerHeightStyles =  makeStyles((theme)=>(
 
 
                 //dynamic to the size of the stuff here
-                //todo make this responsive
                 overflow : "auto",
+                //todo change this based on the height of the bar if that is made responsive.
                 maxHeight: "calc(100% - 140px)",
                 height:"calc(100% - 140px)",
 

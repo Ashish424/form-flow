@@ -6,13 +6,13 @@ import TextField from "@material-ui/core/TextField";
 import React, {useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import FormCheckbox from "../../../FormCheckBox";
-import AutoCompleteBox from "../../../Wrapped/AutoCompleteBox";
+
 import UserField from "./UserField";
 import MuiTypography from "@material-ui/core/Typography";
 import {Box} from "@material-ui/core";
 import VerticalSpacerDiv from "../../../helper/VerticalSpacerDiv";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import UserAutoComplete from "./UserAutoComplete";
+import UserAutoCompleteBox from "./UserAutoComplete";
 
 
 export const useUserStyles = makeStyles((theme)=>({
@@ -222,15 +222,13 @@ export default function MuiStyledUserForm(props) {
                                     })
                                 }
 
-                                <UserAutoComplete
-                                    //todo set this id from outside if needed
-                                    id="combo-box-demo"
+                                <UserAutoCompleteBox
+
+                                    id="combo-box-city"
                                     value = {props.cityValue}
                                     options={props.cityList}
                                     getOptionLabel={(option) => option}
                                     onChange={props.onCityChange}
-                                    //todo inline styl here ???
-                                    // style={{ width: 300 }}
                                     renderInput={
                                         (params) =>
                                             (<TextField
@@ -262,7 +260,7 @@ export default function MuiStyledUserForm(props) {
 
 
 
-                                </UserAutoComplete>
+                                </UserAutoCompleteBox>
 
 
 

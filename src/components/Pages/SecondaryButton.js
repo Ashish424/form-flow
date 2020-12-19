@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme)=>({
 
             // borderRadius: "14px",
 
-            //todo here set button colors.
+
             color : visual.packingOrange,
 
             boxShadow: 'none',

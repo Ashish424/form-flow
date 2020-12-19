@@ -13,8 +13,7 @@ const useStyles = makeStyles((theme)=>({
                             ${theme.spacing(0.125)}rem
                             ${theme.spacing(0.125)}rem`
             },
-            //todo use these media points later
-
+            //media breakpoints
             // [theme.breakpoints.down('lg')]: {
             //
             //     width : "10rem",
@@ -67,7 +66,7 @@ export default function LogoWrap(props){
 
         <div className={classes.root}>
 
-            <a href="https://momandpaw.com" target="_blank">
+            <a href="https://momandpaw.com" target="_blank" rel="noopener noreferrer">
                 <MainLogo  {...props} />
             </a>
         </div>

@@ -6,8 +6,7 @@ import {makeStyles} from "@material-ui/core/styles";
 const useStyles = makeStyles((theme)=>({
 
         root : (props) => ({
-
-
+            width : "300px"
 
 
         }),
@@ -17,10 +16,8 @@ const useStyles = makeStyles((theme)=>({
     })
 );
 
-export default function AutoCompleteBox(props){
+export default function UserAutoCompleteBox(props){
     const classes = useStyles();
-
-
 
     return (
         <Autocomplete
@@ -29,12 +26,7 @@ export default function AutoCompleteBox(props){
             options={props.options}
             getOptionLabel={props.getOptionLabel}
             onChange={props.onChange}
-            // disabled={props.disabled}
-            //todo inline styl here ???
-            style={props.style}
             renderInput={props.renderInput}
-
-
 
         />);
 

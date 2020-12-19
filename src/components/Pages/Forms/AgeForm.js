@@ -44,7 +44,7 @@ export const useAgeStyles = makeStyles((theme)=>({
         //     textAlign : "center"
         // },
 
-        //todo create a class for spacer div.
+
         // midDivs : {
         //     height : "100%",
         //     minWidth : "20px",
@@ -86,9 +86,7 @@ export default function MuiStyledAgeForm(props) {
                             onChange={props.onChange}
                             // placeholder="years"
                             // label="years"
-                            //todo pass the name from props
                             name={props.years_name}
-                            //todo limit years
                             value= {props.years_value}
                             className={classes.textBox}
 

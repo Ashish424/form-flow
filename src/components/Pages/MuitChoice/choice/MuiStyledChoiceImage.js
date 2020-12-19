@@ -61,8 +61,6 @@ export default function MuiStyledImage(props){
 
                 {/*//overlap flex implementation https://stackoverflow.com/questions/6780614/css-how-to-position-two-elements-on-top-of-each-other-without-specifying-a-hei*/}
 
-                {/*//todo add alt attribute to these images later */}
-
                 <img src={selectedImg}
                     className = {
 

@@ -117,7 +117,7 @@ import {
 } from "../../helper/utilities";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import VerticalSpacerDiv from "../helper/VerticalSpacerDiv";
-import MuiStyledBreedForm from "../Pages/Forms/BreedForm";
+import MuiStyledBreedForm from "../Pages/Forms/Breed/BreedForm";
 import MuiStyledUserForm from "../Pages/Forms/User/UserForm";
 import {getCity, isCityDelivering} from "./containerHelper";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -166,16 +166,17 @@ const containerStyles =  theme => ({
 class ContainerForm extends React.Component{
 
 
-    //todo refactor this
-
     postData(){
 
         const createUserData = async () => {
 
 
-            console.log("post began");
 
-            //todo this statement needs to be evaluated
+            if(isDev()) {
+                console.log("post began");
+            }
+
+            //clone original data
             let data = cloneDeep(this.state.quesOutputPool);
 
             data['city'] = getCity(this.state.quesOutputPool.cityIndex);
@@ -207,6 +208,8 @@ class ContainerForm extends React.Component{
                     console.log("post data done ");
                     console.log(value);
 
+                    //todo check if the post data has valid data and if not keep the default values.
+                    //if(isValidData(value))
                     this.setState({ isPostingData: false,post_req_ret_data: value});
                 });
 
@@ -237,8 +240,7 @@ class ContainerForm extends React.Component{
         this.setState(
             (state,props)=> {
                 // let ques = this.getQuestionData(state.currentQues);
-                //todo need a better solution for all this cloning.
-                //todo use immutability-helper here
+
                 let clonedQuesPool = cloneDeep(state.quesOutputPool);
                 clonedQuesPool.cityIndex = index;
 
@@ -259,8 +261,7 @@ class ContainerForm extends React.Component{
         this.setState(
             (state,props)=> {
                 // let ques = this.getQuestionData(state.currentQues);
-                //todo need a better solution for all this cloning.
-                //todo use immutability-helper here
+
                 let clonedQuesPool = cloneDeep(state.quesOutputPool);
                 clonedQuesPool.user = {
                     ...state.quesOutputPool.user,
@@ -451,7 +452,6 @@ class ContainerForm extends React.Component{
 
         //only set values like this in the constructor
         this.state = {
-            //todo reset to zero in prod
 
             currentQues : isDev() ? 8 : 0 ,
             AppBarVisibility : true,
@@ -474,11 +474,10 @@ class ContainerForm extends React.Component{
 
                 user : {
                     userName: "",
-                    //indian phone number only
+
                     mobile : "",
                     // pinCode : "",
 
-                    //todo email validation
                     email : "",
 
 
@@ -499,7 +498,7 @@ class ContainerForm extends React.Component{
             post_req_ret_data : {
                 minCalories : 0,
                 maxCalories : 0,
-                //todo default values here for recipe if request fails
+                //default values here for recipe if request fails
                 recipe_links:[
                     "https://www.momandpaw.com/pages/recipes-collection",
                     "https://www.momandpaw.com/pages/recipes-collection",
@@ -569,12 +568,7 @@ class ContainerForm extends React.Component{
 
         this.onClickNext = this.onClickNext.bind(this);
         this.onClickPrev = this.onClickPrev.bind(this);
-        //todo collapse all these if no differences
-        // this.onClickNextActivityMoveAhead = this.onClickNextActivityMoveAhead.bind(this);
-        // this.onClickNextNeuteredMoveAhead = this.onClickNextNeuteredMoveAhead.bind(this);
-        // this.onClickNextAgeMoveAhead = this.onClickNextAgeMoveAhead.bind(this);
-        // this.onClickNextBodyScoreAhead = this.onClickNextBodyScoreAhead.bind(this);
-        // this.onClickNextBreedAhead = this.onClickNextBreedAhead.bind(this);
+
 
         this.onClickNextMultiChoiceDefault = this.onClickNextMultiChoiceDefault.bind(this);
 
@@ -999,8 +993,6 @@ class ContainerForm extends React.Component{
                                 }
 
 
-
-                                //todo replace here if needed using body score styles
                                 divStyle = {imageTripleDivStyles}
                                 gridSetup ={StandardStyleImageContainer}
                                 Clickable = {MuiStyledChoiceImage}
@@ -1477,9 +1469,8 @@ class ContainerForm extends React.Component{
 
                 },
                 onGainFocus : ()=> {
-                    //todo this will resubmit each time user re enters the
-                    //todo form.Need to fix this in the future
-                    //todo also time out and inform user about the problem.
+                    //this will resubmit each time user re enters information
+                    //todo also time out and inform user about the problem if posting fails
                     this.postData();
                     console.log("end question gained focus");
 
@@ -1590,8 +1581,7 @@ class ContainerForm extends React.Component{
         this.setState(
             (state,props)=> {
                 // let ques = this.getQuestionData(state.currentQues);
-                //todo need a better solution for all this cloning.
-                //todo use immutability-helper here
+
                 let clonedQuesPool = cloneDeep(state.quesOutputPool);
 
 
@@ -1652,7 +1642,6 @@ class ContainerForm extends React.Component{
 
         this.setState(
             (state,props)=> {
-                //todo need a better solution for all this cloning.
                 let clonedQuesPool = cloneDeep(state.quesOutputPool);
                 clonedQuesPool.dogWeight = number;
                 return {quesOutputPool:clonedQuesPool};
@@ -1665,8 +1654,6 @@ class ContainerForm extends React.Component{
         this.setState(
             (state,props)=> {
                 // let ques = this.getQuestionData(state.currentQues);
-                //todo need a better solution for all this cloning.
-                //todo use immutability-helper here
                 let clonedQuesPool = cloneDeep(state.quesOutputPool);
                 clonedQuesPool.dogBreedCategoriesIndex = index;
 
@@ -1696,7 +1683,6 @@ class ContainerForm extends React.Component{
         this.setState(
             (state,props)=> {
 
-                //todo need a better solution for all this cloning.
                 let clonedQuesPool = cloneDeep(state.quesOutputPool);
                 clonedQuesPool.dogBreedCategoryUnknown = toggleState;
                 return {quesOutputPool:clonedQuesPool};
@@ -1816,7 +1802,6 @@ class ContainerForm extends React.Component{
         this.setState(
             (state,props)=> {
 
-                //todo need a better solution for all this cloning.
                 let clonedQuesPool = cloneDeep(state.quesOutputPool);
 
                 if(event.target.name === this.dogYearNameIdentifier){

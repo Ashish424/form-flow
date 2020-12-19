@@ -202,7 +202,6 @@ export default function DishExplorer(props) {
 
     const isSmall = useMediaQuery(theme.breakpoints.down('xs'));
 
-    // todo remove inline styles from this component
     return (
         <>
 
@@ -242,7 +241,7 @@ export default function DishExplorer(props) {
                                         <Grid item xs={5} sm ={12} md={12} align="center">
                                             <img
                                                 src={data[index].img}
-                                                //todo add alt attribute to these images later
+
                                                 className={classes.imgStyle}
                                             />
 

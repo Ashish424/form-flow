@@ -2,12 +2,12 @@ import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import {useBreedStyles} from "../Pages/Forms/BreedForm";
+import {useBreedStyles} from "./BreedForm";
 
 const useStyles = makeStyles((theme)=>({
 
         root : (props) => ({
-
+            width :"300px"
 
 
 
@@ -20,8 +20,6 @@ const useStyles = makeStyles((theme)=>({
         focused: {
             opacity: 1.0
         }
-
-
 
     })
 );
@@ -41,9 +39,6 @@ export default function AutoCompleteBox(props){
             options={props.options}
             getOptionLabel={props.getOptionLabel}
             onChange={props.onChange}
-            // disabled={props.disabled}
-            //todo inline styl here ???
-            style={props.style}
             renderInput={props.renderInput}
 
 

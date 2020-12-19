@@ -5,8 +5,8 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
 import React, {useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import FormCheckbox from "../../FormCheckBox";
-import AutoCompleteBox from "../../Wrapped/AutoCompleteBox";
+import FormCheckbox from "../../../FormCheckBox";
+import AutoCompleteBox from "./AutoCompleteBox";
 
 
 export const useBreedStyles = makeStyles((theme)=>({
@@ -104,15 +104,14 @@ export default function MuiStyledBreedForm(props) {
                             <Paper elevation={props.checkBoxValue ? 0 : 3}>
 
                                 <AutoCompleteBox
-                                    //todo set this id from outside if needed
-                                    id="combo-box-demo"
+
+                                    id="combo-box-breed"
                                     value = {props.textValue}
                                     options={props.listOptions}
                                     getOptionLabel={(option) => option}
                                     onChange={props.onSelectionChanged}
                                     disabled={props.checkBoxValue}
-                                    //todo inline style here ???
-                                    style={{ width: 300 }}
+
                                     renderInput={
                                         (params) =>
                                             (<TextField
@@ -133,35 +132,6 @@ export default function MuiStyledBreedForm(props) {
 
 
                                 </AutoCompleteBox>
-
-
-
-
-                                {/*todo delete this only for reference here now*/}
-                                {/*<Autocomplete*/}
-                                {/*    //todo set this id from outside if needed*/}
-                                {/*    id="combo-box-demo"*/}
-                                {/*    value = {props.textValue}*/}
-                                {/*    options={props.listOptions}*/}
-                                {/*    getOptionLabel={(option) => option}*/}
-                                {/*    onChange={props.onSelectionChanged}*/}
-                                {/*    disabled={autoCompleteDisabled}*/}
-                                {/*    //todo inline styl here ???*/}
-                                {/*    style={{ width: 300 }}*/}
-                                {/*    renderInput={(params) =>*/}
-                                {/*        <TextField*/}
-                                {/*            {...params}*/}
-
-                                {/*            placeholder={props.dogName + "'s breed"}*/}
-                                {/*            variant="outlined"*/}
-
-
-                                {/*        />}*/}
-
-
-                                {/*/>*/}
-
-
 
 
 

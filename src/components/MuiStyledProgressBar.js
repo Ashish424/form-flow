@@ -35,7 +35,6 @@ const styles = (theme)=>( {
         // padding: '0 30px',
         // margin: 8,
         //todo use theme constants here
-
         padding: '0 30px',
 
     },

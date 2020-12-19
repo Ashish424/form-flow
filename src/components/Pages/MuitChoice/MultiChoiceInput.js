@@ -114,7 +114,7 @@ class MultiChoiceInput extends React.Component{
         this.setState(
             (state,props)=> {
                 let currentIndex = parseInt(id);
-                //TODO is this clone deep necessary
+
                 let clonedArr = cloneDeep(state.selectionState);
                 return {selectionState:this.handleSingleSelection(clonedArr,currentIndex,false)};
 

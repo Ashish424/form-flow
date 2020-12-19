@@ -165,7 +165,6 @@ export const POSSIBLE_ACTIVITY_STRINGS = (quesOutputPool)=> (
 
         {
             primary: "Pretty Active",
-            //todo ribs his /her add gender based quest output pool.
             secondary: `Enjoys long walks and loves to play around.`
 
         },

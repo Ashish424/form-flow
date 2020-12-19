@@ -101,9 +101,6 @@ export default function MuiStyledNameForm(props){
 
 
 
-                            {/*//todo align the placeholder label*/}
-
-                            {/*//https://stackoverflow.com/questions/57852393/how-to-center-placeholder-and-text-in-react-material-ui-textfield*/}
 
 
                             <TextField

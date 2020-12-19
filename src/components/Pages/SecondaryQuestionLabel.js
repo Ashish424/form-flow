@@ -6,8 +6,6 @@ import Paper from "@material-ui/core/Paper";
 
 
 
-//todo sync style of both primary and secondary questions.
-// #21CBF3
 
 const useStyles = makeStyles((theme)=>({
     root: {
@@ -16,7 +14,7 @@ const useStyles = makeStyles((theme)=>({
 
         // height : 12,
 
-        //todo need to make these things responsive.
+        //todo take these values from theme.
         margin: "16px 0px 0px 0px",
         // padding: '9px 9px 9px 9px',
 

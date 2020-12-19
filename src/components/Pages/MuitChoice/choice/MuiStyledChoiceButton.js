@@ -10,7 +10,6 @@ import red from "@material-ui/core/colors/red";
 const useStyles = makeStyles((theme)=>({
     root :  (props) => ({
         minWidth : "100px",
-        //todo make this border radius responsive
         borderRadius: "5em",
 
 
