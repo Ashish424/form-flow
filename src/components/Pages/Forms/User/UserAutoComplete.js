@@ -6,7 +6,7 @@ import {makeStyles} from "@material-ui/core/styles";
 const useStyles = makeStyles((theme)=>({
 
         root : (props) => ({
-            width : "300px"
+            // width : "300px"
 
 
         }),
