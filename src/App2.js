@@ -30,6 +30,7 @@ class App2 extends React.Component{
 
             )
 
+        ReactGA.pageview(document.location.hostname);
         //only set values like this in the constructor
         this.state = {
 

@@ -453,7 +453,7 @@ class ContainerForm extends React.Component{
         //only set values like this in the constructor
         this.state = {
 
-            currentQues : isDev() ? 8 : 0 ,
+            currentQues : isDev() ? 0 : 0 ,
             AppBarVisibility : true,
             isPostingData : false,
             //initialized with default values
