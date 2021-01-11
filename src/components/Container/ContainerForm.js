@@ -68,8 +68,8 @@ import MuiStyledChoiceButton from "../Pages/MuitChoice/choice/MuiStyledChoiceBut
 import MuiStyledChoiceImage from "../Pages/MuitChoice/choice/MuiStyledChoiceImage";
 
 
-import skinnySelectedImage from "../../svgs/bodyScore/normal-skinny--selected.svg";
 import skinnyImage from "../../svgs/bodyScore/normal-skinny.svg";
+import skinnySelectedImage from "../../svgs/bodyScore/normal-skinny--selected.svg";
 
 import justRightSelectedImage from "../../svgs/bodyScore/normal-just-right--selected.svg";
 import justRightImage from "../../svgs/bodyScore/normal-just-right.svg";
@@ -77,6 +77,9 @@ import justRightImage from "../../svgs/bodyScore/normal-just-right.svg";
 
 import chubbySelectedImage from "../../svgs/bodyScore/normal-chubby--selected.svg";
 import chubbyImage from "../../svgs/bodyScore/normal-chubby.svg";
+
+
+
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {
     emptyDivStyles,
@@ -86,14 +89,21 @@ import {
 } from "../helper/styles/DivStyles";
 
 
-import lazySelectedImage from "../../svgs/activity/normal-lazy-bones--selected.svg";
+
+
+
 import lazyImage from "../../svgs/activity/normal-lazy-bones.svg";
+import lazySelectedImage from "../../svgs/activity/normal-lazy-bones--selected.svg";
 
 import activeSelectedImage from "../../svgs/activity/normal-fairly-active--selected.svg";
 import activeImage from "../../svgs/activity/normal-fairly-active.svg";
 
 import hyperActiveSelectedImage from "../../svgs/activity/normal-hyperactive--selected.svg";
 import hyperActiveImage from "../../svgs/activity/normal-hyperactive.svg";
+
+
+
+
 import HelperBox from "../Pages/MuitChoice/HelperBox";
 import SecondaryButton from "../Pages/SecondaryButton";
 
@@ -471,19 +481,11 @@ class ContainerForm extends React.Component{
                 dogBreedCategoriesIndex : -1,
                 dogBreedCategoryUnknown : false,
 
-
                 user : {
                     userName: "",
-
                     mobile : "",
-                    // pinCode : "",
-
                     email : "",
-
-
-
                 },
-
                 cityIndex : -1,
 
 
